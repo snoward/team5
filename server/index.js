@@ -1,8 +1,7 @@
-require('dotenv').config({ path: './server/config/.auth' });
-
 const express = require('express');
 const expressSession = require('express-session');
 const passport = require('passport');
+const config = require('config');
 
 const authRouter = require('./routers/auth');
 const apiRouter = require('./routers/api');
@@ -16,7 +15,7 @@ const server = express();
 
 app.prepare().then(() => {
     server.use(expressSession({
-        secret: process.env.EXPRESS_SESSION_SECRET,
+        secret: config.get('expressSessionSecret'),
         resave: false,
         saveUninitialized: false
     }));

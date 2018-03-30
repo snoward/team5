@@ -7,13 +7,15 @@
     "prepush": "npm test",
     "lint": "eslint .",
     "test": "npm run lint",
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js",
+    "deploy": "now --token $NOW_TOKEN --public",
+    "alias": "now alias --token=$NOW_TOKEN"
   },
   "dependencies": {
     "body-parser": "1.18.2",
+    "config": "^1.30.0",
     "cookie-parser": "1.4.3",
     "create-react-app": "^1.5.2",
-    "dotenv": "5.0.1",
     "express": "^4.16.2",
     "express-session": "1.15.6",
     "js-md5": "^0.7.3",
@@ -31,5 +33,16 @@
     "eslint-plugin-react": "^7.7.0",
     "husky": "^0.14.3",
     "webpack": "^4.1.1"
+  },
+  "now": {
+    "name": "the-best-messenger",
+    "alias": "the-best-messenger.now.sh",
+    "env": {
+      "NODE_ENV": "production",
+      "GITHUB_CLIENT_ID": "@client-id",
+      "GITHUB_CLIENT_SECRET": "@client-secret",
+      "EXPRESS_SESSION_SECRET": "express-session-secret",
+      "BASE_URL": "@base-url"
+    }
   }
 }
