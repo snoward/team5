@@ -7,9 +7,8 @@ module.exports = app => {
         .get(
             '/auth/return',
             githubPassport.authenticate('github', { failureRedirect: '/auth' }),
-            (req, res) => res.redirect('/auth/profile')
+            (req, res) => res.redirect('/')
         )
-        .get('/auth/profile', (req, res) => res.json(req.user))
         .get('/auth/logout', (req, res) => {
             req.logOut();
             res.redirect('/');
