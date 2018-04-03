@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "node ./server/index.js",
     "deploy": "now --token $NOW_TOKEN --public",
-    "alias": "now alias --token=$NOW_TOKEN"
+    "alias": "now alias the-best-messenger.now.sh --token=$NOW_TOKEN"
   },
   "dependencies": {
     "body-parser": "1.18.2",
@@ -38,7 +38,7 @@
   },
   "now": {
     "name": "the-best-messenger",
-    "alias": "the-best-messenger.now.sh",
+    "alias": "https://the-best-messenger.now.sh",
     "env": {
       "NODE_ENV": "production",
       "GITHUB_CLIENT_ID": "@client-id",
