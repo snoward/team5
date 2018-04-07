@@ -7,7 +7,7 @@ module.exports.messages = async (req, res) => {
 
 module.exports.save = async (req, res) => {
     const message = {
-        author: 8896921,
+        author: req.user.id,
         date: new Date(),
         text: req.body.text
     };
