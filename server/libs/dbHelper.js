@@ -1,7 +1,8 @@
 const got = require('got');
 const querystring = require('querystring');
+const config = require('config');
 
-const { token, dbUrl, requestTimeout, retryCount } = require('../../HruDB-config.json');
+const { token, dbUrl, requestTimeout, retryCount } = config.get('dbConfig');
 
 class DBHelper {
 

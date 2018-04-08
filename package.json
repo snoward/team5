@@ -45,7 +45,8 @@
       "GITHUB_CLIENT_ID": "@client-id",
       "GITHUB_CLIENT_SECRET": "@client-secret",
       "EXPRESS_SESSION_SECRET": "express-session-secret",
-      "BASE_URL": "@base-url"
+      "BASE_URL": "@base-url",
+      "HRUDB_TOKEN": "@hrudb-token"
     }
   }
 }
