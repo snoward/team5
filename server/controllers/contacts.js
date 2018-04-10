@@ -7,7 +7,6 @@ module.exports.contacts = async (req, res) => {
 
 module.exports.add = async (req, res) => {
     const contact = {
-        id: req.params.id,
         username: req.params.username
     };
 

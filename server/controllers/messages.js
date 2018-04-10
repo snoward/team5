@@ -7,7 +7,7 @@ module.exports.messages = async (req, res) => {
 
 module.exports.save = async (req, res) => {
     const message = {
-        author: req.user.id,
+        author: req.user.username,
         date: new Date(),
         text: req.body.text
     };
@@ -16,8 +16,9 @@ module.exports.save = async (req, res) => {
         await db.post(`messages_${req.params.conversationId}`, JSON.stringify(message));
     } catch (ex) {
         console.error(`Can't send message. Exception: ${ex}`);
-        res.sendStatus(500);
+
+        return res.sendStatus(500);
     }
 
-    res.sendStatus(201);
+    res.status(201).send(message);
 };
