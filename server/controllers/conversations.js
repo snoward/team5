@@ -1,8 +1,15 @@
-const db = require('../libs/dbHelper');
 const uuid = require('uuid/v4');
 
+const db = require('../libs/dbHelper');
+
 module.exports.conversations = async (req, res) => {
-    const conversations = await db.getAll(`conversations_${req.user.id}`);
+    const conversationsIds = await db.getAll(`conversations_${req.user.username}`);
+
+    const conversations = [];
+    for (const id of conversationsIds) {
+        const conversation = await db.get(`conversations_${id}`);
+        conversations.push(conversation);
+    }
     res.json(conversations);
 };
 
@@ -10,14 +17,43 @@ module.exports.create = async (req, res) => {
     const conversation = {
         id: uuid(),
         title: req.params.title,
-        users: [req.user.id]
+        users: [req.user.username]
     };
 
     try {
-        await db.post(`conversations_${req.user.id}`, JSON.stringify(conversation));
+        await db.post(`conversations_${conversation.id}`, JSON.stringify(conversation));
+        await db.post(`conversations_${req.user.username}`, conversation.id);
     } catch (ex) {
         console.error(`Can't create conversation. Exception: ${ex}`);
-        res.sendStatus(500);
+
+        return res.sendStatus(500);
     }
-    res.sendStatus(201);
+
+    res.status(201).send(conversation);
+};
+
+module.exports.addUser = async (req, res) => {
+    const conversationId = req.params.conversationId;
+    const { username } = req.body;
+
+    try {
+        await db.get(`users_${username}`);
+    } catch (ex) {
+        return res.status(404).send(`User ${username} not found`);
+    }
+
+    const conversation = await db.get(`conversations_${conversationId}`);
+
+    conversation.users.push(username);
+
+    try {
+        await db.put(`conversations_${conversationId}`, JSON.stringify(conversation));
+        await db.post(`conversations_${username}`, conversation.id);
+    } catch (ex) {
+        console.error(`Can't update conversation. Exception: ${ex}`);
+
+        return res.sendStatus(500);
+    }
+
+    res.status(201).send(conversation);
 };
