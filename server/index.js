@@ -8,8 +8,6 @@ const authRouter = require('./routers/auth');
 const apiRouter = require('./routers/api');
 const appRouter = require('./routers/app');
 
-const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
-
 const next = require('next');
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
@@ -29,9 +27,6 @@ app.prepare().then(() => {
     server.use(passport.session());
 
     authRouter(server);
-
-    server.use(ensureLoggedIn('/auth'));
-
     apiRouter(server);
     appRouter(server, app);
 
