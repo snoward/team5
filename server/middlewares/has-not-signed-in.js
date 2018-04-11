@@ -1,7 +1,7 @@
-module.exports = (app) => {
+module.exports = (render) => {
     return function (req, res, next) {
         if (!req.isAuthenticated || !req.isAuthenticated()) {
-            app.render(req, res, '/signin');
+            render(req, res);
 
             return;
         }
