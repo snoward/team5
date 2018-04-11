@@ -1,5 +1,5 @@
 export default function SignIn({ signInString }) {
-    return <div class="sign-in">
+    return <div className="sign-in">
         <a className="sign-in__a" href="/auth">{ signInString }</a>
         <style jsx>{`
             .sign-in__a,
