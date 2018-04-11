@@ -1,8 +1,18 @@
 {
     "extends": "hrundel/node",
+    "plugins": [
+      "react"
+    ],
     "parser": "babel-eslint",
     "parserOptions": {
       "sourceType": "module",
-      "allowImportExportEverywhere": true
+      "allowImportExportEverywhere": true,
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error"
     }
 }
