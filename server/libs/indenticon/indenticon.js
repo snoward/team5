@@ -46,7 +46,8 @@ class IndentIcon {
     }
 
     static _checkColor(color) {
-        if (!color || !color.red || !color.green || !color.blue) {
+        if (!color || typeof color.red !== 'number' || typeof color.green !== 'number' ||
+            typeof color.blue !== 'number') {
             throw new TypeError('Bad color object');
         }
     }
