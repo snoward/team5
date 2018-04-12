@@ -4,6 +4,14 @@ const { conversations, create, addUser } = require('../controllers/conversations
 const avatar = require('../controllers/avatar');
 
 module.exports = (server) => {
+    server.use('/api/', (req, res, next) => {
+        if (!req.user) {
+            res.send(401);
+        } else {
+            next();
+        }
+    });
+
     server.route('/api/contacts').get(contacts);
     server.route('/api/contacts/:username').post(add);
 
