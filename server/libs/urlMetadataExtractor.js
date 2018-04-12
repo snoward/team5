@@ -7,9 +7,7 @@ const urlRegExp = new RegExp('(https?:\\/\\/(?:www\\.|(?!www))' +
 class urlMetadataExtractor {
     static async extract(url, options = null) {
         if (!options) {
-            options = {
-
-            };
+            options = {};
         }
 
         return urlMetadata(url, options)
@@ -17,18 +15,15 @@ class urlMetadataExtractor {
     }
 
     static async extractFromText(text, options = null) {
-        const url = this.getFirstUrl(text);
+        const matches = text.match(urlRegExp);
+
+        const url = matches ? matches[0] : null;
+
         if (!url) {
             return null;
         }
 
         return this.extract(url, options);
-    }
-
-    static getFirstUrl(text) {
-        const matches = text.match(urlRegExp);
-
-        return matches ? matches[0] : null;
     }
 }
 
