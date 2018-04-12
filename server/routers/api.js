@@ -1,6 +1,7 @@
 const { contacts, add } = require('../controllers/contacts');
 const { messages, save } = require('../controllers/messages');
 const { conversations, create, addUser } = require('../controllers/conversations');
+const { user } = require('../controllers/users');
 const avatar = require('../controllers/avatar');
 const hasNotSignedIn = require('../middlewares/has-not-signed-in');
 
@@ -20,5 +21,7 @@ module.exports = (server) => {
 
     server
         .get('/api/avatar/:id?', avatar);
+
+    server.route('/api/users/:username').get(user);
 
 };
