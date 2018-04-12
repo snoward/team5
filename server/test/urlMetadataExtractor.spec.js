@@ -55,7 +55,7 @@ describe('extract from the text', function () {
         const options = { descriptionLength: githubExpected.description.length };
         const actual = await extractor.extractFromText(text, options);
         assertMetadataEquality(actual, githubExpected);
-    });
+    }).timeout(3000);
 });
 
 function assertMetadataEquality(actual, expected) {
