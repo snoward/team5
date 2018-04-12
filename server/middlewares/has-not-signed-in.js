@@ -1,7 +1,7 @@
-module.exports = (render) => {
+module.exports = (handler) => {
     return function (req, res, next) {
         if (!req.isAuthenticated || !req.isAuthenticated()) {
-            render(req, res);
+            handler(req, res);
 
             return;
         }

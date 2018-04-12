@@ -2,15 +2,10 @@ const { contacts, add } = require('../controllers/contacts');
 const { messages, save } = require('../controllers/messages');
 const { conversations, create, addUser } = require('../controllers/conversations');
 const avatar = require('../controllers/avatar');
+const hasNotSignedIn = require('../middlewares/has-not-signed-in');
 
 module.exports = (server) => {
-    server.use('/api/', (req, res, next) => {
-        if (!req.user) {
-            res.send(401);
-        } else {
-            next();
-        }
-    });
+    server.use('/api/', hasNotSignedIn((req, res) => res.send(401)));
 
     server.route('/api/contacts').get(contacts);
     server.route('/api/contacts/:username').post(add);
