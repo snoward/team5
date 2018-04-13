@@ -1,20 +1,40 @@
 /* eslint-disable */
 import React from 'react';
 import { ChatList } from 'react-chat-elements';
+import { Input } from 'react-chat-elements';
+import { Button } from 'react-chat-elements';
+import axios from 'axios';
 
 export default class Conversation extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            conversations: props.conversations
+            conversations: props.conversations,
+            newTitle: ''
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ newTitle: event.target.value });
+    }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        await axios.post(`api/conversations/${this.state.newTitle}`,
+            { withCredentials: true, responseType: 'json' });
+        this.setState({ newTitle: '' });
     }
 
     render() {
         return <div className='contact-container'>
+            <form className='conversation-form' onSubmit={this.handleSubmit}>
+                <input type='text' className='conversation-input'
+                    placeholder='New conversation title' value={this.state.newTitle} onChange={this.handleChange} />
+            </form>
             {this.state.conversations.map((elem, idx) => {
                 let avatar = `/api/avatar/${elem.title}`;
-
                 return (
                     <ChatList key={idx}
                         dataSource={[
@@ -34,6 +54,14 @@ export default class Conversation extends React.Component {
             }
             )}
             <style>{`
+                .coversation-form, .conversation-input {
+                    border: none;
+                    border: 1px solid #c7c7bf;
+                    border-radius: 4px;
+                    width: 95%;
+                    height: 30px;
+                    padding-left: 5px;
+                }
                 .rce-container-mbox {
                     flex-direction: column;
                     display: block;
