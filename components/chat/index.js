@@ -15,8 +15,10 @@ export default class Chat extends React.Component {
         super(props);
         this.state = {
             messages: props.messagesInfo.messages.map(elem => JSON.parse(elem)),
-            currentUser: props.messagesInfo.currentUser
+            currentUser: props.messagesInfo.currentUser,
+            participantsVisible: false
         };
+        this.showParticipants = this.showParticipants.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,6 +28,10 @@ export default class Chat extends React.Component {
         });
     }
 
+    showParticipants() {
+        this.setState({ participantsVisible: !this.state.participantsVisible });
+    }
+
     render() {
         let side = '';
 
@@ -33,14 +39,12 @@ export default class Chat extends React.Component {
             <div className='add-person-form'>
                 <AddPersonForm conversationId={this.props.messagesInfo.conversationId}></AddPersonForm>
             </div>
-            <Participants conversationId={this.props.messagesInfo.conversationId}></Participants>
+            <button className='show-button' onClick={this.showParticipants}>Participants</button>
+            {this.state.participantsVisible ?
+                <Participants conversationId={this.props.messagesInfo.conversationId}></Participants> : null}
             <ol className='chat'>
                 {this.state.messages.map((elem, idx) => {
-                    if (elem.author === this.state.currentUser) {
-                        side = 'right';
-                    } else {
-                        side = 'left';
-                    }
+                    elem.author === this.state.currentUser ? side = 'right' : side = 'left';
 
                     return <MessageBox
                         key={idx}
@@ -273,6 +277,14 @@ export default class Chat extends React.Component {
                 a
                 {
                     color: rgba(82,179,217,0.9);
+                }
+                .show-button
+                {
+                    height: 30px;
+                    border: none;
+                    border-radius: 8px;
+                    background-color: #ff7f50;
+                    float: left;
                 }
                 `}</style>
         </div>;
