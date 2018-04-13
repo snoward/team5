@@ -15,8 +15,16 @@ export default class NameForm extends React.Component {
 
     async handleSubmit(event) {
         const self = this;
+
+        this.props.socket.emit('message', {
+            conversationId: this.props.conversationId,
+            text: self.state.value,
+            user: this.props.currentUser
+        });
+
         event.preventDefault();
-        await axios.post(`api/messages/${this.props.conversationId}`,
+
+        axios.post(`api/messages/${this.props.conversationId}`,
             { 'text': self.state.value },
             { withCredentials: true, responseType: 'json' });
 
