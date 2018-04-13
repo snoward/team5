@@ -48,9 +48,11 @@ module.exports.addUser = async (req, res) => {
     }
 
     const conversation = await db.get(`conversations_${conversationId}`);
+    if (conversation.users.includes(username)) {
+        return res.status(400).send(`User ${username} already in conversation`);
+    }
 
     conversation.users.push(username);
-
     try {
         await db.put(`conversations_${conversationId}`, JSON.stringify(conversation));
         await db.post(`conversations_${username}`, conversation.id);
