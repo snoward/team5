@@ -22,9 +22,14 @@ export default class Conversation extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        await axios.post(`api/conversations/${this.state.newTitle}`,
+
+        const res = await axios.post(`api/conversations/${this.state.newTitle}`,
             { withCredentials: true, responseType: 'json' });
-        this.setState({ newTitle: '' });
+        
+        const newConversations = this.state.conversations.slice();
+        newConversations.push(res.data);
+
+        this.setState({ newTitle: '', conversations: newConversations });
     }
 
     render() {
