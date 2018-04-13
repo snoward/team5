@@ -1,6 +1,6 @@
 const { contacts, add } = require('../controllers/contacts');
 const { messages, save } = require('../controllers/messages');
-const { conversations, create, addUser } = require('../controllers/conversations');
+const { conversations, create, addUser, getInfo } = require('../controllers/conversations');
 const { user } = require('../controllers/users');
 const avatar = require('../controllers/avatar');
 const hasNotSignedIn = require('../middlewares/has-not-signed-in');
@@ -13,7 +13,9 @@ module.exports = (server) => {
 
     server.route('/api/conversations').get(conversations);
     server.route('/api/conversations/:title').post(create);
-    server.route('/api/conversations/:conversationId').patch(addUser);
+    server.route('/api/conversations/:conversationId')
+        .patch(addUser)
+        .get(getInfo);
 
     server.route('/api/messages/:conversationId')
         .get(messages)

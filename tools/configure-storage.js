@@ -60,7 +60,6 @@ async function createMessages(conversationId, messagesCount) {
 async function dropTables(tableNames) {
     for (const tableName of tableNames) {
         for (const user of users) {
-            console.info(tableName + ' ' + user);
             await db.delete(`${tableName}_${user}`);
         }
     }
