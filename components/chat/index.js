@@ -8,6 +8,7 @@ import { Button } from 'react-chat-elements';
 
 import NameForm from './NameForm.js';
 import AddPersonForm from './AddPersonForm.js';
+import Participants from './Participants.js';
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ export default class Chat extends React.Component {
             <div className='add-person-form'>
                 <AddPersonForm conversationId={this.props.messagesInfo.conversationId}></AddPersonForm>
             </div>
+            <Participants conversationId={this.props.messagesInfo.conversationId}></Participants>
             <ol className='chat'>
                 {this.state.messages.map((elem, idx) => {
                     if (elem.author === this.state.currentUser) {
