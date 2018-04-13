@@ -1,17 +1,47 @@
 import React from 'react';
+import { Dropdown } from 'react-chat-elements';
 
 import TimeWatch from './TimeWatch.js';
 
-export default function Menu({ menu }) {
-    return <div className='menu'>
-        <div className='back'>
-            <i className='fa fa-chevron-left'></i>
-            <img src={menu.avatar} draggable='false' />
-        </div>
-        <div className='name'>{menu.name}</div>
-        <TimeWatch />
-        <style jsx>{`
+export default class Menu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            avatarIcon: props.menu.avatar,
+            name: props.menu.name,
+            contactList: props.contacts.map(elem => JSON.parse(elem))
+        };
+    }
+
+    render() {
+
+        return <div className='menu'>
+            <div className='back'>
+                <i className='fa fa-chevron-left'></i>
+                <img src={this.state.avatarIcon} draggable='false'/>
+            </div>
+            <div className='name'>{this.state.name}</div>
+            <TimeWatch/>
+            <div className='dropdown__menu'>
+                <Dropdown
+                    buttonProps={{
+                        text: 'Contacts'
+                    }}
+                    items={this.state.contactList.map((elem)=>{
+                        return elem.username;
+                    }
+                    )
+                    }/>
+            </div>
+            <style jsx>{`
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+                .dropdown__menu
+                {
+                    position: relative;
+                    top: 7px;
+                    left: 252px;
+                    width: min-content;
+                }
                 .menu
                 {
                     position: fixed;
@@ -85,5 +115,6 @@ export default function Menu({ menu }) {
                     color: rgba(82,179,217,0.9);
                 }
                 `}</style>
-    </div>;
+        </div>;
+    }
 }

@@ -9,11 +9,14 @@ import axios from 'axios';
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
         const res = await axios.get('http://localhost:3000/api/conversations', req);
+        const contactsList = await axios.get(`http://localhost:3000/api/contacts`,req);
+
         return {
             messagesInfo: {
                 'currentUser': req.user.username
             },
             conversations: res.data,
+            contacts: contactsList.data,
             menu: {
                 'name': req.user.username,
                 'avatar': `/api/avatar/${req.user.username}`
@@ -56,8 +59,9 @@ export default class IndexPage extends Component {
     render() {
         var conversations = this.state.conversations;
         var messagesInfo = this.state.messagesInfo;
-        var menu = this.state.menu
-        
+        var menu = this.state.menu;
+        const contactsList = this.state.contacts;
+
         if (messagesInfo.messages) {
             return (
             <Fragment>
@@ -65,7 +69,8 @@ export default class IndexPage extends Component {
                 onConversationClick={this._onConversationClick.bind(this)}
                 />
                 <Chat messagesInfo={messagesInfo} />
-                <Menu menu={menu} />
+                <Menu  contacts={contactsList}
+                       menu={menu} />
             </Fragment>
             )
         }
@@ -75,7 +80,8 @@ export default class IndexPage extends Component {
                 <ContactList conversations={conversations} 
                 onConversationClick={this._onConversationClick.bind(this)}
                 />
-                <Menu menu={menu} />
+                <Menu  contacts={contactsList}
+                       menu={menu} />
             </Fragment>
         );
     }
