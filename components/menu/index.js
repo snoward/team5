@@ -1,5 +1,6 @@
-/* eslint-disable */
-import React, { Component } from 'react';
+import React from 'react';
+
+import TimeWatch from './TimeWatch.js';
 
 export default function Menu({ menu }) {
     return <div className='menu'>
@@ -8,10 +9,11 @@ export default function Menu({ menu }) {
             <img src={menu.avatar} draggable='false' />
         </div>
         <div className='name'>{menu.name}</div>
-        <div className='last'>{menu.time}</div>
+        <TimeWatch />
         <style jsx>{`
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
-                .menu {
+                .menu
+                {
                     position: fixed;
                     top: 0;
                     left: 0px;
@@ -25,8 +27,8 @@ export default function Menu({ menu }) {
                     -moz-user-select: none;
                     -ms-user-select: none;
                 }
-                
-                .back {
+                .back
+                {
                     position: absolute;
                     width: 90px;
                     height: 50px;
@@ -38,7 +40,8 @@ export default function Menu({ menu }) {
                     padding-left: 10px;
                     cursor: pointer;
                 }
-                .back img {
+                .back img
+                {
                     position: absolute;
                     top: 5px;
                     left: 30px;
@@ -51,10 +54,12 @@ export default function Menu({ menu }) {
                     -ms-border-radius: 100%;
                     margin-left: 15px;
                 }
-                .back:active {
+                .back:active
+                {
                     background: rgba(255,255,255,0.2);
                 }
-                .name{
+                .name
+                {
                     position: absolute;
                     top: 3px;
                     left: 110px;
@@ -64,7 +69,8 @@ export default function Menu({ menu }) {
                     color: rgba(255,255,255,0.98);
                     cursor: default;
                 }
-                .last{
+                .last
+                {
                     position: absolute;
                     top: 30px;
                     left: 115px;
@@ -74,7 +80,8 @@ export default function Menu({ menu }) {
                     color: rgba(255,255,255,0.6);
                     cursor: default;
                 }
-                a{
+                a
+                {
                     color: rgba(82,179,217,0.9);
                 }
                 `}</style>

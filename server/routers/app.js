@@ -8,6 +8,7 @@ module.exports = (server, app) => {
             hasNotSignedIn(render('signin')),
             render('index')
         );
+    server.get('*', app.getRequestHandler());
 
     server.all('*', (req, res) => res.sendStatus(404));
 };
