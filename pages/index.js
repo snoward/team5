@@ -37,10 +37,6 @@ export default class IndexPage extends Component {
         this.loadConversations(conversationId)
     }
 
-    async _onRefreshButtonClick(conversationId) {
-        this.loadConversations(conversationId)
-    }
-
     async loadConversations(conversationId) {
         const currentUser = this.state.messagesInfo.currentUser;
         let res = await axios.get(`api/messages/${conversationId}`,
@@ -68,9 +64,7 @@ export default class IndexPage extends Component {
                 <ContactList conversations={conversations} 
                 onConversationClick={this._onConversationClick.bind(this)}
                 />
-                <Chat messagesInfo={messagesInfo} 
-                    onRefreshButtonClick={this._onRefreshButtonClick.bind(this)}
-                />
+                <Chat messagesInfo={messagesInfo} />
                 <Menu menu={menu} />
             </Fragment>
             )
