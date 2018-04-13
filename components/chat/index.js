@@ -1,34 +1,90 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Avatar } from 'react-chat-elements';
+import { MessageList } from 'react-chat-elements';
+import { Input } from 'react-chat-elements';
+import { MessageBox } from 'react-chat-elements';
+import { Button } from 'react-chat-elements';
 
-export default function Chat({ messages }) {
-    return <div className='chat-container'>
-        <ol className='chat'>
-            {messages.map(elem => {
-                return (<li className={elem.side}>
-                    <div className='avatar'>
-                        <img src={elem.avatar} draggable='false' />
-                    </div>
-                    <div className='msg'>
-                        <p>{elem.message}</p>
-                        <time>{elem.time}</time>
-                    </div>
-                </li>);
-            })}
-        </ol>
-        <div className='textarea-decorator'>
-            <input id='' className='textarea' type='text' placeholder='Type here!' /></div>
-        <style jsx>{`
-                @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+import NameForm from './NameForm.js';
+
+export default class Chat extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            messages: props.messagesInfo.messages.map(elem => JSON.parse(elem)),
+            currentUser: props.messagesInfo.currentUser
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
+            currentUser: nextProps.messagesInfo.currentUser
+        });
+    }
+
+    render() {
+        let side = '';
+
+        return <div className='chat-container'>
+            <ol className='chat'>
+                {this.state.messages.map((elem, idx) => {
+                    if (elem.author === this.state.currentUser) {
+                        side = 'right';
+                    } else {
+                        side = 'left';
+                    }
+
+                    return <MessageBox
+                        key={idx}
+                        position={side}
+                        avatar={`/api/avatar/${elem.author}`}
+                        title={elem.author}
+                        type={'text'}
+                        text={elem.text}
+                        forwarded={true}
+                        date={new Date(elem.date)}
+                        data={{
+                            uri: 'https://facebook.github.io/react/img/logo.svg',
+                            status: {
+                                click: true,
+                                loading: 0
+                            }
+                        }}
+                    />;
+                }
+                )}
+            </ol>
+            <div className='textarea-decorator'>
+                <NameForm conversationId={this.props.messagesInfo.conversationId}/>
+            </div>
+            <div className='refresh-button' onClick={() => {
+                this.props.onRefreshButtonClick(this.props.messagesInfo.conversationId);
+            }}>
+                    Обновить
+            </div>
+            <style jsx>{`
+                @import 
+                url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
                 .chat-container
                 {
                     margin-bottom: 100px;
                     float:right;
                     width: 50%;
                 }
+                .refresh-button {
+                    background-color: #c0c0c0;
+                    position: fixed;
+                    bottom 18%;
+                    right: 2.3%;
+                    cursor: pointer;
+                    padding: 5px;
+                }
                 .chat
                 {
                     margin-top: 60px;
+                    margin-bottom: 100px;
                 }
                 .chat li
                 {
@@ -213,5 +269,6 @@ export default function Chat({ messages }) {
                     color: rgba(82,179,217,0.9);
                 }
                 `}</style>
-    </div>;
+        </div>;
+    }
 }
