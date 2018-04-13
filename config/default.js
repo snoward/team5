@@ -9,6 +9,6 @@ module.exports = {
         token: 'type hrudb token here',
         dbUrl: 'https://hrudb.herokuapp.com/storage/',
         requestTimeout: 1000,
-        retryCount: 3
+        retryCount: 5
     }
 };

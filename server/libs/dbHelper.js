@@ -46,7 +46,7 @@ class DBHelper {
             try {
                 return await got(url, options);
             } catch (e) {
-                console.info(e);
+                console.info(`Failed sending request to ${url}. Status message: ${e.message}`);
                 continue;
             }
         }
