@@ -13,6 +13,11 @@ module.exports.conversations = async (req, res) => {
     res.json(conversations);
 };
 
+module.exports.getInfo = async (req, res) => {
+    const conversation = await db.get(`conversations_${req.params.conversationId}`);
+    res.json(conversation);
+};
+
 module.exports.create = async (req, res) => {
     const conversation = {
         id: uuid(),
