@@ -13,7 +13,7 @@ import io from "socket.io-client";
 export default class Chat extends React.Component {
     constructor(props) {
         super(props);
-        this.socket = io('http://localhost:4000/');
+        this.socket = io();
         this.state = {
             messages: props.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: props.messagesInfo.currentUser
@@ -21,7 +21,7 @@ export default class Chat extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.socket = io('http://localhost:4000/');
+        this.socket = io();
         this.setState({
             messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: nextProps.messagesInfo.currentUser

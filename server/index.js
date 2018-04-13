@@ -1,4 +1,5 @@
 const express = require('express');
+const { Server } = require('http');
 const expressSession = require('express-session');
 const passport = require('passport');
 const config = require('config');
@@ -13,28 +14,29 @@ const next = require('next');
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 
-const server = express();
+const expressServer = express();
 
-const io = require('socket.io')(4000);
+var httpServer = new Server(expressServer);
+
+const io = require('socket.io')(httpServer);
 configureIo(io);
 
-
 app.prepare().then(() => {
-    server.use(bodyParser.json());
+    expressServer.use(bodyParser.json());
 
-    server.use(expressSession({
+    expressServer.use(expressSession({
         secret: config.get('expressSessionSecret'),
         resave: false,
         saveUninitialized: false
     }));
 
-    server.use(passport.initialize());
-    server.use(passport.session());
+    expressServer.use(passport.initialize());
+    expressServer.use(passport.session());
 
-    authRouter(server);
-    apiRouter(server);
-    appRouter(server, app);
+    authRouter(expressServer);
+    apiRouter(expressServer);
+    appRouter(expressServer, app);
 
-    server.listen(3000, () => console.info('localhost:3000'));
+    httpServer.listen(3000, () => console.info('localhost:3000'));
 });
 
