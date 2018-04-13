@@ -7,6 +7,7 @@ import { MessageBox } from 'react-chat-elements';
 import { Button } from 'react-chat-elements';
 
 import NameForm from './NameForm.js';
+import AddPersonForm from './AddPersonForm.js';
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -28,6 +29,9 @@ export default class Chat extends React.Component {
         let side = '';
 
         return <div className='chat-container'>
+            <div className='add-person-form'>
+                <AddPersonForm conversationId={this.props.messagesInfo.conversationId}></AddPersonForm>
+            </div>
             <ol className='chat'>
                 {this.state.messages.map((elem, idx) => {
                     if (elem.author === this.state.currentUser) {
@@ -57,12 +61,12 @@ export default class Chat extends React.Component {
                 )}
             </ol>
             <div className='textarea-decorator'>
-                <NameForm conversationId={this.props.messagesInfo.conversationId}/>
+                <NameForm conversationId={this.props.messagesInfo.conversationId} />
             </div>
             <div className='refresh-button' onClick={() => {
                 this.props.onRefreshButtonClick(this.props.messagesInfo.conversationId);
             }}>
-                    Обновить
+                Обновить
             </div>
             <style jsx>{`
                 @import 
