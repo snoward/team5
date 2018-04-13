@@ -40,6 +40,7 @@ export default class Chat extends React.Component {
                         key={idx}
                         position={side}
                         avatar={`/api/avatar/${elem.author}`}
+                        title={elem.author}
                         type={'text'}
                         text={elem.text}
                         forwarded={true}
