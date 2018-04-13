@@ -8,7 +8,8 @@ import axios from 'axios';
 
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
-        const res = await axios.get('http://localhost:3000/api/conversations', req);
+        const baseUrl = req ? `${req.protocol}://${req.get('Host')}` : '';
+        const res = await axios.get(`${baseUrl}/api/conversations`, req);
         return {
             messagesInfo: {
                 'currentUser': req.user.username
