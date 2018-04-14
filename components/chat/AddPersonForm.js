@@ -4,20 +4,21 @@ import React from 'react';
 export default class AddPersonForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { currentPerson: '' };
+        this.state = { currentPerson: '', errorState: false };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
-        this.setState({ currentPerson: event.target.value });
+        this.setState({ currentPerson: event.target.value, errorState: false });
     }
 
     async handleSubmit(event) {
         event.preventDefault();
         await axios.patch(`api/conversations/${this.props.conversationId}`,
             { username: this.state.currentPerson },
-            { withCredentials: true, responseType: 'json' });
+            { withCredentials: true, responseType: 'json' })
+            .catch(() => this.setState({ errorState: true }));
         this.setState({ currentPerson: '' });
     }
 
@@ -43,7 +44,8 @@ export default class AddPersonForm extends React.Component {
                                 border: none;                                
                                 width: 100%;
                                 padding-left: 10px;
-                                border: 1px solid #c7c7bf;
+                                border: 1px solid;
+                                border-color: ${this.state.errorState ? '#f00' : '#c7c7bf'};
                                 border-radius: 4px;                              
                             }
 
