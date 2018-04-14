@@ -8,7 +8,8 @@ export default class AddPersonForm extends React.Component {
         this.state = {
             currentPerson: '',
             placeholder: 'Add user to conversation',
-            errorState: false
+            errorState: false,
+            disabled: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,6 +22,11 @@ export default class AddPersonForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        this.setState({
+            disabled: true,
+            placeholder: 'Wait please',
+            currentPerson: ''
+        });
 
         const res = await axios.patch(`api/conversations/${this.props.conversationId}`,
             { username: this.state.currentPerson },
@@ -44,7 +50,8 @@ export default class AddPersonForm extends React.Component {
         });
         this.setState({
             currentPerson: '',
-            placeholder: 'Add user to conversation'
+            placeholder: 'Add user to conversation',
+            disabled: false
         });
     }
 
@@ -52,7 +59,8 @@ export default class AddPersonForm extends React.Component {
         this.setState({
             currentPerson: '',
             placeholder: 'Error occured',
-            errorState: true
+            errorState: true,
+            disabled: false
         });
     }
 
@@ -63,7 +71,8 @@ export default class AddPersonForm extends React.Component {
                     <input className='add-person-input' type='text'
                         placeholder={this.state.placeholder}
                         value={this.state.currentPerson}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                        disabled={this.state.disabled}/>
                     <style jsx>
                         {`
                             .add-person-form

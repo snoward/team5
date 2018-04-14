@@ -8,7 +8,7 @@ import axios from 'axios';
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
         const res = await axios.get('http://localhost:3000/api/conversations', req);
-        const contactsList = await axios.get('http://localhost:3000/api/conversations', req);
+        const contactsList = await axios.get('http://localhost:3000/api/contacts', req);
 
         return {
             messagesInfo: {

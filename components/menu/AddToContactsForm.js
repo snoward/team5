@@ -6,7 +6,8 @@ export default class AddToContactsForm extends React.Component {
         super(props);
         this.state = {
             inputValue: '',
-            placeholder: 'Add user to contacts'
+            placeholder: 'Add user to contacts',
+            disabled: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,6 +19,11 @@ export default class AddToContactsForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        this.setState({
+            disabled: true,
+            placeholder: 'Wait please',
+            inputValue: ''
+        });
 
         const res = await axios.post(`api/contacts/${this.state.inputValue}`, {},
             {
@@ -36,7 +42,8 @@ export default class AddToContactsForm extends React.Component {
     handleGoodResponse(res) {
         this.setState({
             inputValue: '',
-            placeholder: 'Add user to contacts'
+            placeholder: 'Add user to contacts',
+            disabled: false
         });
         this.props.handleNewContact(res.data);
     }
@@ -44,7 +51,8 @@ export default class AddToContactsForm extends React.Component {
     handleBadResponse() {
         this.setState({
             inputValue: '',
-            placeholder: 'Error occured'
+            placeholder: 'Error occured',
+            disabled: false
         });
     }
 
@@ -55,7 +63,8 @@ export default class AddToContactsForm extends React.Component {
                     <input className='add-contact-input' type='text'
                         placeholder={this.state.placeholder}
                         value={this.state.inputValue}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                        disabled={this.state.disabled}/>
                     <style jsx>
                         {`
                             .add-contact-form
