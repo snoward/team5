@@ -19,7 +19,7 @@ export default class Conversation extends React.Component {
 
     componentDidMount() {
         this.socket = io();
-        this.socket.on(`conversations_${this.props.currentUser}`, 
+        this.socket.on(`conversation_${this.props.currentUser}`, 
             this.handleNewConversation.bind(this));
     }
 

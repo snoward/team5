@@ -9,7 +9,7 @@ module.exports.configureIo = (io) => {
 
         socket.on('conversation', (data) => {
             const conversation = data.conversation;
-            socket.broadcast.emit(`conversations_${data.addedUser}`, conversation);
+            socket.broadcast.emit(`conversation_${data.addedUser}`, conversation);
         });
     });
 };
