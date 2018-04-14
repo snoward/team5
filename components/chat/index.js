@@ -35,7 +35,6 @@ export default class Chat extends React.Component {
     handleCloseModal () {
         this.setState({ showModal: false });
     }
-
     openModalWithItem(elem) {
         this.setState({
             showModal: true,
@@ -147,6 +146,8 @@ export default class Chat extends React.Component {
             </div>
             <style jsx>{`
                 @import 
+                url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+                @import
                 url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
                   @import
                 url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);

@@ -18,6 +18,7 @@ export default class Menu extends React.Component {
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
+
     handleOpenModal() {
         this.setState({ showModal: true });
     }
@@ -90,6 +91,7 @@ export default class Menu extends React.Component {
             </div>
             <AddToContactsForm handleNewContact={this.handleNewContact.bind(this)}/>
             <style jsx>{`
+                @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
                 @import
@@ -207,7 +209,7 @@ export default class Menu extends React.Component {
                 {
                     color: rgba(82,179,217,0.9);
                 }
-
+                
                 .dropdown__menu
                 {
                     position: relative;
