@@ -10,6 +10,7 @@ import { Button } from 'react-chat-elements';
 import NameForm from './NameForm.js';
 import AddPersonForm from './AddPersonForm.js';
 import Participants from './Participants.js';
+import Metadata from './Metadata.js'
 import io from "socket.io-client";
 
 export default class Chat extends React.Component {
@@ -129,26 +130,53 @@ export default class Chat extends React.Component {
                 {this.state.messages.map((elem, idx) => {
                     elem.author === this.state.currentUser ? side = 'right' : side = 'left';
 
+                    if (elem.metadata) {
+                        return <div ref={el => { this.el = el; }}>
+                            <MessageBox
+                                key={idx}
+                                position={side}
+                                avatar={`/api/avatar/${elem.author}`}
+                                title={elem.author}
+                                onTitleClick={() => this.openModalWithItem(elem)}
+                                type={'text'}
+                                text={elem.text}
+                                forwarded={true}
+                                date={new Date(elem.date)}
+                                data={{
+                                    uri: 'https://facebook.github.io/react/img/logo.svg',
+                                    status: {
+                                        click: true,
+                                        loading: 0
+                                    }
+                                }}
+                                renderAddCmp={() => {
+                                    return <Metadata metadata={elem.metadata}/>
+                                }}
+                            />
+                        </div>;
+                    }
+
                     return <div ref={el => { this.el = el; }}>
                         <MessageBox
-                        key={idx}
-                        position={side}
-                        avatar={`/api/avatar/${elem.author}`}
-                        title={elem.author}
-                        onTitleClick={() => this.openModalWithItem(elem)}
-                        type={'text'}
-                        text={elem.text}
-                        forwarded={true}
-                        date={new Date(elem.date)}
-                        data={{
-                            uri: 'https://facebook.github.io/react/img/logo.svg',
-                            status: {
-                                click: true,
-                                loading: 0
-                            }
-                        }}
-                    />
+                            key={idx}
+                            position={side}
+                            avatar={`/api/avatar/${elem.author}`}
+                            title={elem.author}
+                            onTitleClick={() => this.openModalWithItem(elem)}
+                            type={'text'}
+                            text={elem.text}
+                            forwarded={true}
+                            date={new Date(elem.date)}
+                            data={{
+                                uri: 'https://facebook.github.io/react/img/logo.svg',
+                                status: {
+                                    click: true,
+                                    loading: 0
+                                }
+                            }}
+                        />
                     </div>;
+                    
                 }
                 )}
 

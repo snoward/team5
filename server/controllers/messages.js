@@ -1,4 +1,5 @@
 const db = require('../libs/dbHelper');
+const extractor = require('../libs/urlMetadataExtractor');
 
 module.exports.messages = async (req, res) => {
     const messages = await db.getAll(`messages_${req.params.conversationId}`);
@@ -9,7 +10,8 @@ module.exports.save = async (req, res) => {
     const message = {
         author: req.user.username,
         date: new Date(),
-        text: req.body.text
+        text: req.body.text,
+        metadata: await extractor.extract(req.body.text)
     };
 
     try {
