@@ -8,7 +8,7 @@ import axios from 'axios';
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
         const res = await axios.get('http://localhost:3000/api/conversations', req);
-        const contactsList = await axios.get('http://localhost:3000/api/contacts', req);
+        const contactsList = await axios.get('http://localhost:3000/api/conversations', req);
 
         return {
             messagesInfo: {
@@ -18,7 +18,9 @@ export default class IndexPage extends Component {
             contacts: contactsList.data,
             menu: {
                 'name': req.user.username,
-                'avatar': `/api/avatar/${req.user.username}`
+                'avatar': `/api/avatar/${req.user.username}`,
+                'link': req.user.profileUrl,
+                'registered': req.user._json.created_at
             }
         };
     }
