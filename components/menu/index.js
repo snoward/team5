@@ -18,11 +18,11 @@ export default class Menu extends React.Component {
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
-    handleOpenModal () {
+    handleOpenModal() {
         this.setState({ showModal: true });
     }
 
-    handleCloseModal () {
+    handleCloseModal() {
         this.setState({ showModal: false });
     }
 
@@ -60,13 +60,14 @@ export default class Menu extends React.Component {
                     }
                 }}>
                 <div>
-                <div className="card">
-                    <div className="avatar">
-                        <img src={this.state.avatarIcon} alt='Avatar' />
-                    </div>
-                    <div className="container">
-                        <a className="user__link" href={this.state.link}>{this.state.name}</a>
-                        <div className ="reg__date">member since: {this.state.registered.substring(0, 10)}</div>
+                    <div className="card">
+                        <div className="avatar">
+                            <img src={this.state.avatarIcon} alt='Avatar' />
+                        </div>
+                        <div className="container">
+                            <a className="user__link" href={this.state.link}>{this.state.name}</a>
+                            <div className ="reg__date">member since:
+                                {this.state.registered.substring(0, 10)}</div>
                     </div>
                 </div>
                 <button className="close" onClick={this.handleCloseModal}>close</button>
@@ -91,7 +92,8 @@ export default class Menu extends React.Component {
             <style jsx>{`
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
-                @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+                @import
+                url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 
                .reg__date
                {
@@ -179,7 +181,8 @@ export default class Menu extends React.Component {
                     width: 90%;
                     height: 100px;
                     background-color: rgba(255,255,255,0.9);
-                    box-shadow: inset 0px 0px 0px #e5e5e5, inset 0px 0px 0px #e5e5e5, inset 0px -2px 0px #d7d7d7;
+                    box-shadow: inset 0px 0px 0px #e5e5e5, inset 0px 0px 0px #e5e5e5,
+                    inset 0px -2px 0px #d7d7d7;
                 }
 
                 .avatar-container img
