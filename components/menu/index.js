@@ -27,11 +27,10 @@ export default class Menu extends React.Component {
                     buttonProps={{
                         text: 'Contacts'
                     }}
-                    items={this.state.contactList.map((elem)=>{
+                    items={this.state.contactList.map((elem) => {
                         return elem.username;
-                    }
-                    )
-                    }/>
+                    })}
+                />
             </div>
             <style jsx>{`
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);

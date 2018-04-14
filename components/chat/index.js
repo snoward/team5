@@ -8,7 +8,7 @@ import { Button } from 'react-chat-elements';
 
 import NameForm from './NameForm.js';
 import AddPersonForm from './AddPersonForm.js';
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -21,7 +21,7 @@ export default class Chat extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.socket = io();
+        this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
         this.setState({
             messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: nextProps.messagesInfo.currentUser
@@ -29,7 +29,8 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage.bind(this));
+        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, 
+            this.handleMessage.bind(this));
     }
 
     handleMessage(message) {
@@ -45,7 +46,8 @@ export default class Chat extends React.Component {
 
         return <div className='chat-container'>
             <div className='add-person-form'>
-                <AddPersonForm conversationId={this.props.messagesInfo.conversationId}></AddPersonForm>
+                <AddPersonForm conversationId={this.props.messagesInfo.conversationId}>
+                </AddPersonForm>
             </div>
             <ol className='chat'>
                 {this.state.messages.map((elem, idx) => {
@@ -76,8 +78,8 @@ export default class Chat extends React.Component {
                 )}
             </ol>
             <div className='textarea-decorator'>
-                <NameForm conversationId={this.props.messagesInfo.conversationId} 
-                socket={this.socket} currentUser={this.state.currentUser}/>
+                <NameForm conversationId={this.props.messagesInfo.conversationId}
+                    socket={this.socket} currentUser={this.state.currentUser}/>
             </div>
             <style jsx>{`
                 @import 
