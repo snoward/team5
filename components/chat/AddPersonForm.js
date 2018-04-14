@@ -47,10 +47,10 @@ export default class AddPersonForm extends React.Component {
         });
     }
 
-    handleBadResponse(res) {
+    handleBadResponse() {
         this.setState({
             currentPerson: '',
-            placeholder: `Error occured: ${res.statusText}`
+            placeholder: 'Error occured'
         });
     }
 
