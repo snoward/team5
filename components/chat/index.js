@@ -37,6 +37,16 @@ export default class Chat extends React.Component {
 
     componentDidMount() {
         this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage.bind(this));
+        this.scrollToBottom();
+
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        this.el.scrollIntoView({ behavior: 'smooth' });
     }
 
     handleMessage(message) {
@@ -52,7 +62,7 @@ export default class Chat extends React.Component {
 
         return <div className='chat-container'>
             <div className='add-person-form'>
-                <AddPersonForm conversationId={this.props.messagesInfo.conversationId}></AddPersonForm>
+                <AddPersonForm conversationId={this.props.messagesInfo.conversationId}/>
             </div>
             <button className='show-button' onClick={this.showParticipants}>Participants</button>
             {this.state.participantsVisible ?
@@ -61,7 +71,8 @@ export default class Chat extends React.Component {
                 {this.state.messages.map((elem, idx) => {
                     elem.author === this.state.currentUser ? side = 'right' : side = 'left';
 
-                    return <MessageBox
+                    return <div ref={el => { this.el = el; }}>
+                        <MessageBox
                         key={idx}
                         position={side}
                         avatar={`/api/avatar/${elem.author}`}
@@ -77,9 +88,11 @@ export default class Chat extends React.Component {
                                 loading: 0
                             }
                         }}
-                    />;
+                    />
+                    </div>;
                 }
                 )}
+
             </ol>
             <div className='textarea-decorator'>
                 <NameForm conversationId={this.props.messagesInfo.conversationId} 
