@@ -6,7 +6,7 @@ import { Button } from 'react-chat-elements';
 import axios from 'axios';
 import io from 'socket.io-client';
 
-export default class Conversation extends React.Component {
+export default class Conversations extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,7 +41,7 @@ export default class Conversation extends React.Component {
 
         const res = await axios.post(`api/conversations/${this.state.newTitle}`,
             { withCredentials: true, responseType: 'json' });
-        
+
         const newConversations = this.state.conversations.slice();
         newConversations.push(res.data);
 

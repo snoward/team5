@@ -2,6 +2,7 @@ import React from 'react';
 import { Dropdown } from 'react-chat-elements';
 
 import TimeWatch from './TimeWatch.js';
+import AddToContactsForm from './AddToContactsForm.js';
 
 export default class Menu extends React.Component {
     constructor(props) {
@@ -11,6 +12,15 @@ export default class Menu extends React.Component {
             name: props.menu.name,
             contactList: props.contacts.map(elem => JSON.parse(elem))
         };
+    }
+
+    handleNewContact(contact) {
+        const newContacts = this.state.contactList.slice();
+        newContacts.push(contact);
+
+        this.setState({
+            contactList: newContacts
+        });
     }
 
     render() {
@@ -32,6 +42,7 @@ export default class Menu extends React.Component {
                     })}
                 />
             </div>
+            <AddToContactsForm handleNewContact={this.handleNewContact.bind(this)}/>
             <style jsx>{`
                 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
                 .dropdown__menu
