@@ -7,7 +7,8 @@ export default class AddPersonForm extends React.Component {
         super(props);
         this.state = {
             currentPerson: '',
-            placeholder: 'Add user to conversation'
+            placeholder: 'Add user to conversation',
+            errorState: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,7 +16,7 @@ export default class AddPersonForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ currentPerson: event.target.value });
+        this.setState({ currentPerson: event.target.value, errorState: false });
     }
 
     async handleSubmit(event) {
@@ -50,7 +51,8 @@ export default class AddPersonForm extends React.Component {
     handleBadResponse() {
         this.setState({
             currentPerson: '',
-            placeholder: 'Error occured'
+            placeholder: 'Error occured',
+            errorState: true
         });
     }
 
@@ -76,7 +78,8 @@ export default class AddPersonForm extends React.Component {
                                 border: none;                                
                                 width: 100%;
                                 padding-left: 10px;
-                                border: 1px solid #c7c7bf;
+                                border: 1px solid;
+                                border-color: ${this.state.errorState ? '#f00' : '#c7c7bf'};
                                 border-radius: 4px;                              
                             }
 

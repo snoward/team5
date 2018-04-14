@@ -8,7 +8,8 @@ import { Button } from 'react-chat-elements';
 
 import NameForm from './NameForm.js';
 import AddPersonForm from './AddPersonForm.js';
-import io from 'socket.io-client';
+import Participants from './Participants.js';
+import io from "socket.io-client";
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -16,8 +17,10 @@ export default class Chat extends React.Component {
         this.socket = io();
         this.state = {
             messages: props.messagesInfo.messages.map(elem => JSON.parse(elem)),
-            currentUser: props.messagesInfo.currentUser
+            currentUser: props.messagesInfo.currentUser,
+            participantsVisible: false
         };
+        this.showParticipants = this.showParticipants.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,6 +29,10 @@ export default class Chat extends React.Component {
             messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: nextProps.messagesInfo.currentUser
         });
+    }
+
+    showParticipants() {
+        this.setState({ participantsVisible: !this.state.participantsVisible });
     }
 
     componentDidMount() {
@@ -48,13 +55,12 @@ export default class Chat extends React.Component {
             <div className='add-person-form'>
                 <AddPersonForm conversationId={this.props.messagesInfo.conversationId}/>
             </div>
+            <button className='show-button' onClick={this.showParticipants}>Participants</button>
+            {this.state.participantsVisible ?
+                <Participants conversationId={this.props.messagesInfo.conversationId}></Participants> : null}
             <ol className='chat'>
                 {this.state.messages.map((elem, idx) => {
-                    if (elem.author === this.state.currentUser) {
-                        side = 'right';
-                    } else {
-                        side = 'left';
-                    }
+                    elem.author === this.state.currentUser ? side = 'right' : side = 'left';
 
                     return <div ref={el => { this.el = el; }}>
                         <MessageBox
@@ -278,6 +284,14 @@ export default class Chat extends React.Component {
                 a
                 {
                     color: rgba(82,179,217,0.9);
+                }
+                .show-button
+                {
+                    height: 30px;
+                    border: none;
+                    border-radius: 8px;
+                    background-color: #ff7f50;
+                    float: left;
                 }
                 `}</style>
         </div>;
