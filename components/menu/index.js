@@ -68,9 +68,9 @@ export default class Menu extends React.Component {
                             <a className="user__link" href={this.state.link}>{this.state.name}</a>
                             <div className ="reg__date">member since:
                                 {this.state.registered.substring(0, 10)}</div>
+                        </div>
                     </div>
-                </div>
-                <button className="close" onClick={this.handleCloseModal}>close</button>
+                    <button className="close" onClick={this.handleCloseModal}>close</button>
                 </div>
             </Modal>
             <div className='back'>
