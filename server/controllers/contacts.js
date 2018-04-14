@@ -1,7 +1,7 @@
 const db = require('../libs/dbHelper');
 
 module.exports.contacts = async (req, res) => {
-    const contacts = await db.getAll(`contacts_${req.user.id}`);
+    const contacts = await db.getAll(`contacts_${req.user.username}`);
     res.json(contacts);
 };
 
@@ -17,7 +17,7 @@ module.exports.add = async (req, res) => {
     }
 
     try {
-        await db.post(`contacts_${req.user.id}`, JSON.stringify(contact));
+        await db.post(`contacts_${req.user.username}`, JSON.stringify(contact));
     } catch (ex) {
         console.error(`Can't create contact ${contact}. Exception: ${ex}`);
 

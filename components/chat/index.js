@@ -9,10 +9,12 @@ import { Button } from 'react-chat-elements';
 import NameForm from './NameForm.js';
 import AddPersonForm from './AddPersonForm.js';
 import Participants from './Participants.js';
+import io from "socket.io-client";
 
 export default class Chat extends React.Component {
     constructor(props) {
         super(props);
+        this.socket = io();
         this.state = {
             messages: props.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: props.messagesInfo.currentUser,
@@ -22,6 +24,7 @@ export default class Chat extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        this.socket = io();
         this.setState({
             messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: nextProps.messagesInfo.currentUser
@@ -30,6 +33,18 @@ export default class Chat extends React.Component {
 
     showParticipants() {
         this.setState({ participantsVisible: !this.state.participantsVisible });
+    }
+
+    componentDidMount() {
+        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage.bind(this));
+    }
+
+    handleMessage(message) {
+        const newMessages = this.state.messages.slice();
+        newMessages.push(message);
+        this.setState({
+            messages: newMessages
+        })
     }
 
     render() {
@@ -67,12 +82,8 @@ export default class Chat extends React.Component {
                 )}
             </ol>
             <div className='textarea-decorator'>
-                <NameForm conversationId={this.props.messagesInfo.conversationId} />
-            </div>
-            <div className='refresh-button' onClick={() => {
-                this.props.onRefreshButtonClick(this.props.messagesInfo.conversationId);
-            }}>
-                Обновить
+                <NameForm conversationId={this.props.messagesInfo.conversationId} 
+                socket={this.socket} currentUser={this.state.currentUser}/>
             </div>
             <style jsx>{`
                 @import 
@@ -82,14 +93,6 @@ export default class Chat extends React.Component {
                     margin-bottom: 100px;
                     float:right;
                     width: 50%;
-                }
-                .refresh-button {
-                    background-color: #c0c0c0;
-                    position: fixed;
-                    bottom 18%;
-                    right: 2.3%;
-                    cursor: pointer;
-                    padding: 5px;
                 }
                 .chat
                 {
