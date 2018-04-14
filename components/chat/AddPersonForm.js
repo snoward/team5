@@ -22,6 +22,7 @@ export default class AddPersonForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+        const userToAdd = this.state.currentPerson;
         this.setState({
             disabled: true,
             placeholder: 'Wait please',
@@ -29,7 +30,7 @@ export default class AddPersonForm extends React.Component {
         });
 
         const res = await axios.patch(`api/conversations/${this.props.conversationId}`,
-            { username: this.state.currentPerson },
+            { username: userToAdd },
             {
                 withCredentials: true,
                 responseType: 'json',
@@ -37,15 +38,15 @@ export default class AddPersonForm extends React.Component {
             });
 
         if (res.status === 201) {
-            this.handleGoodResponse(res);
+            this.handleGoodResponse(res, userToAdd);
         } else {
             this.handleBadResponse(res);
         }
     }
 
-    handleGoodResponse(res) {
+    handleGoodResponse(res, userToAdd) {
         this.socket.emit('conversation', {
-            addedUser: this.state.currentPerson,
+            addedUser: userToAdd,
             conversation: res.data
         });
         this.setState({
