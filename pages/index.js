@@ -18,7 +18,9 @@ export default class IndexPage extends Component {
             contacts: contactsList.data,
             menu: {
                 'name': req.user.username,
-                'avatar': `/api/avatar/${req.user.username}`
+                'avatar': `/api/avatar/${req.user.username}`,
+                'link': req.user.profileUrl,
+                'registered': req.user._json.created_at
             }
         };
     }
