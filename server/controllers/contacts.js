@@ -24,5 +24,5 @@ module.exports.add = async (req, res) => {
         return res.sendStatus(500);
     }
 
-    res.sendStatus(201);
+    res.status(201).send(contact);
 };

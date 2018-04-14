@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import ContactList from '../components/contacts';
+import Conversations from '../components/conversations';
 import Chat from '../components/chat';
 import Menu from '../components/menu';
 import axios from 'axios';
@@ -62,7 +62,7 @@ export default class IndexPage extends Component {
         if (messagesInfo.messages) {
             return (
                 <Fragment>
-                    <ContactList conversations={conversations}
+                    <Conversations conversations={conversations}
                         onConversationClick={this._onConversationClick.bind(this)}
                         currentUser={currentUser}
                     />
@@ -75,7 +75,7 @@ export default class IndexPage extends Component {
 
         return (
             <Fragment>
-                <ContactList conversations={conversations}
+                <Conversations conversations={conversations}
                     onConversationClick={this._onConversationClick.bind(this)}
                     currentUser={currentUser}
                 />

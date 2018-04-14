@@ -5,14 +5,17 @@ export default class Participants extends React.Component {
     constructor(props) {
         super(props);
         this.state = { participants: [] };
-        this.componentWillReceiveProps(props);
+        this.updateParticipants(props.conversationId);
     }
 
-    async componentWillReceiveProps(nextProps) {
-        const conversation = await axios.get(`api/conversations/${nextProps.conversationId}`,
+    async updateParticipants(conversationId) {
+        const conversation = await axios.get(`api/conversations/${conversationId}`,
             { withCredentials: true, responseType: 'json' })
             .then(res => res.data);
-        this.setState({ participants: conversation.users });
+
+        this.setState({
+            participants: conversation.users
+        });
     }
 
     render() {
