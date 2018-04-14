@@ -58,7 +58,20 @@ export default class Chat extends React.Component {
     componentDidMount() {
         this.socket.on(`message_${this.props.messagesInfo.conversationId}`, 
             this.handleMessage.bind(this));
+            this.scrollToBottom();
+
     }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        if (this.el){
+            this.el.scrollIntoView({behavior: 'smooth'});
+        }
+    }
+
 
     handleMessage(message) {
         const newMessages = this.state.messages.slice();
