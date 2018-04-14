@@ -11,7 +11,7 @@ module.exports.save = async (req, res) => {
         author: req.user.username,
         date: new Date(),
         text: req.body.text,
-        metadata: await extractor.extract(req.body.text)
+        metadata: await extractor.extractFromText(req.body.text)
     };
 
     try {

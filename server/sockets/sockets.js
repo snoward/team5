@@ -8,7 +8,7 @@ module.exports.configureIo = (io) => {
                 author: data.user,
                 date: new Date(),
                 text: data.text,
-                metadata: await extractor.extract(data.text)
+                metadata: await extractor.extractFromText(data.text)
             };
             socket.broadcast.emit(`message_${data.conversationId}`, message);
             socket.emit(`message_${data.conversationId}`, message);
