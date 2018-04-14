@@ -24,7 +24,7 @@ export default class Chat extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.socket = io();
+        this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
         this.setState({
             messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
             currentUser: nextProps.messagesInfo.currentUser
@@ -36,17 +36,8 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage.bind(this));
-        this.scrollToBottom();
-
-    }
-
-    componentDidUpdate() {
-        this.scrollToBottom();
-    }
-
-    scrollToBottom() {
-        this.el.scrollIntoView({ behavior: 'smooth' });
+        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, 
+            this.handleMessage.bind(this));
     }
 
     handleMessage(message) {
@@ -95,8 +86,8 @@ export default class Chat extends React.Component {
 
             </ol>
             <div className='textarea-decorator'>
-                <NameForm conversationId={this.props.messagesInfo.conversationId} 
-                socket={this.socket} currentUser={this.state.currentUser}/>
+                <NameForm conversationId={this.props.messagesInfo.conversationId}
+                    socket={this.socket} currentUser={this.state.currentUser}/>
             </div>
             <style jsx>{`
                 @import 

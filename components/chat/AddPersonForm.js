@@ -1,12 +1,18 @@
 import axios from 'axios';
 import React from 'react';
+import io from 'socket.io-client';
 
 export default class AddPersonForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { currentPerson: '', errorState: false };
+        this.state = {
+            currentPerson: '',
+            placeholder: 'Add user to conversation',
+            errorState: false
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.socket = io();
     }
 
     handleChange(event) {
@@ -15,11 +21,39 @@ export default class AddPersonForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        await axios.patch(`api/conversations/${this.props.conversationId}`,
+
+        const res = await axios.patch(`api/conversations/${this.props.conversationId}`,
             { username: this.state.currentPerson },
-            { withCredentials: true, responseType: 'json' })
-            .catch(() => this.setState({ errorState: true }));
-        this.setState({ currentPerson: '' });
+            {
+                withCredentials: true,
+                responseType: 'json',
+                validateStatus: () => true
+            });
+
+        if (res.status === 201) {
+            this.handleGoodResponse(res);
+        } else {
+            this.handleBadResponse(res);
+        }
+    }
+
+    handleGoodResponse(res) {
+        this.socket.emit('conversation', {
+            addedUser: this.state.currentPerson,
+            conversation: res.data
+        });
+        this.setState({
+            currentPerson: '',
+            placeholder: 'Add user to conversation'
+        });
+    }
+
+    handleBadResponse() {
+        this.setState({
+            currentPerson: '',
+            placeholder: 'Error occured',
+            errorState: true
+        });
     }
 
     render() {
@@ -27,7 +61,7 @@ export default class AddPersonForm extends React.Component {
             <div>
                 <form className='add-person-form' onSubmit={this.handleSubmit}>
                     <input className='add-person-input' type='text'
-                        placeholder='Add user to conversation'
+                        placeholder={this.state.placeholder}
                         value={this.state.currentPerson}
                         onChange={this.handleChange} />
                     <style jsx>

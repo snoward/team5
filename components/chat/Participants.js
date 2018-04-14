@@ -9,14 +9,10 @@ export default class Participants extends React.Component {
     }
 
     async componentWillReceiveProps(nextProps) {
-        const conversations = await axios.get('api/conversations',
+        const conversation = await axios.get(`api/conversations/${nextProps.conversationId}`,
             { withCredentials: true, responseType: 'json' })
             .then(res => res.data);
-        for (let conversation of conversations) {
-            if (conversation.id === nextProps.conversationId) {
-                this.setState({ participants: conversation.users });
-            }
-        }
+        this.setState({ participants: conversation.users });
     }
 
     render() {

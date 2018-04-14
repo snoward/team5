@@ -4,6 +4,7 @@ import { ChatList } from 'react-chat-elements';
 import { Input } from 'react-chat-elements';
 import { Button } from 'react-chat-elements';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 export default class Conversation extends React.Component {
     constructor(props) {
@@ -14,6 +15,21 @@ export default class Conversation extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.socket = io();
+        this.socket.on(`conversation_${this.props.currentUser}`, 
+            this.handleNewConversation.bind(this));
+    }
+
+    handleNewConversation(newConversation) {
+        const newConversations = this.state.conversations.slice();
+        newConversations.push(newConversation);
+
+        this.setState({
+            conversations: newConversations
+        });
     }
 
     handleChange(event) {
@@ -34,12 +50,16 @@ export default class Conversation extends React.Component {
 
     render() {
         return <div className='contact-container'>
-            <form className='conversation-form' onSubmit={this.handleSubmit}>
+            <form className='conversation-form' onSubmit={this.handleSubmit.bind(this)}>
                 <input type='text' className='conversation-input'
-                    placeholder='New conversation title' value={this.state.newTitle} onChange={this.handleChange} />
+                    placeholder='New conversation title'
+                    value={this.state.newTitle}
+                    onChange={this.handleChange.bind(this)}
+                />
             </form>
             {this.state.conversations.map((elem, idx) => {
                 let avatar = `/api/avatar/${elem.title}`;
+
                 return (
                     <ChatList key={idx}
                         dataSource={[
