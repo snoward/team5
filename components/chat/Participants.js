@@ -5,7 +5,6 @@ export default class Participants extends React.Component {
     constructor(props) {
         super(props);
         this.state = { participants: [] };
-        this.beforeFetching();
         this.componentWillReceiveProps(props);
     }
 
@@ -32,7 +31,6 @@ export default class Participants extends React.Component {
                     {`
                         .participants-container
                         {
-                            position: absolute;
                             clear: left;
                             left: -35px;
                             font: 12px;
