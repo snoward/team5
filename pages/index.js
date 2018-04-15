@@ -30,14 +30,14 @@ export default class IndexPage extends Component {
         this.state = props;
     }
 
-    async _onConversationClick(conversationId) {
+    async _onConversationClick(conversation) {
         this.setState({
             messagesInfo: {
                 'currentUser': this.state.messagesInfo.currentUser
             }
         });
 
-        this.loadConversations(conversationId);
+        this.loadConversations(conversation.id);
     }
 
     async loadConversations(conversationId) {
@@ -48,7 +48,7 @@ export default class IndexPage extends Component {
         this.setState({
             messagesInfo: {
                 'conversationId': conversationId,
-                'messages': res.data,
+                'messages': res.data.map(elem => JSON.parse(elem)),
                 'currentUser': currentUser
             }
         });
