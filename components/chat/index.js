@@ -8,7 +8,7 @@ import { Button } from 'react-chat-elements';
 import ChatInput from './ChatInput/ChatInput.js';
 import AddPersonForm from './AddPersonForm/AddPersonForm.js';
 import Participants from './Participants/Participants.js';
-import Modal from '../Modal/Modal.js';
+import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
 import io from "socket.io-client";
 
@@ -85,7 +85,7 @@ export default class Chat extends React.Component {
     render() {
         return (
             <div className='chat-container'>
-                <Modal 
+                <ProfileModal 
                     showModal={this.state.showModal}
                     handleCloseModal={this.handleCloseModal}
                     username={this.state.currentAuthor}

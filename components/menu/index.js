@@ -3,7 +3,7 @@ import React from 'react';
 
 import TimeWatch from './TimeWatch/TimeWatch.js';
 import AddToContactsForm from './AddToContactForm/AddToContactsForm.js';
-import Modal from '../Modal/Modal.js';
+import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Contacts from './Contacts/Contacts.js';
 
 export default class Menu extends React.Component {
@@ -41,7 +41,7 @@ export default class Menu extends React.Component {
 
         return (
             <div className='menu'>
-                <Modal
+                <ProfileModal
                     showModal={this.state.showModal}
                     username={this.state.name}
                     handleCloseModal={this.handleCloseModal}
