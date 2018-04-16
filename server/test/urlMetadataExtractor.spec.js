@@ -7,16 +7,14 @@ const extractor = require('../libs/urlMetadataExtractor');
 const yandexExpected = {
     description: 'Найдётся всё',
     title: 'Яндекс',
-    url: 'https://www.yandex.ru/',
-    'og:site_name': 'Яндекс'
+    url: 'https://yandex.ru'
 };
 
-const githubExpected = {
-    url: 'https://github.com/',
-    description: 'GitHub brings together the world’s largest community ' +
-        'of developers to discover, share, and build better software',
-    title: 'Build software better, together',
-    'og:site_name': 'GitHub'
+const e1Expected = {
+    url: 'https://www.e1.ru',
+    description: 'Городской портал Екатеринбурга: новости, форумы, доска объявлений,' +
+    ' справочная информация',
+    title: 'Екатеринбург Онлайн'
 };
 
 describe('extract by url', function () {
@@ -24,12 +22,17 @@ describe('extract by url', function () {
     it('correct url', async function () {
         const actual = await extractor.extract(yandexExpected.url);
         assertMetadataEquality(actual, yandexExpected);
-    });
+    }).timeout(4000);
 
     it('incorrect url', async function () {
-        const actual = await extractor.extract('yandex.ru');
+        const actual = await extractor.extract('bbbb.aaaa');
         assert.equal(actual, null);
-    });
+    }).timeout(3000);
+
+    it('url without http', async function () {
+        const actual = await extractor.extract('yandex.ru');
+        assertMetadataEquality(actual, yandexExpected);
+    }).timeout(3000);
 });
 
 describe('extract from the text', function () {
@@ -45,16 +48,14 @@ describe('extract from the text', function () {
     });
 
     it('text with multiple links', async function () {
-        const multipleLinks = `yandex: ${yandexExpected.url} github: ${githubExpected.url}`;
+        const multipleLinks = `yandex: ${yandexExpected.url} github: https://github.com`;
         const actual = await extractor.extractFromText(multipleLinks);
         assertMetadataEquality(actual, yandexExpected);
     });
 
-    it('text with guthub url. description length option', async function () {
-        const text = `The world's leading software development platform ${githubExpected.url}`;
-        const options = { descriptionLength: githubExpected.description.length };
-        const actual = await extractor.extractFromText(text, options);
-        assertMetadataEquality(actual, githubExpected);
+    it('https://www.e1.ru', async function () {
+        const actual = await extractor.extractFromText(e1Expected.url);
+        assertMetadataEquality(actual, e1Expected);
     }).timeout(3000);
 });
 
@@ -62,5 +63,4 @@ function assertMetadataEquality(actual, expected) {
     assert.equal(actual.description, expected.description);
     assert.equal(actual.title, expected.title);
     assert.equal(actual.url, expected.url);
-    assert.equal(actual['os:site_name'], expected['os:site_name']);
 }
