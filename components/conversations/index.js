@@ -1,28 +1,24 @@
 /* eslint-disable */
 import React from 'react';
 import { ChatList } from 'react-chat-elements';
-import { Input } from 'react-chat-elements';
-import { Button } from 'react-chat-elements';
-import axios from 'axios';
 import io from 'socket.io-client';
+
+import CreateConversationForm from './CreateConversationForm/CreateConversationForm.js';
 
 export default class Conversations extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            conversations: props.conversations,
-            newTitle: '',
-            inputDisabled: false,
-            placeholder: 'New conversation title'
+            conversations: props.conversations
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.handleNewConversation = this.handleNewConversation.bind(this);
     }
 
     componentDidMount() {
         this.socket = io();
-        this.socket.on(`conversation_${this.props.currentUser}`, 
-            this.handleNewConversation.bind(this));
+        this.socket.on(`conversation_${this.props.currentUser}`, this.handleNewConversation);
     }
 
     handleNewConversation(newConversation) {
@@ -34,63 +30,26 @@ export default class Conversations extends React.Component {
         });
     }
 
-    handleChange(event) {
-        this.setState({ newTitle: event.target.value });
-    }
-
-    async handleSubmit(event) {
-        event.preventDefault();
-        this.setState({
-            inputDisabled: true,
-            newTitle: '',
-            placeholder: 'Wait please'
-        })
-
-        const res = await axios.post(`api/conversations/${this.state.newTitle}`,
-            { withCredentials: true, responseType: 'json' });
-
-        const newConversations = this.state.conversations.slice();
-        newConversations.push(res.data);
-
-        this.setState({
-            conversations: newConversations,
-            inputDisabled: false,
-            placeholder: 'New conversation title'
-        });
-    }
-
     render() {
-        return (
-            <div className='contact-container'>
-                <form className='conversation-form' onSubmit={this.handleSubmit.bind(this)}>
-                    <input type='text' className='conversation-input'
-                        placeholder={this.state.placeholder}
-                        value={this.state.newTitle}
-                        onChange={this.handleChange.bind(this)}
-                        disabled={this.state.inputDisabled}
-                    />
-                </form>
-                {this.state.conversations.map((elem, idx) => {
-                    let avatar = `/api/avatar/${elem.title}`;
+        const dataSource = this.state.conversations.map(conversation => {
+            return {
+                avatar: `/api/avatar/${conversation.title}`,
+                title: conversation.title,
+                id: conversation.id
+            };
+        });
 
-                    return (
-                        <ChatList key={idx}
-                            dataSource={[
-                                {
-                                    avatar: avatar,
-                                    title: elem.title,
-                                    subtitle: 'What are you doing?',
-                                    date: new Date()
-                                }
-                            ]}
-                            onClick={
-                                async () => {
-                                    this.props.onConversationClick(elem.id);
-                                }
-                            }
-                        />);
-                }
-                )}
+        return (
+            <div className='conversations-container'>
+                <CreateConversationForm
+                    handleNewConversation={this.handleNewConversation}
+                />
+
+                <ChatList
+                    dataSource={dataSource}
+                    onClick={this.props.onConversationClick}
+                />
+
                 <style>{`
                     .coversation-form, .conversation-input {
                         border: none;
@@ -1100,7 +1059,7 @@ export default class Conversations extends React.Component {
                     .rce-popup-footer>* {
                         margin-left: 5px;
                     }
-                    .contact-container
+                    .conversations-container
                     {
                         position: fixed;
                         overflow-y: auto;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 
-export default class NameForm extends React.Component {
+export default class ChatInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = { value: '' };
@@ -45,7 +45,7 @@ export default class NameForm extends React.Component {
                             bottom: 0px;
                             left: 53.6%;
                             width: 40.5%;
-                            height: 16%;
+                            height: 9%;
                             z-index: 99;
                             background: white;
                             outline: none;

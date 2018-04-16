@@ -6,7 +6,7 @@ export default class AddPersonForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentPerson: '',
+            inputValue: '',
             placeholder: 'Add user to conversation',
             errorState: false,
             disabled: false
@@ -17,16 +17,17 @@ export default class AddPersonForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ currentPerson: event.target.value, errorState: false });
+        this.setState({ inputValue: event.target.value, errorState: false });
     }
 
     async handleSubmit(event) {
         event.preventDefault();
-        const userToAdd = this.state.currentPerson;
+
+        const userToAdd = this.state.inputValue;
         this.setState({
             disabled: true,
             placeholder: 'Wait please',
-            currentPerson: ''
+            inputValue: ''
         });
 
         const res = await axios.patch(`api/conversations/${this.props.conversationId}`,
@@ -50,7 +51,7 @@ export default class AddPersonForm extends React.Component {
             conversation: res.data
         });
         this.setState({
-            currentPerson: '',
+            inputValue: '',
             placeholder: 'Add user to conversation',
             disabled: false
         });
@@ -58,7 +59,7 @@ export default class AddPersonForm extends React.Component {
 
     handleBadResponse() {
         this.setState({
-            currentPerson: '',
+            inputValue: '',
             placeholder: 'Error occured',
             errorState: true,
             disabled: false
@@ -71,7 +72,7 @@ export default class AddPersonForm extends React.Component {
                 <form className='add-person-form' onSubmit={this.handleSubmit}>
                     <input className='add-person-input' type='text'
                         placeholder={this.state.placeholder}
-                        value={this.state.currentPerson}
+                        value={this.state.inputValue}
                         onChange={this.handleChange}
                         disabled={this.state.disabled}/>
                     <style jsx>
