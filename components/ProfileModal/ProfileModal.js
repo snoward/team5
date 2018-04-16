@@ -6,23 +6,17 @@ import Profile from './Profile/Profile.js';
 export default class Modal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showModal: props.showModal,
-            username: props.username,
-            handleCloseModal: props.handleCloseModal,
-            githubUrl: 'https://github.com/' + props.username,
-            avatarUrl: props.avatarUrl
-        };
+        this.state = {};
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
+    static getDerivedStateFromProps(nextProps) {
+        return {
             showModal: nextProps.showModal,
             username: nextProps.username,
             handleCloseModal: nextProps.handleCloseModal,
             githubUrl: 'https://github.com/' + nextProps.username,
             avatarUrl: nextProps.avatarUrl
-        });
+        };
     }
 
     render() {

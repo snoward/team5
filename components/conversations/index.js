@@ -8,15 +8,17 @@ import CreateConversationForm from './CreateConversationForm/CreateConversationF
 export default class Conversations extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             conversations: props.conversations
         };
+
+        this.handleNewConversation = this.handleNewConversation.bind(this);
     }
 
     componentDidMount() {
         this.socket = io();
-        this.socket.on(`conversation_${this.props.currentUser}`,
-            this.handleNewConversation.bind(this));
+        this.socket.on(`conversation_${this.props.currentUser}`, this.handleNewConversation);
     }
 
     handleNewConversation(newConversation) {
@@ -40,7 +42,7 @@ export default class Conversations extends React.Component {
         return (
             <div className='conversations-container'>
                 <CreateConversationForm
-                    handleNewConversation={this.handleNewConversation.bind(this)}
+                    handleNewConversation={this.handleNewConversation}
                 />
 
                 <ChatList

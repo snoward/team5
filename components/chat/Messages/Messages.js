@@ -5,21 +5,17 @@ import Message from './Message/Message.js';
 export default class Messages extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            messages: props.messages,
-            currentUser: props.currentUser,
-            onMessageTitleClick: props.onMessageTitleClick,
-            saveElementForScroll: props.saveElementForScroll
-        };
+        this.state = {};
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
+    static getDerivedStateFromProps(nextProps) {
+        // Начальный state тут же берётся
+        return {
             messages: nextProps.messages,
             currentUser: nextProps.currentUser,
             onMessageTitleClick: nextProps.onMessageTitleClick,
             saveElementForScroll: nextProps.saveElementForScroll
-        });
+        };
     }
 
     render() {

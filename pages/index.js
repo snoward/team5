@@ -61,26 +61,16 @@ export default class IndexPage extends Component {
         const menu = this.state.menu;
         const contactsList = this.state.contacts;
 
-        if (messagesInfo.messages) {
-            return (
-                <Fragment>
-                    <Conversations conversations={conversations}
-                        onConversationClick={this._onConversationClick.bind(this)}
-                        currentUser={currentUser}
-                    />
-                    <Chat messagesInfo={messagesInfo}/>
-                    <Menu contacts={contactsList}
-                        menu={menu} />
-                </Fragment>
-            );
-        }
-
         return (
             <Fragment>
                 <Conversations conversations={conversations}
                     onConversationClick={this._onConversationClick.bind(this)}
                     currentUser={currentUser}
                 />
+                {messagesInfo.messages
+                    ? <Chat messagesInfo={messagesInfo}/>
+                    : null
+                }
                 <Menu contacts={contactsList}
                     menu={menu} />
             </Fragment>

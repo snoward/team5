@@ -15,7 +15,6 @@ import io from "socket.io-client";
 export default class Chat extends React.Component {
     constructor(props) {
         super(props);
-        this.socket = io();
         
         this.state = {
             currentAuthor: '',
@@ -25,8 +24,13 @@ export default class Chat extends React.Component {
             participantsVisible: false
         };
 
+        this.socket = io();
+
         this.handleCloseModal = this.handleCloseModal.bind(this);
         this.showParticipants = this.showParticipants.bind(this);
+        this.handleMessage = this.handleMessage.bind(this);
+        this.openModalWithItem = this.openModalWithItem.bind(this);
+        this.saveElementForScroll = this.saveElementForScroll.bind(this);
     }
 
     handleCloseModal () {
@@ -41,23 +45,19 @@ export default class Chat extends React.Component {
         })
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
-        this.setState({
-            messages: nextProps.messagesInfo.messages.map(elem => JSON.parse(elem)),
-            currentUser: nextProps.messagesInfo.currentUser
+    showParticipants() {
+        this.setState({ 
+            participantsVisible: !this.state.participantsVisible 
         });
     }
 
-    showParticipants() {
-        this.setState({ participantsVisible: !this.state.participantsVisible });
+    componentDidMount() {
+        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage);
+        this.scrollToBottom();
     }
 
-    componentDidMount() {
-        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, 
-            this.handleMessage.bind(this));
-            this.scrollToBottom();
-
+    componentWillUnmount() {
+        this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
     }
 
     componentDidUpdate() {
@@ -110,8 +110,8 @@ export default class Chat extends React.Component {
                 <Messages
                     messages={this.state.messages}
                     currentUser={this.state.currentUser}
-                    onMessageTitleClick={this.openModalWithItem.bind(this)}
-                    saveElementForScroll={this.saveElementForScroll.bind(this)}
+                    onMessageTitleClick={this.openModalWithItem}
+                    saveElementForScroll={this.saveElementForScroll}
                 />
 
                 <ChatInput 

@@ -4,15 +4,13 @@ import { Dropdown } from 'react-chat-elements';
 export default class Contacts extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            contactList: props.contactList
-        };
+        this.state = {};
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
+    static getDerivedStateFromProps(nextProps) {
+        return {
             contactList: nextProps.contactList
-        });
+        };
     }
 
     render() {

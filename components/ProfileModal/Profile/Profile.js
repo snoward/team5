@@ -11,15 +11,6 @@ export default class Profile extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            showModal: nextProps.showModal,
-            username: nextProps.username,
-            githubUrl: nextProps.githubUrl,
-            avatarUrl: nextProps.avatarUrl
-        });
-    }
-
     render() {
         return (
             <div>

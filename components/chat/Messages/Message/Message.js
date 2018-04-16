@@ -17,37 +17,8 @@ export default class Message extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            currentUser: nextProps.currentUser,
-            text: nextProps.text,
-            author: nextProps.author,
-            date: nextProps.date,
-            metadata: nextProps.metadata,
-            onMessageTitleClick: nextProps.onMessageTitleClick,
-            saveElementForScroll: nextProps.saveElementForScroll
-        });
-    }
-
     render() {
         const side = this.state.author === this.state.currentUser ? 'right' : 'left';
-
-        if (this.state.metadata) {
-            return <div ref={this.state.saveElementForScroll}>
-                <MessageBox
-                    position={side}
-                    avatar={`/api/avatar/${this.state.author}`}
-                    title={this.state.author}
-                    onTitleClick={() => this.state.onMessageTitleClick(this.state.author)}
-                    type={'text'}
-                    text={this.state.text}
-                    date={new Date(this.state.date)}
-                    renderAddCmp={() => {
-                        return <Metadata metadata={this.state.metadata}/>;
-                    }}
-                />
-            </div>;
-        }
 
         return <div ref={this.state.saveElementForScroll}>
             <MessageBox
@@ -58,6 +29,11 @@ export default class Message extends React.Component {
                 type={'text'}
                 text={this.state.text}
                 date={new Date(this.state.date)}
+                renderAddCmp={() => {
+                    return this.state.metadata
+                        ? <Metadata metadata={this.state.metadata}/>
+                        : undefined;
+                }}
             />
         </div>;
     }

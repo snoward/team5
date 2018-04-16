@@ -9,6 +9,7 @@ import Contacts from './Contacts/Contacts.js';
 export default class Menu extends React.Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             avatarUrl: props.menu.avatar,
             name: props.menu.name,
@@ -16,8 +17,10 @@ export default class Menu extends React.Component {
             link: props.menu.link,
             registered: props.menu.registered
         };
+
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.handleNewContact = this.handleNewContact.bind(this);
     }
 
     handleOpenModal() {
@@ -65,7 +68,7 @@ export default class Menu extends React.Component {
                 />
 
                 <AddToContactsForm
-                    handleNewContact={this.handleNewContact.bind(this)}
+                    handleNewContact={this.handleNewContact}
                 />
 
                 <style jsx>{`
