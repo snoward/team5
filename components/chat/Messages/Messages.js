@@ -9,7 +9,6 @@ export default class Messages extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps) {
-        // Начальный state тут же берётся
         return {
             messages: nextProps.messages,
             currentUser: nextProps.currentUser,

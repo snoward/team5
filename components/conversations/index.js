@@ -3,17 +3,23 @@ import React from 'react';
 import { ChatList } from 'react-chat-elements';
 import io from 'socket.io-client';
 
-import CreateConversationForm from './CreateConversationForm/CreateConversationForm.js';
+import Search from './Search/Search.js';
+import CreateConversationModal from './CreateConversationModal/CreateConversationModal.js';
 
 export default class Conversations extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            conversations: props.conversations
+            conversations: props.conversations,
+            shownConversations: props.conversations,
+            isModalOpen: false
         };
 
         this.handleNewConversation = this.handleNewConversation.bind(this);
+        this.setShowedConversations = this.setShowedConversations.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.handleOpenModal = this.handleOpenModal.bind(this);
     }
 
     componentDidMount() {
@@ -26,12 +32,31 @@ export default class Conversations extends React.Component {
         newConversations.push(newConversation);
 
         this.setState({
-            conversations: newConversations
+            conversations: newConversations,
+            shownConversations: newConversations
+        });
+    }
+
+    setShowedConversations(conversations) {
+        this.setState({
+            shownConversations: conversations
+        });
+    }
+
+    handleOpenModal() {
+        this.setState({
+            isModalOpen: true
+        });
+    }
+
+    handleCloseModal() {
+        this.setState({
+            isModalOpen: false
         });
     }
 
     render() {
-        const dataSource = this.state.conversations.map(conversation => {
+        const dataSource = this.state.shownConversations.map(conversation => {
             return {
                 avatar: `/api/avatar/${conversation.title}`,
                 title: conversation.title,
@@ -41,9 +66,19 @@ export default class Conversations extends React.Component {
 
         return (
             <div className='conversations-container'>
-                <CreateConversationForm
+                <CreateConversationModal
+                    isOpen={this.state.isModalOpen}
+                    handleCloseModal={this.handleCloseModal}
                     handleNewConversation={this.handleNewConversation}
                 />
+
+                <Search
+                    conversations={this.state.conversations}
+                    handleNewConversation={this.handleNewConversation}
+                    handleFilteredConversations={this.setShowedConversations}
+                />
+
+                <button onClick={this.handleOpenModal}>+</button>
 
                 <ChatList
                     dataSource={dataSource}
