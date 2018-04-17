@@ -10,10 +10,10 @@ export default class Metadata extends React.Component {
             <a className="noDecoration" href={this.props.metadata.url}>
                 <div className="metadata">
                     <a className="link" href={this.props.metadata.url}>
-                        {this.props.metadata.source}
+                        {this.props.metadata.title}
                     </a>
                     <img className="pic" src={this.props.metadata.image}
-                        alt={this.props.metadata.source}/>
+                        alt={this.props.metadata.title}/>
                     <div className="text">
                         {this.props.metadata.description}
                     </div>
