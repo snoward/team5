@@ -1,5 +1,6 @@
+const fetch = require('node-fetch');
 const metascraper = require('metascraper');
-const got = require('got');
+
 const urlRegExp = new RegExp('(https?:\\/\\/(?:www\\.|(?!www))' +
     '[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]' +
     '\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+' +
@@ -8,9 +9,9 @@ const urlRegExp = new RegExp('(https?:\\/\\/(?:www\\.|(?!www))' +
 class urlMetadataExtractor {
     static async extract(targetUrl) {
         try {
-            const { body: html, url } = await got(targetUrl);
+            const html = await fetch(targetUrl).then(res => res.text());
 
-            return await metascraper({ html, url });
+            return metascraper({ html, url: targetUrl });
         } catch (e) {
             return null;
         }

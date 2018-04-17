@@ -17,6 +17,12 @@ const e1Expected = {
     title: 'Екатеринбург Онлайн'
 };
 
+const googleExpected = {
+    url: 'https://google.com/',
+    description: 'Поиск информации в интернете: веб страницы, картинки, видео и многое другое.',
+    title: 'Google'
+};
+
 describe('extract by url', function () {
 
     it('correct url', async function () {
@@ -27,11 +33,6 @@ describe('extract by url', function () {
     it('incorrect url', async function () {
         const actual = await extractor.extract('bbbb.aaaa');
         assert.equal(actual, null);
-    }).timeout(3000);
-
-    it('url without http', async function () {
-        const actual = await extractor.extract('yandex.ru');
-        assertMetadataEquality(actual, yandexExpected);
     }).timeout(3000);
 });
 
@@ -56,6 +57,11 @@ describe('extract from the text', function () {
     it('https://www.e1.ru', async function () {
         const actual = await extractor.extractFromText(e1Expected.url);
         assertMetadataEquality(actual, e1Expected);
+    }).timeout(3000);
+
+    it('http://google.com/', async function () {
+        const actual = await extractor.extractFromText(googleExpected.url);
+        assertMetadataEquality(actual, googleExpected);
     }).timeout(3000);
 });
 
