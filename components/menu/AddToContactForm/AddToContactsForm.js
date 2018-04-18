@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import io from 'socket.io-client';
 
 export default class AddToContactsForm extends React.Component {
     constructor(props) {
@@ -9,8 +10,13 @@ export default class AddToContactsForm extends React.Component {
             placeholder: 'Add user to contacts',
             disabled: false
         };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.socket = io();
     }
 
     handleChange(event) {
@@ -19,39 +25,66 @@ export default class AddToContactsForm extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
+
+        const contactName = this.state.inputValue;
         this.setState({
             disabled: true,
             placeholder: 'Wait please',
             inputValue: ''
         });
 
-        const res = await axios.post(`api/contacts/${this.state.inputValue}`, {},
+        const [contactRes, conversationRes] = await Promise.all([
+            this.getCreateContactPromise(contactName),
+            this.getCreateConversationPromise(contactName)
+        ]);
+
+        if (contactRes.status === 201) {
+            this.handleGoodResponse(contactRes);
+        } else {
+            this.handleBadResponse();
+        }
+
+        if (conversationRes.status === 201) {
+            this.socket.emit('newConversation', conversationRes.data);
+        }
+    }
+
+    getCreateContactPromise(contactName) {
+        return axios.post(`api/contacts/${contactName}`, {},
             {
                 withCredentials: true,
                 responseType: 'json',
                 validateStatus: () => true
             });
-
-        if (res.status === 201) {
-            this.handleGoodResponse(res);
-        } else {
-            this.handleBadResponse();
-        }
     }
 
-    handleGoodResponse(res) {
+    getCreateConversationPromise(contactName) {
+        return axios.post('api/conversations/privateDialogue',
+            {
+                users: [this.props.currentUser, contactName],
+                isPrivate: true
+            },
+            {
+                withCredentials: true,
+                responseType: 'json',
+                validateStatus: () => true
+            });
+    }
+
+    handleGoodResponse(contactRes) {
         this.setState({
             inputValue: '',
             placeholder: 'Add user to contacts',
             disabled: false
         });
-        this.props.handleNewContact(res.data);
+
+        this.props.handleNewContact(contactRes.data);
     }
 
     handleBadResponse() {
         this.setState({
             inputValue: '',
-            placeholder: 'Error occured',
+            placeholder: 'User not found :(',
             disabled: false
         });
     }

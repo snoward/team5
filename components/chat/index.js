@@ -1,21 +1,17 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import { Avatar } from 'react-chat-elements';
-import { MessageList } from 'react-chat-elements';
-import { Input } from 'react-chat-elements';
-import { Button } from 'react-chat-elements';
+import React from 'react';
 
 import ChatInput from './ChatInput/ChatInput.js';
 import AddPersonForm from './AddPersonForm/AddPersonForm.js';
 import Participants from './Participants/Participants.js';
 import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
-import io from "socket.io-client";
+import io from 'socket.io-client';
 
 export default class Chat extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             currentAuthor: '',
             showModal: false,
@@ -33,7 +29,7 @@ export default class Chat extends React.Component {
         this.saveElementForScroll = this.saveElementForScroll.bind(this);
     }
 
-    handleCloseModal () {
+    handleCloseModal() {
         this.setState({ showModal: false });
     }
 
@@ -42,12 +38,12 @@ export default class Chat extends React.Component {
             showModal: true,
             currentAuthor: author,
             currentAvatar: `/api/avatar/${author}`
-        })
+        });
     }
 
     showParticipants() {
-        this.setState({ 
-            participantsVisible: !this.state.participantsVisible 
+        this.setState({
+            participantsVisible: !this.state.participantsVisible
         });
     }
 
@@ -69,8 +65,8 @@ export default class Chat extends React.Component {
     }
 
     scrollToBottom() {
-        if (this.el){
-            this.el.scrollIntoView({behavior: 'instant'});
+        if (this.el) {
+            this.el.scrollIntoView({ behavior: 'instant' });
         }
     }
 
@@ -79,20 +75,20 @@ export default class Chat extends React.Component {
         newMessages.push(message);
         this.setState({
             messages: newMessages
-        })
+        });
     }
 
     render() {
         return (
             <div className='chat-container'>
-                <ProfileModal 
+                <ProfileModal
                     showModal={this.state.showModal}
                     handleCloseModal={this.handleCloseModal}
                     username={this.state.currentAuthor}
                     avatarUrl={this.state.currentAvatar}
                 />
 
-                <AddPersonForm 
+                <AddPersonForm
                     conversationId={this.props.messagesInfo.conversationId}
                 />
 
@@ -100,11 +96,9 @@ export default class Chat extends React.Component {
                     Participants
                 </button>
 
-                {this.state.participantsVisible ?
-                    <Participants 
-                        conversationId={this.props.messagesInfo.conversationId}
-                    /> : 
-                    null
+                {this.state.participantsVisible
+                    ? <Participants conversationId={this.props.messagesInfo.conversationId}/>
+                    : null
                 }
 
                 <Messages
@@ -114,7 +108,7 @@ export default class Chat extends React.Component {
                     saveElementForScroll={this.saveElementForScroll}
                 />
 
-                <ChatInput 
+                <ChatInput
                     conversationId={this.props.messagesInfo.conversationId}
                     socket={this.socket} currentUser={this.state.currentUser}
                 />

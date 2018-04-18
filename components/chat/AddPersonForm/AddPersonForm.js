@@ -46,7 +46,7 @@ export default class AddPersonForm extends React.Component {
     }
 
     handleGoodResponse(res, userToAdd) {
-        this.socket.emit('conversation', {
+        this.socket.emit('conversationNewUser', {
             addedUser: userToAdd,
             conversation: res.data
         });
@@ -60,7 +60,7 @@ export default class AddPersonForm extends React.Component {
     handleBadResponse() {
         this.setState({
             inputValue: '',
-            placeholder: 'Error occured',
+            placeholder: 'User not found',
             errorState: true,
             disabled: false
         });

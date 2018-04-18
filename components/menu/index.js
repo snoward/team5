@@ -9,7 +9,7 @@ import Contacts from './Contacts/Contacts.js';
 export default class Menu extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             avatarUrl: props.menu.avatar,
             name: props.menu.name,
@@ -69,6 +69,7 @@ export default class Menu extends React.Component {
 
                 <AddToContactsForm
                     handleNewContact={this.handleNewContact}
+                    currentUser={this.state.name}
                 />
 
                 <style jsx>{`
