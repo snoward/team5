@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageBox } from 'react-chat-elements';
+import MessageBox from './MessageBox/MessageBox';
 
 import Metadata from './Metadata/Metadata.js';
 
@@ -18,7 +18,7 @@ export default class Message extends React.Component {
     }
 
     render() {
-        const side = this.state.author === this.state.currentUser ? 'right' : 'left';
+        const side = this.state.author === this.state.currentUser ? 'self' : 'other';
 
         return <div ref={this.state.saveElementForScroll}>
             <MessageBox
