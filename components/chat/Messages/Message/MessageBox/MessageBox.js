@@ -14,17 +14,25 @@ export default class Message extends React.Component {
             date: props.date,
             avatar: props.avatar,
             metadata: props.metadata,
-            isOpen: false,
+            isAvatarOpen: false,
             onMessageTitleClick: props.onMessageTitleClick,
-            saveElementForScroll: props.saveElementForScroll
+            saveElementForScroll: props.saveElementForScroll,
+            curTime: null
         };
     }
+    componentDidMount() {
+        setInterval(() => {
+            this.setState({
+                curTime: this.state.date && !isNaN(this.state.date) && (
+                    this.state.dateString ||
+                    moment(this.state.date).fromNow()
+                )
+            });
+        }, 1000);
+    }
+
 
     render() {
-        const dateText = this.state.date && !isNaN(this.state.date) && (
-            this.state.dateString ||
-            moment(this.state.date).fromNow()
-        );
 
         return <div>
             <li
@@ -34,7 +42,7 @@ export default class Message extends React.Component {
                         onClick={() => this.setState({ isOpen: true })}
                         src = {this.state.avatar}
                         draggable = "false"/>
-                    {this.state.isOpen && (
+                    {this.state.isAvatarOpen && (
                         <Lightbox
                             mainSrc={this.state.avatar}
                             onCloseRequest={() => this.setState({ isOpen: false })}
@@ -44,7 +52,7 @@ export default class Message extends React.Component {
                 <div className="msg">
                     <a onClick={this.props.onTitleClick}>{this.state.author}</a>
                     <ReactMarkdown source={this.state.text} />
-                    <time>{dateText}</time>
+                    <time>{this.state.curTime}</time>
                 </div>
                 <style jsx>
                     {`

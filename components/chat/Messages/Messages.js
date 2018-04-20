@@ -21,7 +21,7 @@ export default class Messages extends React.Component {
 
     render() {
         return (
-            <ol className='chat'>
+            <ol className='messages'>
                 {this.state.messages.map((message, idx) => {
                     return (
                         <Message
@@ -39,20 +39,15 @@ export default class Messages extends React.Component {
                 )}
                 <style>
                     {`
-                  .chat-container {
-                  margin-bottom: 100px;
-                  float:right;
-                  width: 50%;
-                  }
-                  .chat {
+                  .messages {
                       margin-top: 60px;
                   }
-                  .chat li {
+                  .messages li {
                       padding: 7px;
                       overflow: hidden;
                       display: flex;
                   }
-                  .chat .avatar {
+                  .messages .avatar {
                       width: 40px;
                       height: 40px;
                       position: relative;
@@ -64,7 +59,7 @@ export default class Messages extends React.Component {
                       -ms-border-radius: 100%;
                       background-color: rgba(255,255,255,0.9);
                   }
-                  .chat .avatar img {
+                  .messages .avatar img {
                       width: 40px;
                       height: 40px;
                       border-radius: 100%;
@@ -77,7 +72,7 @@ export default class Messages extends React.Component {
                       -moz-user-select: none;
                       -ms-user-select: none;
                   }
-                  .chat .day {
+                  .messages .day {
                       position: relative;
                       display: block;
                       text-align: center;
