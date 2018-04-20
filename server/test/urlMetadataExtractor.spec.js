@@ -85,7 +85,7 @@ describe('link and punctuation', function () {
     }).timeout(3000);
 
     it('comma after link', async function () {
-        const actual = await extractor.extractFromText(`${e1Expected.url}!`);
+        const actual = await extractor.extractFromText(`${e1Expected.url},`);
         assertMetadataEquality(actual, e1Expected);
     }).timeout(3000);
 });
