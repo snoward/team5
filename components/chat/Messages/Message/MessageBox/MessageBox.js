@@ -39,13 +39,13 @@ export default class Message extends React.Component {
                 className = {this.state.position} >
                 <div
                     className = "avatar" > <img
-                        onClick={() => this.setState({ isOpen: true })}
+                        onClick={() => this.setState({ isAvatarOpen: true })}
                         src = {this.state.avatar}
                         draggable = "false"/>
                     {this.state.isAvatarOpen && (
                         <Lightbox
                             mainSrc={this.state.avatar}
-                            onCloseRequest={() => this.setState({ isOpen: false })}
+                            onCloseRequest={() => this.setState({ isAvatarOpen: false })}
                             imageCaption = {this.state.author}
                         />
                     )}</div>
