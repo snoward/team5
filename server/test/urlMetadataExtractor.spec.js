@@ -52,7 +52,7 @@ describe('extract from the text', function () {
         const multipleLinks = `yandex: ${yandexExpected.url} github: https://github.com`;
         const actual = await extractor.extractFromText(multipleLinks);
         assertMetadataEquality(actual, yandexExpected);
-    });
+    }).timeout(3000);
 
     it('https://www.e1.ru', async function () {
         const actual = await extractor.extractFromText(e1Expected.url);
@@ -63,10 +63,34 @@ describe('extract from the text', function () {
         const actual = await extractor.extractFromText(googleExpected.url);
         assertMetadataEquality(actual, googleExpected);
     }).timeout(3000);
+
+    it('null if metadata is not found', async function () {
+        const actual = await extractor.extractFromText('https://github.com/ed076287');
+        assert.equal(actual, null);
+    }).timeout(3000);
+
+
+    it('link with brackets', async function () {
+        const actual = await extractor.extractFromText(
+            'https://en.wikipedia.org/wiki/Affect_(psychology)');
+        assert.notEqual(actual, null);
+    }).timeout(3000);
+
+});
+
+describe('link and punctuation', function () {
+    it('link in brackets', async function () {
+        const actual = await extractor.extractFromText(`[нажми меня!](${googleExpected.url}).`);
+        assertMetadataEquality(actual, googleExpected);
+    }).timeout(3000);
+
+    it('comma after link', async function () {
+        const actual = await extractor.extractFromText(`${e1Expected.url}!`);
+        assertMetadataEquality(actual, e1Expected);
+    }).timeout(3000);
 });
 
 function assertMetadataEquality(actual, expected) {
     assert.equal(actual.description, expected.description);
     assert.equal(actual.title, expected.title);
-    assert.equal(actual.url, expected.url);
 }
