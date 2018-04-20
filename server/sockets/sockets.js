@@ -14,9 +14,15 @@ module.exports.configureIo = (io) => {
             socket.emit(`message_${data.conversationId}`, message);
         });
 
-        socket.on('conversation', (data) => {
+        socket.on('conversationNewUser', (data) => {
             const conversation = data.conversation;
-            socket.broadcast.emit(`conversation_${data.addedUser}`, conversation);
+            socket.broadcast.emit(`conversationNewUser_${data.addedUser}`, conversation);
+        });
+
+        socket.on('newConversation', (conversation) => {
+            for (const user of conversation.users) {
+                socket.broadcast.emit(`conversationNewUser_${user}`, conversation);
+            }
         });
     });
 };

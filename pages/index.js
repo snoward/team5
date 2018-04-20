@@ -7,14 +7,16 @@ import axios from 'axios';
 
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
-        const res = await axios.get('http://localhost:3000/api/conversations', req);
-        const contactsList = await axios.get('http://localhost:3000/api/contacts', req);
+        const [conversations, contactsList] = await Promise.all([
+            axios.get('http://localhost:3000/api/conversations', req),
+            axios.get('http://localhost:3000/api/contacts', req)
+        ]);
 
         return {
             messagesInfo: {
                 'currentUser': req.user.username
             },
-            conversations: res.data,
+            conversations: conversations.data,
             contacts: contactsList.data,
             menu: {
                 'name': req.user.username,

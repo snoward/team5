@@ -3,13 +3,7 @@ const uuid = require('uuid/v4');
 const db = require('../libs/dbHelper');
 
 module.exports.conversations = async (req, res) => {
-    const conversationsIds = await db.getAll(`conversations_${req.user.username}`);
-
-    const conversations = [];
-    for (const id of conversationsIds) {
-        const conversation = await db.get(`conversations_${id}`);
-        conversations.push(conversation);
-    }
+    const conversations = await getAllConversations(req.user.username);
     res.json(conversations);
 };
 
@@ -22,12 +16,23 @@ module.exports.create = async (req, res) => {
     const conversation = {
         id: uuid(),
         title: req.params.title,
-        users: [req.user.username]
+        users: req.body.users,
+        isPrivate: req.body.isPrivate
     };
 
+    if (! await areUsersExist(conversation.users)) {
+        return res.status(400).send('Incorrect users');
+    }
+
+    if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
+        return res.status(400).send('Such private conversation already exist');
+    }
+
     try {
-        await db.post(`conversations_${conversation.id}`, JSON.stringify(conversation));
-        await db.post(`conversations_${req.user.username}`, conversation.id);
+        await Promise.all([
+            db.post(`conversations_${conversation.id}`, JSON.stringify(conversation)),
+            addConversationToUsers(conversation)
+        ]);
     } catch (ex) {
         console.error(`Can't create conversation. Exception: ${ex}`);
 
@@ -54,8 +59,10 @@ module.exports.addUser = async (req, res) => {
 
     conversation.users.push(username);
     try {
-        await db.put(`conversations_${conversationId}`, JSON.stringify(conversation));
-        await db.post(`conversations_${username}`, conversation.id);
+        await Promise.all([
+            db.put(`conversations_${conversationId}`, JSON.stringify(conversation)),
+            db.post(`conversations_${username}`, conversation.id)
+        ]);
     } catch (ex) {
         console.error(`Can't update conversation. Exception: ${ex}`);
 
@@ -64,3 +71,46 @@ module.exports.addUser = async (req, res) => {
 
     res.status(201).send(conversation);
 };
+
+async function getAllConversations(username) {
+    const conversationsIds = await db.getAll(`conversations_${username}`);
+
+    const queries = [];
+    conversationsIds.forEach(id => queries.push(db.get(`conversations_${id}`)));
+
+    const conversations = Promise.all(queries);
+
+    return conversations;
+}
+
+async function isSuchPrivateAlreadyExist(conversation) {
+    const conversations = await getAllConversations(conversation.users[0]);
+
+    return conversations.some(elem =>
+        (elem.isPrivate &&
+            elem.users.find(user => user === conversation.users[0]) &&
+            elem.users.find(user => user === conversation.users[1]))
+    );
+}
+
+async function areUsersExist(users) {
+    const queries = [];
+    users.forEach(user => queries.push(db.get(`users_${user}`)));
+
+    try {
+        await Promise.all(queries);
+    } catch (ex) {
+        return false;
+    }
+
+    return true;
+}
+
+async function addConversationToUsers(conversation) {
+    const queries = [];
+    conversation.users.forEach(user =>
+        queries.push(db.post(`conversations_${user}`, conversation.id))
+    );
+
+    await Promise.all(queries);
+}

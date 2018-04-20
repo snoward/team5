@@ -10,9 +10,10 @@ export default class Conversations extends React.Component {
     constructor(props) {
         super(props);
 
+        const transformedConversations = this.changeConversationTitles(props.conversations)
         this.state = {
-            conversations: props.conversations,
-            shownConversations: props.conversations,
+            conversations: transformedConversations,
+            shownConversations: transformedConversations,
             isModalOpen: false
         };
 
@@ -24,12 +25,13 @@ export default class Conversations extends React.Component {
 
     componentDidMount() {
         this.socket = io();
-        this.socket.on(`conversation_${this.props.currentUser}`, this.handleNewConversation);
+        this.socket.on(`conversationNewUser_${this.props.currentUser}`, this.handleNewConversation);
     }
 
     handleNewConversation(newConversation) {
         const newConversations = this.state.conversations.slice();
-        newConversations.push(newConversation);
+
+        newConversations.push(this.changeConversationTitle(newConversation));
 
         this.setState({
             conversations: newConversations,
@@ -55,33 +57,40 @@ export default class Conversations extends React.Component {
         });
     }
 
-    render() {
-        const dataSource = this.state.shownConversations.map(conversation => {
-            return {
-                avatar: `/api/avatar/${conversation.title}`,
-                title: conversation.title,
-                id: conversation.id
-            };
-        });
+    changeConversationTitles(conversations) {
+        return conversations.map(conversation => this.changeConversationTitle(conversation));
+    }
 
+    changeConversationTitle(conversation) {
+        const title = !conversation.isPrivate
+            ? conversation.title
+            : conversation.users.filter(user => user !== this.props.currentUser)[0];
+
+        return {
+            avatar: `/api/avatar/${title}`,
+            title: title,
+            id: conversation.id
+        };
+    }
+
+    render() {
         return (
             <div className='conversations-container'>
                 <CreateConversationModal
                     isOpen={this.state.isModalOpen}
                     handleCloseModal={this.handleCloseModal}
-                    handleNewConversation={this.handleNewConversation}
+                    currentUser={this.props.currentUser}
                 />
 
                 <Search
                     conversations={this.state.conversations}
-                    handleNewConversation={this.handleNewConversation}
                     handleFilteredConversations={this.setShowedConversations}
                 />
 
                 <button onClick={this.handleOpenModal}>+</button>
 
                 <ChatList
-                    dataSource={dataSource}
+                    dataSource={this.state.shownConversations}
                     onClick={this.props.onConversationClick}
                 />
 

@@ -11,7 +11,6 @@ export default class CreateConversationModal extends React.Component {
 
     static getDerivedStateFromProps(nextProps) {
         return {
-            handleNewConversation: nextProps.handleNewConversation,
             isOpen: nextProps.isOpen,
             handleCloseModal: nextProps.handleCloseModal
         };
@@ -43,7 +42,7 @@ export default class CreateConversationModal extends React.Component {
             >
                 <CreateConversationForm
                     handleCloseModal={this.state.handleCloseModal}
-                    handleNewConversation={this.state.handleNewConversation}
+                    currentUser={this.props.currentUser}
                 />
             </ReactModal>);
     }

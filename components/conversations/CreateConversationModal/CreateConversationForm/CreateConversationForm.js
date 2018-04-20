@@ -1,11 +1,11 @@
 import React from 'react';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 export default class CreateConversationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            handleNewConversation: props.handleNewConversation,
             handleCloseModal: props.handleCloseModal,
             inputValue: '',
             disabled: false,
@@ -14,6 +14,10 @@ export default class CreateConversationForm extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.socket = io();
     }
 
     handleChange(event) {
@@ -31,9 +35,13 @@ export default class CreateConversationForm extends React.Component {
         });
 
         const res = await axios.post(`api/conversations/${conversationName}`,
-            { withCredentials: true, responseType: 'json' });
+            { users: [this.props.currentUser], isPrivate: false },
+            {
+                withCredentials: true,
+                responseType: 'json'
+            });
 
-        this.state.handleNewConversation(res.data);
+        this.socket.emit('newConversation', res.data);
 
         this.state.handleCloseModal();
     }

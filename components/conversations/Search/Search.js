@@ -7,7 +7,6 @@ export default class Search extends React.Component {
             placeholder: 'Search',
             inputValue: '',
             disabled: false,
-            handleNewConversation: props.handleNewConversation,
             handleFilteredConversations: props.handleFilteredConversations,
             conversations: this.props.conversations
         };
