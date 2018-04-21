@@ -121,6 +121,7 @@ export default class Message extends React.Component {
                     margin-right: 17px;
                     word-wrap: break-word;
                     padding: 10px;
+                    overflow: hidden;
                     border-radius: 32px;
                     box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
                 }
@@ -173,6 +174,14 @@ export default class Message extends React.Component {
                     margin-right: 4px;
                 }
                                 `}
+                </style>
+                <style>
+                    {`
+                   .msg img
+                   {
+                    width: 13em;
+                   }
+                    `}
                 </style>
             </li>
             {this.props.renderAddCmp()}
