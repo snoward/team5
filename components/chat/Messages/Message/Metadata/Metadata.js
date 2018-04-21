@@ -23,7 +23,7 @@ export default class Metadata extends React.Component {
                         {
                             text-align: center;
                             display: flex;
-                            width: 15%;
+                            width: 40%;
                             flex-direction: column;
                             justify-content: space-around;
                             font-family: 'Lato', sans-serif;
