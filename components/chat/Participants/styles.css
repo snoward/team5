@@ -1,0 +1,12 @@
+.participants-container
+{
+    clear: left;
+    left: -35px;
+    font: 12px;
+    border: 2px solid;
+    width: 160px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

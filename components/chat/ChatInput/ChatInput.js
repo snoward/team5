@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 
+import './styles.css';
+
 export default class ChatInput extends React.Component {
     constructor(props) {
         super(props);
@@ -35,34 +37,9 @@ export default class ChatInput extends React.Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.value} onChange={this.handleChange} />
+                    <input className='chatInput'
+                        type="text" value={this.state.value} onChange={this.handleChange} />
                     <input className={'hidden'} type="submit" value="Submit" />
-                    <style jsx>
-                        {`               
-                        input
-                        {
-                            position: fixed;
-                            bottom: 0px;
-                            left: 53.6%;
-                            width: 40.5%;
-                            height: 9%;
-                            z-index: 99;
-                            background: white;
-                            outline: none;
-                            padding-left: 5px;
-                            padding-right: 55px;
-                            color: #666;
-                            font-weight: 400;
-                            resize: none;
-                            overflow-y: scroll;
-                            border: solid 5px lightsalmon;
-                        }
-                        .hidden
-                        {
-                        display:none;
-                        }
-                    `}
-                    </style>
                 </form>
             </div>
         );

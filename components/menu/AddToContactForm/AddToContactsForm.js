@@ -2,6 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import io from 'socket.io-client';
 
+import './styles.css';
+
 export default class AddToContactsForm extends React.Component {
     constructor(props) {
         super(props);
@@ -98,31 +100,6 @@ export default class AddToContactsForm extends React.Component {
                         value={this.state.inputValue}
                         onChange={this.handleChange}
                         disabled={this.state.disabled}/>
-                    <style jsx>
-                        {`
-                            .add-contact-form
-                            {
-                                display: inline-block;
-                                position: absolute;
-                                left: 330px;
-                                top: 6px;
-                                border: none;
-                            }
-
-                            .add-contact-input
-                            {
-                                border: none;                                
-                                padding-left: 10px;
-                                border: 1px solid #c7c7bf;
-                                border-radius: 4px;                              
-                            }
-
-                            .add-contact-form, .add-contact-input
-                            {
-                                height: 30px;
-                            }
-                        `}
-                    </style>
                 </form>
             </div>
         );

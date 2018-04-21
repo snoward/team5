@@ -1,6 +1,8 @@
 import React from 'react';
 import { Dropdown } from 'react-chat-elements';
 
+import './styles.css';
+
 export default class Contacts extends React.Component {
     constructor(props) {
         super(props);
@@ -22,15 +24,6 @@ export default class Contacts extends React.Component {
                         return elem.username;
                     })}
                 />
-                <style jsx>{`
-                    .dropdown__menu
-                    {
-                        position: relative;
-                        top: 7px;
-                        left: 252px;
-                        width: min-content;
-                    }
-                `}</style>
             </div>
         );
     }
