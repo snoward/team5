@@ -51,7 +51,16 @@ export default class Message extends React.Component {
                     )}</div>
                 <div className="msg">
                     <a onClick={this.props.onTitleClick}>{this.state.author}</a>
-                    <ReactMarkdown source={this.state.text} />
+                    <ReactMarkdown renderers={{
+                        linkReference: (reference) => {
+                            if (!reference.href) {
+                                return `[ ${reference.children[0]} ]`;
+                            }
+
+                            return <a href={reference.$ref}>{reference.children}</a>;
+                        }
+                    }}
+                    source={this.state.text} />
                     <time>{this.state.curTime}</time>
                 </div>
                 <style jsx>
@@ -106,9 +115,9 @@ export default class Message extends React.Component {
 
                 .msg {
                     background: white;
-                    min-width: 50px;
-                    max-width: 194px;
-                    width: 184px;
+                    min-width: 130px;
+                    max-width: 260px;
+                    width: max-content;
                     margin-right: 17px;
                     word-wrap: break-word;
                     padding: 10px;
