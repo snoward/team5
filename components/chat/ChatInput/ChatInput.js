@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { Input } from 'react-chat-elements';
 
 import './styles.css';
 
@@ -12,14 +13,7 @@ export default class ChatInput extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
-    onEnterPress = (e) => {
-        if (e.keyCode === 13 && e.shiftKey === false) {
-            e.preventDefault();
-            this.handleSubmit(e).then(this.setState({ value: '' })); // eslint-disable-line no-invalid-this, max-len
-        }
+        this.setState({ value: event.target.value.split('\n').join('\n\n') });
     }
 
     async handleSubmit(event) {
@@ -43,10 +37,27 @@ export default class ChatInput extends React.Component {
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <textarea className='chatInput' type="text" value={this.state.value}
-                        onKeyDown={this.onEnterPress} onChange={this.handleChange} />
-                </form>
+                <Input
+                    className='chatInput'
+                    placeholder="Введите новое сообщение"
+                    ref='input'
+                    defaultValue={this.state.value}
+                    multiline={true}
+                    onKeyPress={async (e) => {
+                        if (e.shiftKey && e.charCode === 13) {
+
+                            return true;
+                        }
+                        if (e.charCode === 13) {
+                            await this.handleChange(e);
+                            await this.handleSubmit(e);
+                            this.refs.input.clear();
+                            e.persist();
+
+                            return false;
+                        }
+                    }}
+                />
             </div>
         );
     }
