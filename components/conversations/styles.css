@@ -1,11 +1,44 @@
-.coversation-form, .conversation-input {
-    border: none;
-    border: 1px solid #c7c7bf;
-    border-radius: 4px;
-    width: 95%;
-    height: 30px;
-    padding-left: 5px;
+.create_chat
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
+
+.add-conversation-button__icon
+{
+    height: 30px;
+    width: 30px;
+    color: #ff7f51;
+    margin-left: -9px;
+    margin-top: -3px;
+}
+
+.add-conversation-button
+{
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 45px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.conversations-container
+{
+    position: fixed;
+    overflow-y: auto;
+    margin-top: 60px;
+    margin-left: 20px;
+    margin-bottom: 100px;
+    float: left;
+    width: 40%;
+    height: 80%;
+}
+
 .rce-container-mbox {
     flex-direction: column;
     display: block;
@@ -766,8 +799,8 @@
 .rce-navbar-item > * > * {
     margin-left: 5px;
 }.rce-dropdown-container {
-    position: relative;
-}
+     position: relative;
+ }
 .rce-dropdown {
     min-width: 100%;
     box-sizing: border-box;
@@ -931,19 +964,19 @@
 .rce-sbar-item__center {
     margin: 15px 0;
 }.rce-popup-wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.7);
-    z-index: 9999999999;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
+     position: fixed;
+     left: 0;
+     right: 0;
+     top: 0;
+     bottom: 0;
+     margin: auto;
+     background: rgba(255, 255, 255, 0.7);
+     z-index: 9999999999;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: center;
+ }
 
 .rce-popup {
     background: #fff;
@@ -1005,46 +1038,4 @@
 
 .rce-popup-footer>* {
     margin-left: 5px;
-}
-.conversations-container
-{
-    position: fixed;
-    overflow-y: auto;
-    margin-top: 70px;
-    margin-left: 20px;
-    margin-bottom: 100px;
-    float: left;
-    width: 40%;
-    height: 80%;
-}
-.contact
-{
-    margin-top: 10px;
-    width: 90%;
-    height: 100px;
-    background-color: rgba(255,255,255,0.9);
-    box-shadow: inset 0px 0px 0px #e5e5e5, inset 0px 0px 0px #e5e5e5, inset 0px -2px 0px #d7d7d7;
-}
-
-.avatar-container img
-{
-    margin-left: 10px;
-    margin-top: -5px;
-    width: 100px;
-    height: 100px;
-    border-radius: 60%;
-}
-
-.contact-name
-{
-    text-align: center;
-    margin-top: -50px;
-    margin-left: 20px;
-    font-family: Arial, serif;
-    font-size: 20px;
-}
-
-a
-{
-    color: rgba(82,179,217,0.9);
 }

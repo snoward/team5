@@ -16,16 +16,17 @@ export default class Profile extends React.Component {
     render() {
         return (
             <div>
-                <div className="card">
-                    <div className="avatar">
+                <div className='profile'>
+                    <div className='profile__avatar'>
                         <img src={this.state.avatarUrl} alt='Avatar' />
                     </div>
-                    <div className="container">
-                        <a className="user__link" href={this.state.githubUrl}>
+                    <div className='profile__link-container'>
+                        <a className='profile__link' href={this.state.githubUrl}>
                             {this.state.username}</a>
                     </div>
                 </div>
-                <button className="close" onClick={this.state.handleCloseModal}>close</button>
+                <button className='profile__close-button'
+                    onClick={this.state.handleCloseModal}>close</button>
             </div>
         );
     }

@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 
+import './styles.css';
+
 export default class CreateConversationForm extends React.Component {
     constructor(props) {
         super(props);
@@ -48,16 +50,20 @@ export default class CreateConversationForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <header>Create conversation</header>
-                <input
-                    type='text'
-                    placeholder={this.state.placeholder}
-                    value={this.state.inputValue}
-                    onChange={this.handleChange}
-                    disabled={this.state.disabled}
-                />
-            </form>
+            <div className='create-conversation'>
+                <form onSubmit={this.handleSubmit}>
+                    <header className='create-conversation__header'>Create conversation:</header>
+                    <input
+                        type='text'
+                        className='create-conversation__input'
+                        placeholder={this.state.placeholder}
+                        value={this.state.inputValue}
+                        onChange={this.handleChange}
+                        disabled={this.state.disabled}
+                        autoFocus
+                    />
+                </form>
+            </div>
         );
     }
 }

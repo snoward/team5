@@ -15,7 +15,7 @@ export default class TimeWatch extends Component {
 
     render() {
         return (
-            <div className='last' >{this.state.curTime}
+            <div className='time-watch' >{this.state.curTime}
             </div>
         );
     }

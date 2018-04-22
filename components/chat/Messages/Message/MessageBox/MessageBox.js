@@ -40,10 +40,10 @@ export default class Message extends React.Component {
             <li
                 className = {this.state.position} >
                 <div
-                    className = "avatar" > <img
+                    className = 'avatar' > <img
                         onClick={() => this.setState({ isAvatarOpen: true })}
                         src = {this.state.avatar}
-                        draggable = "false"/>
+                        draggable = 'false'/>
                     {this.state.isAvatarOpen && (
                         <Lightbox
                             mainSrc={this.state.avatar}
@@ -51,7 +51,7 @@ export default class Message extends React.Component {
                             imageCaption = {this.state.author}
                         />
                     )}</div>
-                <div className="msg">
+                <div className='msg'>
                     <a onClick={this.props.onTitleClick}>{this.state.author}</a>
                     <ReactMarkdown renderers={{
                         linkReference: (reference) => {

@@ -1,21 +1,20 @@
-.add-person-form
+.add-person__form
 {
     margin-top: 50px;
     width: 95%;
     border: none;
 }
 
-.add-person-input
+.add-person__input
 {
-    border: none;                                
     width: 100%;
     padding-left: 10px;
     border: 1px solid;
-    border-color: '#c7c7bf';
-    border-radius: 4px;                              
+    border-color: #c7c7bf;
+    border-radius: 4px;
 }
 
-.add-person-form, .add-person-input
+.add-person__form, .add-person__input
 {
     height: 30px;
 }
