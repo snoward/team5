@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 
+import './styles.css';
+
 export default class Participants extends React.Component {
     constructor(props) {
         super(props);
@@ -26,22 +28,6 @@ export default class Participants extends React.Component {
                         return <div key={idx} className="participant">{elem}</div>;
                     })}
                 </ol>
-                <style jsx>
-                    {`
-                        .participants-container
-                        {
-                            clear: left;
-                            left: -35px;
-                            font: 12px;
-                            border: 2px solid;
-                            width: 160px;
-                            margin: 0;
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                        }
-                    `}
-                </style>
             </div >
         );
     }

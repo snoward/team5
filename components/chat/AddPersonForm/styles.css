@@ -1,0 +1,21 @@
+.add-person-form
+{
+    margin-top: 50px;
+    width: 95%;
+    border: none;
+}
+
+.add-person-input
+{
+    border: none;                                
+    width: 100%;
+    padding-left: 10px;
+    border: 1px solid;
+    border-color: '#c7c7bf';
+    border-radius: 4px;                              
+}
+
+.add-person-form, .add-person-input
+{
+    height: 30px;
+}

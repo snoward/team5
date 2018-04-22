@@ -1,0 +1,21 @@
+.add-contact-form
+{
+    display: inline-block;
+    position: absolute;
+    left: 330px;
+    top: 6px;
+    border: none;
+}
+
+.add-contact-input
+{
+    border: none;                                
+    padding-left: 10px;
+    border: 1px solid #c7c7bf;
+    border-radius: 4px;                              
+}
+
+.add-contact-form, .add-contact-input
+{
+    height: 30px;
+}

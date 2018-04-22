@@ -1,0 +1,112 @@
+a
+{
+    cursor: pointer;
+}
+.other .msg {
+    order: 1;
+    border-top-left-radius: 0px;
+    box-shadow: -1px 2px 0px #D4D4D4;
+}
+.other:before {
+    content: "";
+    position: relative;
+    top: 0px;
+    right: 0px;
+    left: 40px;
+    width: 0px;
+    height: 0px;
+    border: 5px solid #fff;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.self .msg {
+    order: 1;
+    border-bottom-right-radius: 0px;
+    box-shadow: 1px 2px 0px #D4D4D4;
+}
+.self .avatar {
+    order: 2;
+}
+.self .avatar:after {
+    content: "";
+    position: relative;
+    display: inline-block;
+    bottom: 19px;
+    right: 0px;
+    width: 0px;
+    height: 0px;
+    border: 5px solid #fff;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 0px 2px 0px #D4D4D4;
+}
+
+.msg {
+    background: white;
+    min-width: 130px;
+    max-width: 260px;
+    width: max-content;
+    margin-right: 17px;
+    word-wrap: break-word;
+    padding: 10px;
+    overflow: hidden;
+    border-radius: 32px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
+}
+.msg time {
+    font-size: 0.8rem;
+    margin: 0 0 0.2rem 0;
+    color: #777;
+}
+.msg img {
+    position: relative;
+    display: block;
+    width: 450px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px #eee;
+    transition: all .4s cubic-bezier(0.565, -0.260, 0.255, 1.410);
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+@media screen and (max-width: 800px) {
+    .msg img {
+        width: 300px;
+    }
+}
+@media screen and (max-width: 550px) {
+    .msg img {
+        width: 200px;
+    }
+}
+
+.msg time {
+    font-size: 0.7rem;
+    color: #ccc;
+    display: flex;
+    margin-top: 3px;
+    float: right;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.msg time:before{
+    content:"\f017";
+    color: #ddd;
+    font-family: FontAwesome, serif;
+    display: inline-block;
+    margin-right: 4px;
+}
+.msg img
+{
+ width: 13em;
+}

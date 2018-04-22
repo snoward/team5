@@ -2,13 +2,14 @@ import axios from 'axios';
 import React from 'react';
 import io from 'socket.io-client';
 
+import './styles.css';
+
 export default class AddPersonForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             inputValue: '',
             placeholder: 'Add user to conversation',
-            errorState: false,
             disabled: false
         };
         this.handleChange = this.handleChange.bind(this);
@@ -17,7 +18,7 @@ export default class AddPersonForm extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ inputValue: event.target.value, errorState: false });
+        this.setState({ inputValue: event.target.value });
     }
 
     async handleSubmit(event) {
@@ -61,7 +62,6 @@ export default class AddPersonForm extends React.Component {
         this.setState({
             inputValue: '',
             placeholder: 'User not found',
-            errorState: true,
             disabled: false
         });
     }
@@ -75,31 +75,6 @@ export default class AddPersonForm extends React.Component {
                         value={this.state.inputValue}
                         onChange={this.handleChange}
                         disabled={this.state.disabled}/>
-                    <style jsx>
-                        {`
-                            .add-person-form
-                            {
-                                margin-top: 50px;
-                                width: 95%;
-                                border: none;
-                            }
-
-                            .add-person-input
-                            {
-                                border: none;                                
-                                width: 100%;
-                                padding-left: 10px;
-                                border: 1px solid;
-                                border-color: ${this.state.errorState ? '#f00' : '#c7c7bf'};
-                                border-radius: 4px;                              
-                            }
-
-                            .add-person-form, .add-person-input
-                            {
-                                height: 30px;
-                            }
-                        `}
-                    </style>
                 </form>
             </div>
         );
