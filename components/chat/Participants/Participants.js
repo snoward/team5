@@ -23,9 +23,9 @@ export default class Participants extends React.Component {
     render() {
         return (
             <div className='participants-container'>
-                <ol className='participants-list'>
+                <ol>
                     {this.state.participants.map((elem, idx) => {
-                        return <div key={idx} className="participant">{elem}</div>;
+                        return <div key={idx}>{elem}</div>;
                     })}
                 </ol>
             </div >

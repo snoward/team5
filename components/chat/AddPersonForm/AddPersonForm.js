@@ -68,9 +68,9 @@ export default class AddPersonForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form className='add-person-form' onSubmit={this.handleSubmit}>
-                    <input className='add-person-input' type='text'
+            <div className='add-person'>
+                <form className='add-person__form' onSubmit={this.handleSubmit}>
+                    <input className='add-person__input' type='text'
                         placeholder={this.state.placeholder}
                         value={this.state.inputValue}
                         onChange={this.handleChange}

@@ -2,6 +2,7 @@
 import React from 'react';
 import { ChatList } from 'react-chat-elements';
 import io from 'socket.io-client';
+import Icon from 'react-icons/lib/io/android-add-circle';
 
 import Search from './Search/Search.js';
 import CreateConversationModal from './CreateConversationModal/CreateConversationModal.js';
@@ -77,19 +78,21 @@ export default class Conversations extends React.Component {
     render() {
         return (
             <div className='conversations-container'>
-                <CreateConversationModal
-                    isOpen={this.state.isModalOpen}
-                    handleCloseModal={this.handleCloseModal}
-                    currentUser={this.props.currentUser}
-                />
+                <div className="create_chat">
+                    <CreateConversationModal
+                        isOpen={this.state.isModalOpen}
+                        handleCloseModal={this.handleCloseModal}
+                        currentUser={this.props.currentUser}
+                    />
+                    <Search
+                        conversations={this.state.conversations}
+                        handleFilteredConversations={this.setShowedConversations}
+                    />
 
-                <Search
-                    conversations={this.state.conversations}
-                    handleFilteredConversations={this.setShowedConversations}
-                />
-
-                <button onClick={this.handleOpenModal}>+</button>
-
+                    <button  className='add-conversation-button' onClick={this.handleOpenModal}>
+                        <Icon className='add-conversation-button__icon'/>
+                    </button>
+                </div>
                 <ChatList
                     dataSource={this.state.shownConversations}
                     onClick={this.props.onConversationClick}

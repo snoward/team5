@@ -1,10 +1,12 @@
 import React from 'react';
 
+import './styles.css';
+
 export default class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: 'Search',
+            placeholder: 'Search for dialogue',
             inputValue: '',
             disabled: false,
             handleFilteredConversations: props.handleFilteredConversations,
@@ -30,10 +32,10 @@ export default class Search extends React.Component {
 
     render() {
         return (
-            <form>
+            <form className='search'>
                 <input
                     type='text'
-                    className='conversation-input'
+                    className='search__input'
                     placeholder={this.state.placeholder}
                     value={this.state.inputValue}
                     onChange={this.handleChange}

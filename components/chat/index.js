@@ -94,7 +94,7 @@ export default class Chat extends React.Component {
                     conversationId={this.props.messagesInfo.conversationId}
                 />
 
-                <button className='show-button' onClick={this.showParticipants}>
+                <button className='show-participants-button' onClick={this.showParticipants}>
                     Participants
                 </button>
 

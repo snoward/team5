@@ -2,34 +2,39 @@
 {
     text-align: center;
     display: flex;
-    width: 40%;
+    width: 25%;
     flex-direction: column;
     justify-content: space-around;
     font-family: 'Lato', sans-serif;
     margin: 10px;
     padding: 10px;
-    border: 1px solid grey;
+    border-right: 2px rgb(255, 129, 124) double;
+    background: rgba(255, 229, 204, 0.15);
 }
 .metadata:hover
 {
     background: rgb(255, 229, 204);
 }
 
-.link
+.metadata__link
 {
-    color: rgb(57, 121, 170);
+    color: #3979aa;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.pic
+.metadata__pic
 {
     margin-top: 10px;
-    max-width:100%;
+    max-width: 100%;
     border-radius: 10%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.text
+.meatadata__text
 {
     font-size: 14px;
     text-decoration: underline !important;
-    color:rgb(0, 0, 0);
+    color: #000000;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

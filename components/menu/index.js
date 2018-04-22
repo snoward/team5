@@ -53,7 +53,7 @@ export default class Menu extends React.Component {
                     avatarUrl={this.state.avatarUrl}
                 />
 
-                <div className='back'>
+                <div className='menu__avatar'>
                     <img
                         src={this.state.avatarUrl}
                         onClick={this.handleOpenModal}
@@ -61,7 +61,7 @@ export default class Menu extends React.Component {
                     />
                 </div>
 
-                <div className='name'>{this.state.name}</div>
+                <div className='menu__name'>{this.state.name}</div>
 
                 <TimeWatch/>
 

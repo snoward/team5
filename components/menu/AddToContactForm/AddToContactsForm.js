@@ -93,9 +93,9 @@ export default class AddToContactsForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form className='add-contact-form' onSubmit={this.handleSubmit}>
-                    <input className='add-contact-input' type='text'
+            <div className='add-contact'>
+                <form className='add-contact__form' onSubmit={this.handleSubmit}>
+                    <input className='add-contact__input' type='text'
                         placeholder={this.state.placeholder}
                         value={this.state.inputValue}
                         onChange={this.handleChange}

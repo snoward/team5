@@ -1,7 +1,8 @@
 .chatInput
 {
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
+    white-space: pre-wrap;
     left: 53.6%;
     width: 40.5%;
     height: 9%;
@@ -15,8 +16,4 @@
     resize: none;
     overflow-y: scroll;
     border: solid 5px lightsalmon;
-}
-.hidden
-{
-display:none;
 }

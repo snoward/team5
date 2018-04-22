@@ -17,7 +17,7 @@ export default class Contacts extends React.Component {
 
     render() {
         return (
-            <div className='dropdown__menu'>
+            <div className='contacts'>
                 <Dropdown
                     buttonProps={{ text: 'Contacts' }}
                     items={this.state.contactList.map((elem) => {

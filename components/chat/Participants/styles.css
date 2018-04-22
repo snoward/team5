@@ -3,7 +3,7 @@
     clear: left;
     left: -35px;
     font: 12px;
-    border: 2px solid;
+    background: rgba(255, 165, 0, 0.3);
     width: 160px;
     margin: 0;
     white-space: nowrap;
