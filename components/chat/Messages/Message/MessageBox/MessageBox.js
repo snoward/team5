@@ -19,18 +19,19 @@ export default class Message extends React.Component {
             isAvatarOpen: false,
             onMessageTitleClick: props.onMessageTitleClick,
             saveElementForScroll: props.saveElementForScroll,
-            curTime: null
+            curTime: props.date && !isNaN(props.date) && (
+                moment(props.date).fromNow()
+            )
         };
     }
     componentDidMount() {
         setInterval(() => {
             this.setState({
                 curTime: this.state.date && !isNaN(this.state.date) && (
-                    this.state.dateString ||
                     moment(this.state.date).fromNow()
                 )
             });
-        }, 1000);
+        }, 60000);
     }
 
 

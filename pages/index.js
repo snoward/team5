@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
+import 'react-chat-elements/dist/main.css';
 import Conversations from '../components/conversations';
 import Chat from '../components/chat';
 import Menu from '../components/menu';
