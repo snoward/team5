@@ -4,7 +4,7 @@
     bottom: 0;
     white-space: pre-wrap;
     left: 53.6%;
-    width: 40.5%;
+    min-width: 45.5%;
     height: 9%;
     z-index: 99;
     background: white;
