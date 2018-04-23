@@ -52,7 +52,7 @@ export default class CreateConversationForm extends React.Component {
         return (
             <div className='create-conversation'>
                 <form onSubmit={this.handleSubmit}>
-                    <header className='create-conversation__header'>Create conversation:</header>
+                    <header className='create-conversation__header'>Create conversation</header>
                     <input
                         type='text'
                         className='create-conversation__input'
