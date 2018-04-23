@@ -2,6 +2,7 @@ const { contacts, add } = require('../controllers/contacts');
 const { messages, save } = require('../controllers/messages');
 const { conversations, create, addUser, getInfo } = require('../controllers/conversations');
 const { user } = require('../controllers/users');
+const { getRecentEmoji, updateRecentEmoji } = require('../controllers/emoji');
 const avatar = require('../controllers/avatar');
 const hasNotSignedIn = require('../middlewares/has-not-signed-in');
 
@@ -26,4 +27,7 @@ module.exports = (server) => {
 
     server.route('/api/users/:username').get(user);
 
+    server.route('/api/emoji/:username')
+        .get(getRecentEmoji)
+        .patch(updateRecentEmoji);
 };
