@@ -1,11 +1,11 @@
-.chatInput
+.chatInput__textarea
 {
     position: fixed;
     bottom: 0;
     white-space: pre-wrap;
-    left: 53.6%;
-    min-width: 45.5%;
-    height: 9%;
+    right: 2%;
+    width: 40%;
+    height: 82px;
     z-index: 99;
     background: white;
     outline: none;
@@ -16,4 +16,15 @@
     resize: none;
     overflow-y: scroll;
     border: solid 5px lightsalmon;
+    overflow: hidden;
+    font-size: 20px;
+}
+
+.chatInput__show-picker-button {
+    position: fixed;
+    font-size: 45px;
+    cursor: pointer;
+    bottom: 48px;
+    right: 2.3%;
+    z-index: 100;
 }

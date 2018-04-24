@@ -7,6 +7,7 @@ import Participants from './Participants/Participants.js';
 import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
 import io from 'socket.io-client';
+import axios from 'axios';
 
 import './styles.css';
 
@@ -21,6 +22,11 @@ export default class Chat extends React.Component {
             currentUser: props.messagesInfo.currentUser,
             participantsVisible: false
         };
+
+        this.requestRecentEmoji()
+            .then(recentEmoji => {
+                this.setState({ recentEmoji })
+            })
 
         this.socket = io();
 
@@ -52,6 +58,7 @@ export default class Chat extends React.Component {
     componentDidMount() {
         this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage);
         this.scrollToBottom();
+
     }
 
     componentWillUnmount() {
@@ -70,6 +77,12 @@ export default class Chat extends React.Component {
         if (this.el) {
             this.el.scrollIntoView({ behavior: 'instant' });
         }
+    }
+
+    async requestRecentEmoji() {
+        let res = await axios.get(`/api/emoji`,
+            { withCredentials: true });
+        return res.data;
     }
 
     handleMessage(message) {
@@ -99,7 +112,9 @@ export default class Chat extends React.Component {
                 </button>
 
                 {this.state.participantsVisible
-                    ? <Participants conversationId={this.props.messagesInfo.conversationId}/>
+                    ? <Participants
+                        conversationId={this.props.messagesInfo.conversationId}
+                    />
                     : null
                 }
 
@@ -113,6 +128,7 @@ export default class Chat extends React.Component {
                 <ChatInput
                     conversationId={this.props.messagesInfo.conversationId}
                     socket={this.socket} currentUser={this.state.currentUser}
+                    recentEmoji={this.state.recentEmoji}
                 />
             </div>
         );
