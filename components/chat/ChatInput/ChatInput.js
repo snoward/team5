@@ -101,7 +101,7 @@ export default class ChatInput extends React.Component {
     }
 
     requestUpdateRecentEmoji(recentEmoji) {
-        axios.patch(`api/emoji/${this.props.currentUser}`,
+        axios.patch('/api/emoji',
             { recentEmoji }, { withCredentials: true });
     }
 

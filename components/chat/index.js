@@ -80,7 +80,7 @@ export default class Chat extends React.Component {
     }
 
     async requestRecentEmoji() {
-        let res = await axios.get(`/api/emoji/${this.state.currentUser}`,
+        let res = await axios.get(`/api/emoji`,
             { withCredentials: true });
         return res.data;
     }

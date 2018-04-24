@@ -27,7 +27,7 @@ module.exports = (server) => {
 
     server.route('/api/users/:username').get(user);
 
-    server.route('/api/emoji/:username')
+    server.route('/api/emoji')
         .get(getRecentEmoji)
         .patch(updateRecentEmoji);
 };
