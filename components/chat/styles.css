@@ -4,18 +4,30 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
 
 .chat-container
 {
-    margin-bottom: 100px;
-    float:right;
-    width: 50%;
+    grid-area: chat;
+
+    display: grid;
+    grid-template-areas: 'chat-controls'
+                        'messages'
+                        'chat-input';
+    grid-template-rows: 6% 86% 10%;
+
+    margin: 0 13px;
 }
 
-.show-participants-button
+.chat-container__controls {
+    display: flex;
+    align-items: center;
+}
+
+.chat-container__show-participants-button
 {
-    margin-top: 10px;
+    margin-left: 20px;
+    margin-top: 2px;
     height: 30px;
     border: none;
     border-radius: 8px;
     background-color: #ff7f50;
-    float: left;
     outline: none;
+    cursor: pointer;
 }

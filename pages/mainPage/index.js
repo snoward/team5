@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
 import 'react-chat-elements/dist/main.css';
-import Conversations from '../components/conversations';
-import Chat from '../components/chat';
-import Menu from '../components/menu';
+import Conversations from '../../components/conversations';
+import Chat from '../../components/chat';
+import Menu from '../../components/menu';
 import axios from 'axios';
+
+import './styles.css';
 
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
@@ -65,7 +67,7 @@ export default class IndexPage extends Component {
         const contactsList = this.state.contacts;
 
         return (
-            <Fragment>
+            <div className='content-wrapper'>
                 <Conversations conversations={conversations}
                     onConversationClick={this._onConversationClick.bind(this)}
                     currentUser={currentUser}
@@ -76,7 +78,7 @@ export default class IndexPage extends Component {
                 }
                 <Menu contacts={contactsList}
                     menu={menu} />
-            </Fragment>
+            </div>
         );
     }
 }

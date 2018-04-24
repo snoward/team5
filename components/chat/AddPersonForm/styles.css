@@ -1,11 +1,10 @@
-.add-person__form
+.add-to-chat-form
 {
-    margin-top: 50px;
-    width: 95%;
     border: none;
+    width: 100%;
 }
 
-.add-person__input
+.add-to-chat-form__input
 {
     width: 100%;
     padding-left: 10px;
@@ -14,7 +13,7 @@
     border-radius: 4px;
 }
 
-.add-person__form, .add-person__input
+.add-to-chat-form, .add-to-chat-form__input
 {
     height: 30px;
 }

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { ChatList } from 'react-chat-elements';
 import io from 'socket.io-client';
@@ -12,10 +11,10 @@ export default class Conversations extends React.Component {
     constructor(props) {
         super(props);
 
-        const transformedConversations = this.changeConversationTitles(props.conversations)
+        const renamedConversations = this.changeConversationTitles(props.conversations);
         this.state = {
-            conversations: transformedConversations,
-            shownConversations: transformedConversations,
+            conversations: renamedConversations,
+            shownConversations: renamedConversations,
             isModalOpen: false
         };
 
@@ -77,27 +76,31 @@ export default class Conversations extends React.Component {
 
     render() {
         return (
-            <div className='conversations-container'>
-                <div className="create_chat">
+            <section className='conversations'>
+                <div className="conversations__controls">
                     <CreateConversationModal
                         isOpen={this.state.isModalOpen}
                         handleCloseModal={this.handleCloseModal}
                         currentUser={this.props.currentUser}
                     />
+
                     <Search
                         conversations={this.state.conversations}
                         handleFilteredConversations={this.setShowedConversations}
                     />
 
-                    <button  className='add-conversation-button' onClick={this.handleOpenModal}>
-                        <Icon className='add-conversation-button__icon'/>
+                    <button className='conversations__add-button' onClick={this.handleOpenModal}>
+                        <Icon className='conversations__add-button-icon'/>
                     </button>
                 </div>
-                <ChatList
-                    dataSource={this.state.shownConversations}
-                    onClick={this.props.onConversationClick}
-                />
-            </div>
+
+                <div className='conversations__list'>
+                    <ChatList
+                        dataSource={this.state.shownConversations}
+                        onClick={this.props.onConversationClick}
+                    />
+                </div>
+            </section>
         );
     }
 }

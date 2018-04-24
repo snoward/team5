@@ -10,15 +10,34 @@ export default class Messages extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+
+        this.saveElementForScroll = this.saveElementForScroll.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps) {
         return {
             messages: nextProps.messages,
             currentUser: nextProps.currentUser,
-            onMessageTitleClick: nextProps.onMessageTitleClick,
-            saveElementForScroll: nextProps.saveElementForScroll
+            onMessageTitleClick: nextProps.onMessageTitleClick
         };
+    }
+
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    saveElementForScroll(el) {
+        this.el = el;
+    }
+
+    scrollToBottom() {
+        if (this.el) {
+            this.el.scrollIntoView({ behavior: 'instant' });
+        }
     }
 
     render() {
@@ -34,7 +53,7 @@ export default class Messages extends React.Component {
                             date={message.date}
                             metadata={message.metadata}
                             onMessageTitleClick={this.state.onMessageTitleClick}
-                            saveElementForScroll={this.state.saveElementForScroll}
+                            saveElementForScroll={this.saveElementForScroll}
                         />
                     );
                 }
