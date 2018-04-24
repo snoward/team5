@@ -57,6 +57,10 @@ module.exports.addUser = async (req, res) => {
         return res.status(400).send(`User ${username} already in conversation`);
     }
 
+    if (conversation.isPrivate) {
+        return res.status(400).send('Cannot add user in private conversation');
+    }
+
     conversation.users.push(username);
     try {
         await Promise.all([
@@ -64,8 +68,6 @@ module.exports.addUser = async (req, res) => {
             db.post(`conversations_${username}`, conversation.id)
         ]);
     } catch (ex) {
-        console.error(`Can't update conversation. Exception: ${ex}`);
-
         return res.sendStatus(500);
     }
 
