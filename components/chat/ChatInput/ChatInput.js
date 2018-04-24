@@ -54,7 +54,7 @@ export default class ChatInput extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        const messageText = this.state.messageText.replace('\n', '\n\n');
+        const messageText = this.state.messageText.replace(/\n/g, '\n\n');
 
         this.props.socket.emit('message', {
             conversationId: this.props.conversationId,
