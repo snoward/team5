@@ -17,10 +17,8 @@ module.exports.save = async (req, res) => {
     try {
         await db.post(`messages_${req.params.conversationId}`, JSON.stringify(message));
     } catch (ex) {
-        console.error(`Can't send message. Exception: ${ex}`);
-
-        return res.sendStatus(500);
+        return res.status(500).json({ error: 'Server error' });
     }
 
-    res.status(201).send(message);
+    res.status(201).json(message);
 };

@@ -21,11 +21,11 @@ module.exports.create = async (req, res) => {
     };
 
     if (! await areUsersExist(conversation.users)) {
-        return res.status(400).send('Incorrect users');
+        return res.status(400).json({ error: 'Incorrect users' });
     }
 
     if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
-        return res.status(400).send('Such private conversation already exist');
+        return res.status(400).json({ error: 'Such private conversation already exist' });
     }
 
     try {
@@ -34,12 +34,10 @@ module.exports.create = async (req, res) => {
             addConversationToUsers(conversation)
         ]);
     } catch (ex) {
-        console.error(`Can't create conversation. Exception: ${ex}`);
-
-        return res.sendStatus(500);
+        return res.status(500).json({ error: 'Server error' });
     }
 
-    res.status(201).send(conversation);
+    res.status(201).json(conversation);
 };
 
 module.exports.addUser = async (req, res) => {
@@ -49,16 +47,16 @@ module.exports.addUser = async (req, res) => {
     try {
         await db.get(`users_${username}`);
     } catch (ex) {
-        return res.status(404).send(`User ${username} not found`);
+        return res.status(404).json({ error: `User ${username} not found` });
     }
 
     const conversation = await db.get(`conversations_${conversationId}`);
     if (conversation.users.includes(username)) {
-        return res.status(400).send(`User ${username} already in conversation`);
+        return res.status(400).json({ error: `User ${username} already in conversation` });
     }
 
     if (conversation.isPrivate) {
-        return res.status(400).send('Cannot add user in private conversation');
+        return res.status(400).json({ error: 'Cannot add user in private conversation' });
     }
 
     conversation.users.push(username);
@@ -68,10 +66,10 @@ module.exports.addUser = async (req, res) => {
             db.post(`conversations_${username}`, conversation.id)
         ]);
     } catch (ex) {
-        return res.sendStatus(500);
+        return res.status(500).json({ error: 'Server error' });
     }
 
-    res.status(201).send(conversation);
+    res.status(201).json(conversation);
 };
 
 async function getAllConversations(username) {

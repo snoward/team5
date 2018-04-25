@@ -13,16 +13,25 @@ module.exports.add = async (req, res) => {
     try {
         await db.get(`users_${contact.username}`);
     } catch (ex) {
-        return res.status(404).send(`User ${contact.username} not found`);
+        return res.status(404).json({ error: `User ${contact.username} not found` });
+    }
+
+    if (await isContactAlreadyExist(req.user.username, contact)) {
+        return res.status(400).json({ error: `Contact ${contact.username} already exist` });
     }
 
     try {
         await db.post(`contacts_${req.user.username}`, JSON.stringify(contact));
     } catch (ex) {
-        console.error(`Can't create contact ${contact}. Exception: ${ex}`);
-
-        return res.sendStatus(500);
+        return res.status(500).json({ error: 'Server error' });
     }
 
-    res.status(201).send(contact);
+    res.status(201).json(contact);
 };
+
+async function isContactAlreadyExist(username, contact) {
+    const contacts = await db.getAll(`contacts_${username}`);
+    contact = JSON.stringify(contact);
+
+    return contacts.some(el => el === contact);
+}

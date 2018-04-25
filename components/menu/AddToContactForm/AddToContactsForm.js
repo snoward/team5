@@ -40,13 +40,13 @@ export default class AddToContactsForm extends React.Component {
             this.getCreateConversationPromise(contactName)
         ]);
 
-        if (contactRes.status === 201) {
+        if (!contactRes.data.error) {
             this.handleGoodResponse(contactRes);
         } else {
-            this.handleBadResponse();
+            this.handleBadResponse(contactRes.data.error);
         }
 
-        if (conversationRes.status === 201) {
+        if (!conversationRes.data.error) {
             this.socket.emit('newConversation', conversationRes.data);
         }
     }
@@ -83,10 +83,10 @@ export default class AddToContactsForm extends React.Component {
         this.props.handleNewContact(contactRes.data);
     }
 
-    handleBadResponse() {
+    handleBadResponse(error) {
         this.setState({
             inputValue: '',
-            placeholder: 'User not found :(',
+            placeholder: error,
             disabled: false
         });
     }
