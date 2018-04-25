@@ -68,15 +68,13 @@ export default class AddPersonForm extends React.Component {
 
     render() {
         return (
-            <div className='add-person'>
-                <form className='add-person__form' onSubmit={this.handleSubmit}>
-                    <input className='add-person__input' type='text'
-                        placeholder={this.state.placeholder}
-                        value={this.state.inputValue}
-                        onChange={this.handleChange}
-                        disabled={this.state.disabled}/>
-                </form>
-            </div>
+            <form className='add-to-chat-form' onSubmit={this.handleSubmit}>
+                <input className='add-to-chat-form__input' type='text'
+                    placeholder={this.state.placeholder}
+                    value={this.state.inputValue}
+                    onChange={this.handleChange}
+                    disabled={this.state.disabled}/>
+            </form>
         );
     }
 }

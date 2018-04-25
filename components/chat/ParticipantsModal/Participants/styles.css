@@ -1,11 +1,8 @@
 .participants-container
 {
-    clear: left;
-    left: -35px;
     font: 12px;
-    background: rgba(255, 165, 0, 0.3);
+    background: #fff;
     width: 160px;
-    margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

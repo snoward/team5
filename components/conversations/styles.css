@@ -1,40 +1,32 @@
-.create_chat
+.conversations {
+    grid-area: conversations;
+}
+
+.conversations__controls
 {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
+    height: 6%;
 }
 
-.add-conversation-button__icon
+.conversations__add-button
+{
+    margin-left: 5px;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.conversations__add-button-icon
 {
     height: 30px;
     width: 30px;
     color: #ff7f51;
-    margin-left: -9px;
-    margin-top: -3px;
 }
 
-.add-conversation-button
-{
-    cursor: pointer;
-    margin-top: 10px;
-    margin-left: 45px;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    background: transparent;
-}
-
-.conversations-container
-{
-    position: fixed;
+.conversations__list {
+    height: 95%;
     overflow-y: auto;
-    margin-top: 60px;
-    margin-left: 20px;
-    margin-bottom: 100px;
-    float: left;
-    width: 40%;
-    height: 80%;
 }

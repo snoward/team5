@@ -1,7 +1,4 @@
 .contacts
 {
-    position: relative;
-    top: 7px;
-    left: 252px;
-    width: min-content;
+    margin-left: 20px;
 }

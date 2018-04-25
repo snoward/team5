@@ -1,9 +1,8 @@
-/* eslint-disable */
 import React from 'react';
 
 import ChatInput from './ChatInput/ChatInput.js';
 import AddPersonForm from './AddPersonForm/AddPersonForm.js';
-import Participants from './Participants/Participants.js';
+import ParticipantsModal from './ParticipantsModal/ParticipantsModal.js';
 import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
 import io from 'socket.io-client';
@@ -16,8 +15,8 @@ export default class Chat extends React.Component {
         super(props);
 
         this.state = {
-            currentAuthor: '',
-            showModal: false,
+            showProfileModal: false,
+            showParticipantsModal: false,
             messages: props.messagesInfo.messages,
             currentUser: props.messagesInfo.currentUser,
             participantsVisible: false
@@ -25,39 +24,42 @@ export default class Chat extends React.Component {
 
         this.requestRecentEmoji()
             .then(recentEmoji => {
-                this.setState({ recentEmoji })
-            })
+                this.setState({ recentEmoji });
+            });
 
         this.socket = io();
 
-        this.handleCloseModal = this.handleCloseModal.bind(this);
-        this.showParticipants = this.showParticipants.bind(this);
+        this.closeProfileModal = this.closeProfileModal.bind(this);
+        this.openProfileModal = this.openProfileModal.bind(this);
+
+        this.openParticipantsModal = this.openParticipantsModal.bind(this);
+        this.closeParticipantsModal = this.closeParticipantsModal.bind(this);
+
         this.handleMessage = this.handleMessage.bind(this);
-        this.openModalWithItem = this.openModalWithItem.bind(this);
-        this.saveElementForScroll = this.saveElementForScroll.bind(this);
     }
 
-    handleCloseModal() {
-        this.setState({ showModal: false });
+    closeProfileModal() {
+        this.setState({ showProfileModal: false });
     }
 
-    openModalWithItem(author) {
+    openProfileModal(username) {
         this.setState({
-            showModal: true,
-            currentAuthor: author,
-            currentAvatar: `/api/avatar/${author}`
+            showProfileModal: true,
+            profileUsername: username,
+            profileAvatarUrl: `/api/avatar/${username}`
         });
     }
 
-    showParticipants() {
-        this.setState({
-            participantsVisible: !this.state.participantsVisible
-        });
+    openParticipantsModal() {
+        this.setState({ showParticipantsModal: true });
+    }
+
+    closeParticipantsModal() {
+        this.setState({ showParticipantsModal: false });
     }
 
     componentDidMount() {
         this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage);
-        this.scrollToBottom();
 
     }
 
@@ -65,23 +67,10 @@ export default class Chat extends React.Component {
         this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
     }
 
-    componentDidUpdate() {
-        this.scrollToBottom();
-    }
-
-    saveElementForScroll(el) {
-        this.el = el;
-    }
-
-    scrollToBottom() {
-        if (this.el) {
-            this.el.scrollIntoView({ behavior: 'instant' });
-        }
-    }
-
     async requestRecentEmoji() {
-        let res = await axios.get(`/api/emoji`,
+        let res = await axios.get('/api/emoji',
             { withCredentials: true });
+
         return res.data;
     }
 
@@ -95,34 +84,35 @@ export default class Chat extends React.Component {
 
     render() {
         return (
-            <div className='chat-container'>
+            <section className='chat-container'>
                 <ProfileModal
-                    showModal={this.state.showModal}
-                    handleCloseModal={this.handleCloseModal}
-                    username={this.state.currentAuthor}
-                    avatarUrl={this.state.currentAvatar}
+                    showModal={this.state.showProfileModal}
+                    handleCloseModal={this.closeProfileModal}
+                    username={this.state.profileUsername}
+                    avatarUrl={this.state.profileAvatarUrl}
                 />
 
-                <AddPersonForm
-                    conversationId={this.props.messagesInfo.conversationId}
-                />
-
-                <button className='show-participants-button' onClick={this.showParticipants}>
-                    Participants
-                </button>
-
-                {this.state.participantsVisible
-                    ? <Participants
+                <div className='chat-container__controls'>
+                    <AddPersonForm
                         conversationId={this.props.messagesInfo.conversationId}
                     />
-                    : null
-                }
+                    <button
+                        className='chat-container__show-participants-button'
+                        onClick={this.openParticipantsModal}>
+                        Participants
+                    </button>
+                </div>
+
+                <ParticipantsModal
+                    showModal={this.state.showParticipantsModal}
+                    handleCloseModal={this.closeParticipantsModal}
+                    conversationId={this.props.messagesInfo.conversationId}
+                />
 
                 <Messages
                     messages={this.state.messages}
                     currentUser={this.state.currentUser}
-                    onMessageTitleClick={this.openModalWithItem}
-                    saveElementForScroll={this.saveElementForScroll}
+                    onMessageTitleClick={this.openProfileModal}
                 />
 
                 <ChatInput
@@ -130,7 +120,7 @@ export default class Chat extends React.Component {
                     socket={this.socket} currentUser={this.state.currentUser}
                     recentEmoji={this.state.recentEmoji}
                 />
-            </div>
+            </section>
         );
     }
 }

@@ -32,6 +32,7 @@ export default class ChatInput extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!prevState.recentEmoji || !prevState.recentEmoji.length) {
             return {
+                shownRecentEmoji: nextProps.recentEmoji || [],
                 recentEmoji: nextProps.recentEmoji || []
             };
         }
@@ -63,16 +64,18 @@ export default class ChatInput extends React.Component {
         });
 
         this.requestSaveMessage(messageText);
+        this.requestUpdateRecentEmoji(this.state.recentEmoji);
 
-        this.setState({ messageText: '' });
+        this.setState({
+            messageText: '',
+            shownRecentEmoji: this.state.recentEmoji
+        });
     }
 
     onEmojiSelect(emoji) {
         const updatedRecentEmoji = this.state.recentEmoji.filter(el => el !== emoji.id);
         updatedRecentEmoji.unshift(emoji.id);
         updatedRecentEmoji.splice(this.numberOfRecentEmoji);
-
-        this.requestUpdateRecentEmoji(updatedRecentEmoji);
 
         this.setState({
             messageText: this.state.messageText + emoji.native,
@@ -128,8 +131,8 @@ export default class ChatInput extends React.Component {
 
                 {this.state.showPicker
                     ? <Picker
-                        recent={this.state.recentEmoji.length
-                            ? this.state.recentEmoji
+                        recent={this.state.shownRecentEmoji.length
+                            ? this.state.shownRecentEmoji
                             : ['smiley']
                         }
                         onClick={this.onEmojiSelect}
@@ -137,11 +140,10 @@ export default class ChatInput extends React.Component {
                         color='lightsalmon'
                         set='emojione'
                         style={{
-                            position: 'fixed',
-                            width: '19%',
-                            bottom: '100px',
-                            right: '2%',
-                            zIndex: 101
+                            position: 'absolute',
+                            bottom: '75%',
+                            right: '4%',
+                            zIndex: 100
                         }}
                         i18n={{ categories: { recent: 'Last used' } }}
                     />

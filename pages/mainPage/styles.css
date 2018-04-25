@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+}
+
+.content-wrapper {
+    display: grid;
+
+    grid-template-areas: 'menu menu'
+                        'conversations chat';
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 5vh 92vh;
+    
+}

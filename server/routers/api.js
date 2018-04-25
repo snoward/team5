@@ -7,7 +7,7 @@ const avatar = require('../controllers/avatar');
 const hasNotSignedIn = require('../middlewares/has-not-signed-in');
 
 module.exports = (server) => {
-    server.use('/api/', hasNotSignedIn((req, res) => res.send(401)));
+    server.use('/api/', hasNotSignedIn((req, res) => res.sendStatus(401)));
 
     server.route('/api/contacts').get(contacts);
     server.route('/api/contacts/:username').post(add);

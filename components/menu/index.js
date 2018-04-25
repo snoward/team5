@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 
 import TimeWatch from './TimeWatch/TimeWatch.js';
@@ -46,24 +45,26 @@ export default class Menu extends React.Component {
 
         return (
             <div className='menu'>
-                <ProfileModal
+                {<ProfileModal
                     showModal={this.state.showModal}
                     username={this.state.name}
                     handleCloseModal={this.handleCloseModal}
                     avatarUrl={this.state.avatarUrl}
-                />
+                />}
 
-                <div className='menu__avatar'>
+                <div className='menu__avatar-wrapper'>
                     <img
+                        className="menu__avatar-img"
                         src={this.state.avatarUrl}
                         onClick={this.handleOpenModal}
                         draggable='false'
                     />
                 </div>
 
-                <div className='menu__name'>{this.state.name}</div>
-
-                <TimeWatch/>
+                <div className='menu__name-and-time'>
+                    {this.state.name}
+                    <TimeWatch/>
+                </div>
 
                 <Contacts
                     contactList={this.state.contactList}

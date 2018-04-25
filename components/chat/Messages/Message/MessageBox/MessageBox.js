@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from 'react';
 import moment from 'moment';
 const ReactMarkdown = require('react-markdown');

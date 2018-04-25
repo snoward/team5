@@ -5,8 +5,8 @@ module.exports = (server, app) => {
     server
         .route('/')
         .get(
-            hasNotSignedIn(render('signin')),
-            render('index')
+            hasNotSignedIn(render('signIn')),
+            render('mainPage')
         );
     server.get('*', app.getRequestHandler());
 

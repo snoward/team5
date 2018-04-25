@@ -1,9 +1,12 @@
+.search {
+    margin-left: 13px;
+    width: 300px;
+}
+
 .search__input {
-    margin-left: 20px;
-    margin-top: 5px;
     border: 1px solid #c7c7bf;
     border-radius: 4px;
-    width: 105%;
     height: 30px;
     padding-left: 5px;
+    width: 100%;
 }
