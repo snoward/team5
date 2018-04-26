@@ -1,6 +1,7 @@
 const uuid = require('uuid/v4');
 
 const db = require('../libs/dbHelper');
+const ErrorInfo = require('../models/errorInfo');
 
 module.exports.conversations = async (req, res) => {
     const conversations = await getAllConversations(req.user.username);
@@ -21,11 +22,15 @@ module.exports.create = async (req, res) => {
     };
 
     if (! await areUsersExist(conversation.users)) {
-        return res.status(400).json({ error: 'Incorrect users' });
+        return res.status(400).json({
+            error: new ErrorInfo(400, 'Incorrect users')
+        });
     }
 
     if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
-        return res.status(400).json({ error: 'Such private conversation already exist' });
+        return res.status(400).json({
+            error: new ErrorInfo(400, 'Such private conversation already exist')
+        });
     }
 
     try {
@@ -34,7 +39,9 @@ module.exports.create = async (req, res) => {
             addConversationToUsers(conversation)
         ]);
     } catch (ex) {
-        return res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({
+            error: new ErrorInfo(400, 'Server error')
+        });
     }
 
     res.status(201).json(conversation);
@@ -47,16 +54,22 @@ module.exports.addUser = async (req, res) => {
     try {
         await db.get(`users_${username}`);
     } catch (ex) {
-        return res.status(404).json({ error: `User ${username} not found` });
+        return res.status(404).json({
+            error: new ErrorInfo(404, `User ${username} not found`)
+        });
     }
 
     const conversation = await db.get(`conversations_${conversationId}`);
     if (conversation.users.includes(username)) {
-        return res.status(400).json({ error: `User ${username} already in conversation` });
+        return res.status(400).json({
+            error: new ErrorInfo(400, `User ${username} already in conversation`)
+        });
     }
 
     if (conversation.isPrivate) {
-        return res.status(400).json({ error: 'Cannot add user in private conversation' });
+        return res.status(400).json({
+            error: new ErrorInfo(400, 'Cannot add user in private conversation')
+        });
     }
 
     conversation.users.push(username);
@@ -66,7 +79,9 @@ module.exports.addUser = async (req, res) => {
             db.post(`conversations_${username}`, conversation.id)
         ]);
     } catch (ex) {
-        return res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({
+            error: new Error(500, 'Server error')
+        });
     }
 
     res.status(201).json(conversation);

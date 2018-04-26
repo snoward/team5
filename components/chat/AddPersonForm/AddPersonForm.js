@@ -62,7 +62,7 @@ export default class AddPersonForm extends React.Component {
     handleBadResponse(error) {
         this.setState({
             inputValue: '',
-            placeholder: error,
+            placeholder: error.message,
             disabled: false
         });
     }

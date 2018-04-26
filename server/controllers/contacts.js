@@ -1,4 +1,5 @@
 const db = require('../libs/dbHelper');
+const ErrorInfo = require('../models/errorInfo');
 
 module.exports.contacts = async (req, res) => {
     const contacts = await db.getAll(`contacts_${req.user.username}`);
@@ -13,17 +14,22 @@ module.exports.add = async (req, res) => {
     try {
         await db.get(`users_${contact.username}`);
     } catch (ex) {
-        return res.status(404).json({ error: `User ${contact.username} not found` });
+        return res.status(404).json({
+            error: new ErrorInfo(404, `User ${contact.username} not found`) });
     }
 
     if (await isContactAlreadyExist(req.user.username, contact)) {
-        return res.status(400).json({ error: `Contact ${contact.username} already exist` });
+        return res.status(400).json({
+            error: new ErrorInfo(400, `Contact ${contact.username} already exist`)
+        });
     }
 
     try {
         await db.post(`contacts_${req.user.username}`, JSON.stringify(contact));
     } catch (ex) {
-        return res.status(500).json({ error: 'Server error' });
+        return res.status(500).json({
+            error: new ErrorInfo(500, 'Server error')
+        });
     }
 
     res.status(201).json(contact);
