@@ -9,11 +9,6 @@ module.exports = async (req, res) => {
         return;
     }
 
-    if (!req.user) {
-        res.sendStatus(401);
-
-        return;
-    }
     res.set('Content-Type', contentTypeSvg);
     res.send(icon.svg(req.user.id));
 };

@@ -39,10 +39,10 @@ export default class AddPersonForm extends React.Component {
                 validateStatus: () => true
             });
 
-        if (res.status === 201) {
+        if (!res.data.error) {
             this.handleGoodResponse(res, userToAdd);
         } else {
-            this.handleBadResponse(res);
+            this.handleBadResponse(res.data.error);
         }
     }
 
@@ -51,6 +51,7 @@ export default class AddPersonForm extends React.Component {
             addedUser: userToAdd,
             conversation: res.data
         });
+
         this.setState({
             inputValue: '',
             placeholder: 'Add user to conversation',
@@ -58,10 +59,10 @@ export default class AddPersonForm extends React.Component {
         });
     }
 
-    handleBadResponse() {
+    handleBadResponse(error) {
         this.setState({
             inputValue: '',
-            placeholder: 'User not found',
+            placeholder: error.message,
             disabled: false
         });
     }

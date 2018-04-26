@@ -3,6 +3,7 @@
     border: none;
     margin-left: 15px;
     margin-top: -5px;
+    width: 13%;
 }
 
 .add-contact-form__input
@@ -10,7 +11,8 @@
     border: none;                                
     padding-left: 10px;
     border: 1px solid #c7c7bf;
-    border-radius: 4px;                              
+    border-radius: 4px;     
+    width: 100%;                         
 }
 
 .add-contact-form, .add-contact-form__input
