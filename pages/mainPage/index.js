@@ -8,6 +8,8 @@ import axios from 'axios';
 
 import './styles.css';
 
+import LoadingSpinner from '../../components/LoadingSpinner';
+
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
         const [conversations, contactsList] = await Promise.all([
@@ -26,7 +28,8 @@ export default class IndexPage extends Component {
                 'avatar': `/api/avatar/${req.user.username}`,
                 'link': req.user.profileUrl,
                 'registered': req.user._json.created_at
-            }
+            },
+            loading: false
         };
     }
 
@@ -39,7 +42,8 @@ export default class IndexPage extends Component {
         this.setState({
             messagesInfo: {
                 'currentUser': this.state.messagesInfo.currentUser
-            }
+            },
+            loading: true
         });
 
         this.loadConversations(conversation.id);
@@ -55,7 +59,8 @@ export default class IndexPage extends Component {
                 'conversationId': conversationId,
                 'messages': res.data.map(elem => JSON.parse(elem)),
                 'currentUser': currentUser
-            }
+            },
+            loading: false
         });
     }
 
@@ -65,9 +70,11 @@ export default class IndexPage extends Component {
         const currentUser = this.props.messagesInfo.currentUser;
         const menu = this.state.menu;
         const contactsList = this.state.contacts;
+        const loading = this.state.loading;
 
         return (
             <div className='content-wrapper'>
+                {loading ? <LoadingSpinner /> : null}
                 <Conversations conversations={conversations}
                     onConversationClick={this._onConversationClick.bind(this)}
                     currentUser={currentUser}

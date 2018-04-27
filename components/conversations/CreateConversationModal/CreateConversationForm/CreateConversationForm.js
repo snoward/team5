@@ -4,6 +4,8 @@ import io from 'socket.io-client';
 
 import './styles.css';
 
+import LoadingSpinner from '../../../LoadingSpinner';
+
 export default class CreateConversationForm extends React.Component {
     constructor(props) {
         super(props);
@@ -51,6 +53,7 @@ export default class CreateConversationForm extends React.Component {
     render() {
         return (
             <div className='create-conversation'>
+                {this.state.disabled ? <LoadingSpinner /> : null}
                 <form onSubmit={this.handleSubmit}>
                     <header className='create-conversation__header'>Create conversation</header>
                     <input
