@@ -2,6 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import { Picker } from 'emoji-mart';
 
+import uploadImage from '../../../libs/imageUploader';
+
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';
 
@@ -114,12 +116,26 @@ export default class ChatInput extends React.Component {
             { withCredentials: true, responseType: 'json' });
     }
 
+    onFileInputChange(event) {
+        event.preventDefault();
+        let file = event.target.files[0];
+
+        /* eslint-disable */
+        uploadImage(file)
+            .then(res => {
+                res.error
+                    ? alert(res.error.message)
+                    : alert(`Картинка тут: /api/images/${res.imageId}`)
+            })
+        /* eslint-enable */
+    }
+
     render() {
         return (
-            <div className='chatInput'>
+            <div className='chat-input'>
                 <textarea
                     type='text'
-                    className='chatInput__textarea'
+                    className='chat-input__textarea'
                     placeholder="Введите новое сообщение"
                     value={this.state.messageText}
                     onChange={this.handleChange}
@@ -150,7 +166,11 @@ export default class ChatInput extends React.Component {
                     : null
                 }
 
-                <div className="chatInput__show-picker-button"
+                <input className="chat-input__file-input"
+                    type="file"
+                    onChange={this.onFileInputChange.bind(this)}/>
+
+                <div className="chat-input__show-picker-button"
                     onClick={this.onShowPickerButtonClick}
                 >&#9786;</div>
             </div>

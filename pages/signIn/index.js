@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './styles.css';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
 const signInString = 'Войти через Github';
 
 export default class SignIn extends Component {

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 import 'react-chat-elements/dist/main.css';
-import Conversations from '../../components/conversations';
-import Chat from '../../components/chat';
-import Menu from '../../components/menu';
+import Conversations from '../components/conversations';
+import Chat from '../components/chat';
+import Menu from '../components/menu';
 import axios from 'axios';
 
 import './styles.css';
 
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {

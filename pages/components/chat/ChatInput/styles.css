@@ -1,4 +1,4 @@
-.chatInput {
+.chat-input {
     grid-area: chat-input;
     width: 100%;
     height: 100%;
@@ -9,7 +9,7 @@
     position: relative;
 }
 
-.chatInput__textarea
+.chat-input__textarea
 {
     width: 90%;
     height: 55%;
@@ -25,10 +25,15 @@
     font-size: 20px;
 }
 
-.chatInput__show-picker-button {
+.chat-input__show-picker-button {
     position: absolute;
     font-size: 45px;
     cursor: pointer;
     align-self: center;
     right: 5%;
+}
+
+.chat-input__file-input {
+    position: absolute;
+    right: 2%;
 }

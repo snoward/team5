@@ -1,8 +1,12 @@
+var multer = require('multer');
+var upload = multer();
+
 const { contacts, add } = require('../controllers/contacts');
 const { messages, save } = require('../controllers/messages');
 const { conversations, create, addUser, getInfo } = require('../controllers/conversations');
 const { user } = require('../controllers/users');
 const { getRecentEmoji, updateRecentEmoji } = require('../controllers/emoji');
+const { getImage, uploadImage } = require('../controllers/images');
 const avatar = require('../controllers/avatar');
 const hasNotSignedIn = require('../middlewares/has-not-signed-in');
 
@@ -26,6 +30,11 @@ module.exports = (server) => {
         .get('/api/avatar/:id?', avatar);
 
     server.route('/api/users/:username').get(user);
+
+    server.route('/api/images')
+        .post(upload.single('image'), uploadImage);
+
+    server.route('/api/images/:id').get(getImage);
 
     server.route('/api/emoji')
         .get(getRecentEmoji)

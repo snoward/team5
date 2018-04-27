@@ -10,5 +10,10 @@ module.exports = {
         dbUrl: 'https://hrudb.herokuapp.com/storage/',
         requestTimeout: 1000,
         retryCount: 5
+    },
+    imageCdnConfig: {
+        cloudName: 'type cloud name here',
+        apiKey: 'type api key here',
+        apiSecret: 'type api secret here'
     }
 };
