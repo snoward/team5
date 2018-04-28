@@ -116,10 +116,10 @@ export default class ChatInput extends React.Component {
 
     render() {
         return (
-            <div className='chatInput'>
+            <div className='chat-input'>
                 <textarea
                     type='text'
-                    className='chatInput__textarea'
+                    className='chat-input__textarea'
                     placeholder="Введите новое сообщение"
                     value={this.state.messageText}
                     onChange={this.handleChange}
@@ -150,7 +150,7 @@ export default class ChatInput extends React.Component {
                     : null
                 }
 
-                <div className="chatInput__show-picker-button"
+                <div className="chat-input__show-picker-button"
                     onClick={this.onShowPickerButtonClick}
                 >&#9786;</div>
             </div>
