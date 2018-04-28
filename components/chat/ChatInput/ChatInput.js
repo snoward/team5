@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { Picker } from 'emoji-mart';
 
-import uploadImage from '../../../libs/imageUploader';
+import uploadImage from '../../../lib/imageUploader';
 
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';

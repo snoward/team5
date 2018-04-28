@@ -6,6 +6,8 @@ const config = require('config');
 
 const { cloudName, apiKey, apiSecret } = config.get('imageCdnConfig');
 
+const ALLOWED_FORMATS = ['jpeg', 'bmp', 'gif', 'png', 'svg', 'webp'];
+
 cloudinary.config({
     cloud_name: cloudName,
     api_key: apiKey,
@@ -23,7 +25,7 @@ module.exports.uploadImage = (file) => {
                 }
 
                 return resolve(id);
-            }, { resource_type: 'image', public_id: id })
+            }, { resource_type: 'image', public_id: id, allowed_formats: ALLOWED_FORMATS })
             .end(file.buffer);
     });
 };
