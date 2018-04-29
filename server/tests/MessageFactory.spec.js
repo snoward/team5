@@ -21,21 +21,13 @@ describe('MessageFactory tests', function () {
         const message = await MessageFactory.create({
             type: 'text', text: 'stub', author: 'stub'
         });
-        if (message instanceof TextMessage) {
-            assert.ok(true);
-        } else {
-            assert.fail();
-        }
+        assert.ok(message instanceof TextMessage);
     });
 
     it('should create ImageMessage', async function () {
         const message = await MessageFactory.create({
             type: 'image', author: 'stub', imageUrl: 'stub'
         });
-        if (message instanceof ImageMessage) {
-            assert.ok(true);
-        } else {
-            assert.fail();
-        }
+        assert.ok(message instanceof ImageMessage);
     });
 });
