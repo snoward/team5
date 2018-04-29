@@ -4,7 +4,7 @@ import 'react-chat-elements/dist/main.css';
 import Conversations from '../../components/conversations';
 import Chat from '../../components/chat';
 import Menu from '../../components/menu';
-import axios from 'axios';
+import { getConversations, getContacts, getMessages } from '../../lib/apiRequests';
 
 import './styles.css';
 
@@ -13,9 +13,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 export default class IndexPage extends Component {
     static async getInitialProps({ req }) {
         const [conversations, contactsList] = await Promise.all([
-            axios.get('http://localhost:3000/api/conversations', req),
-            axios.get('http://localhost:3000/api/contacts', req)
-        ]);
+            getConversations(req), getContacts(req)]);
 
         return {
             messagesInfo: {
@@ -51,8 +49,7 @@ export default class IndexPage extends Component {
 
     async loadConversations(conversationId) {
         const currentUser = this.state.messagesInfo.currentUser;
-        let res = await axios.get(`api/messages/${conversationId}`,
-            { withCredentials: true });
+        let res = await getMessages(conversationId);
 
         this.setState({
             messagesInfo: {

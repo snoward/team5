@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import io from 'socket.io-client';
+
+import { addUserInConversation } from '../../../lib/apiRequests';
 
 import './styles.css';
 
@@ -31,13 +32,7 @@ export default class AddPersonForm extends React.Component {
             inputValue: ''
         });
 
-        const res = await axios.patch(`api/conversations/${this.props.conversationId}`,
-            { username: userToAdd },
-            {
-                withCredentials: true,
-                responseType: 'json',
-                validateStatus: () => true
-            });
+        const res = await addUserInConversation(this.props.conversationId, userToAdd);
 
         if (!res.data.error) {
             this.handleGoodResponse(res, userToAdd);

@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import { Picker } from 'emoji-mart';
+
+import { updateRecentEmoji, saveMessage } from '../../../lib/apiRequests';
 
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';
@@ -66,8 +67,8 @@ export default class ChatInput extends React.Component {
 
         this.props.socket.emit('message', message);
 
-        this.requestSaveMessage(message);
-        this.requestUpdateRecentEmoji(this.state.recentEmoji);
+        saveMessage(message, this.props.conversationId);
+        updateRecentEmoji(this.state.recentEmoji);
 
         this.setState({
             messageText: '',
@@ -104,16 +105,6 @@ export default class ChatInput extends React.Component {
 
             return false;
         }
-    }
-
-    requestUpdateRecentEmoji(recentEmoji) {
-        axios.patch('/api/emoji',
-            { recentEmoji }, { withCredentials: true });
-    }
-
-    requestSaveMessage(message) {
-        axios.post(`api/messages/${this.props.conversationId}`,
-            message, { withCredentials: true, responseType: 'json' });
     }
 
     render() {
