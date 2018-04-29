@@ -1,6 +1,6 @@
 const db = require('../libs/dbHelper');
-const extractor = require('../libs/urlMetadataExtractor');
 const ErrorInfo = require('../models/errorInfo');
+const MessageFactory = require('../models/Message/MessageFactory/MessageFactory');
 
 module.exports.messages = async (req, res) => {
     const messages = await db.getAll(`messages_${req.params.conversationId}`);
@@ -8,12 +8,7 @@ module.exports.messages = async (req, res) => {
 };
 
 module.exports.save = async (req, res) => {
-    const message = {
-        author: req.user.username,
-        date: new Date(),
-        text: req.body.text,
-        metadata: await extractor.extractFromText(req.body.text)
-    };
+    const message = await MessageFactory.create(req.body);
 
     try {
         await db.post(`messages_${req.params.conversationId}`, JSON.stringify(message));
