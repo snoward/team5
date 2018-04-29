@@ -1,5 +1,6 @@
 const TextMessage = require('../TextMessage');
 const ImageMessage = require('../ImageMessage');
+const metadataExtractor = require('../../../libs/urlMetadataExtractor');
 
 const SUPPORTED_TYPES = ['image', 'text'];
 
@@ -10,7 +11,9 @@ module.exports = class MessageFactory {
         }
 
         if (type === 'text') {
-            return await new TextMessage({ type, author, date, text });
+            const metadata = await metadataExtractor.extractFromText(text);
+
+            return await new TextMessage({ type, author, date, text, metadata });
         }
 
         if (type === 'image') {
