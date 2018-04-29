@@ -57,13 +57,16 @@ export default class ChatInput extends React.Component {
         event.preventDefault();
         const messageText = this.state.messageText.replace(/\n/g, '\n\n');
 
-        this.props.socket.emit('message', {
+        const message = {
+            type: 'text',
             conversationId: this.props.conversationId,
             text: messageText,
-            user: this.props.currentUser
-        });
+            author: this.props.currentUser
+        };
 
-        this.requestSaveMessage(messageText);
+        this.props.socket.emit('message', message);
+
+        this.requestSaveMessage(message);
         this.requestUpdateRecentEmoji(this.state.recentEmoji);
 
         this.setState({
@@ -108,10 +111,9 @@ export default class ChatInput extends React.Component {
             { recentEmoji }, { withCredentials: true });
     }
 
-    requestSaveMessage(messageText) {
+    requestSaveMessage(message) {
         axios.post(`api/messages/${this.props.conversationId}`,
-            { text: messageText },
-            { withCredentials: true, responseType: 'json' });
+            message, { withCredentials: true, responseType: 'json' });
     }
 
     render() {

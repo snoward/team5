@@ -7,7 +7,7 @@
     "prepush": "npm test",
     "lint": "eslint .",
     "test": "npm run lint",
-    "jstest": "mocha **/test/*.spec.js",
+    "jstest": "mocha **/tests/*.spec.js",
     "build": "next build",
     "start": "node ./server/index.js",
     "deploy": "now --token $NOW_TOKEN --public --debug",

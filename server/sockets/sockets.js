@@ -1,15 +1,9 @@
-const extractor = require('../libs/urlMetadataExtractor');
+const MessageFactory = require('../models/Message/MessageFactory/MessageFactory');
 
 module.exports.configureIo = (io) => {
     io.on('connection', socket => {
-
         socket.on('message', async (data) => {
-            const message = {
-                author: data.user,
-                date: new Date(),
-                text: data.text,
-                metadata: await extractor.extractFromText(data.text)
-            };
+            const message = await MessageFactory.create(data);
             socket.broadcast.emit(`message_${data.conversationId}`, message);
             socket.emit(`message_${data.conversationId}`, message);
         });
