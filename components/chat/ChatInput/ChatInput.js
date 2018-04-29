@@ -1,7 +1,7 @@
 import React from 'react';
-import { Picker } from 'emoji-mart';
 
 import { updateRecentEmoji, saveMessage } from '../../../lib/apiRequests';
+import EmojiPicker from './EmojiPicker/EmojiPicker';
 
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';
@@ -123,22 +123,9 @@ export default class ChatInput extends React.Component {
                 />
 
                 {this.state.showPicker
-                    ? <Picker
-                        recent={this.state.shownRecentEmoji.length
-                            ? this.state.shownRecentEmoji
-                            : ['smiley']
-                        }
-                        onClick={this.onEmojiSelect}
-                        showPreview={false}
-                        color='lightsalmon'
-                        set='emojione'
-                        style={{
-                            position: 'absolute',
-                            bottom: '75%',
-                            right: '4%',
-                            zIndex: 100
-                        }}
-                        i18n={{ categories: { recent: 'Last used' } }}
+                    ? <EmojiPicker
+                        recentEmoji={this.state.shownRecentEmoji}
+                        onEmojiSelect={this.onEmojiSelect}
                     />
                     : null
                 }
