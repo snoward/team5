@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getConversationInfo } from '../../../../lib/apiRequests';
+import { getConversationInfo } from '../../../../lib/apiRequests/conversations';
 
 import './styles.css';
 

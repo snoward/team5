@@ -1,7 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 
-import { createNotPrivateConversation } from '../../../../lib/apiRequests';
+import { createNotPrivateConversation } from '../../../../lib/apiRequests/conversations';
 
 import './styles.css';
 

@@ -4,7 +4,9 @@ import 'react-chat-elements/dist/main.css';
 import Conversations from '../../components/conversations';
 import Chat from '../../components/chat';
 import Menu from '../../components/menu';
-import { getConversations, getContacts, getMessages } from '../../lib/apiRequests';
+import { getConversations } from '../../lib/apiRequests/conversations';
+import { getContacts } from '../../lib/apiRequests/contacts';
+import { getMessages } from '../../lib/apiRequests/messages';
 
 import './styles.css';
 

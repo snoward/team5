@@ -1,7 +1,8 @@
 import React from 'react';
 import io from 'socket.io-client';
 
-import { createContact, createPrivateConversation } from '../../../lib/apiRequests';
+import { createContact } from '../../../lib/apiRequests/contacts';
+import { createPrivateConversation } from '../../../lib/apiRequests/conversations';
 
 import './styles.css';
 

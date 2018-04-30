@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { updateRecentEmoji, saveMessage } from '../../../lib/apiRequests';
+import { updateRecentEmoji } from '../../../lib/apiRequests/emoji';
+import { saveMessage } from '../../../lib/apiRequests/messages';
 import EmojiPicker from './EmojiPicker/EmojiPicker';
 
 import './styles.css';

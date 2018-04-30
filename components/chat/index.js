@@ -7,7 +7,7 @@ import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
 import io from 'socket.io-client';
 
-import { getRecentEmoji } from '../../lib/apiRequests';
+import { getRecentEmoji } from '../../lib/apiRequests/emoji';
 import './styles.css';
 
 export default class Chat extends React.Component {
