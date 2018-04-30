@@ -1,7 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 
-import { addUserInConversation } from '../../../lib/apiRequests/conversations';
+import { addUserToConversation } from '../../../lib/apiRequests/conversations';
 
 import './styles.css';
 
@@ -32,7 +32,7 @@ export default class AddPersonForm extends React.Component {
             inputValue: ''
         });
 
-        const res = await addUserInConversation(this.props.conversationId, userToAdd);
+        const res = await addUserToConversation(this.props.conversationId, userToAdd);
 
         if (!res.data.error) {
             this.handleGoodResponse(res, userToAdd);
