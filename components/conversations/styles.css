@@ -1,5 +1,7 @@
 .conversations {
     grid-area: conversations;
+
+    padding-top: 13px;
 }
 
 .conversations__controls
