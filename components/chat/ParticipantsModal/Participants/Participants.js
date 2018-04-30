@@ -1,5 +1,6 @@
-import axios from 'axios';
 import React from 'react';
+
+import { getConversationInfo } from '../../../../lib/apiRequests/conversations';
 
 import './styles.css';
 
@@ -11,8 +12,7 @@ export default class Participants extends React.Component {
     }
 
     async updateParticipants(conversationId) {
-        const conversation = await axios.get(`api/conversations/${conversationId}`,
-            { withCredentials: true, responseType: 'json' })
+        const conversation = await getConversationInfo(conversationId)
             .then(res => res.data);
 
         this.setState({

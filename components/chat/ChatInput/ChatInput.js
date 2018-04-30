@@ -1,6 +1,8 @@
-import axios from 'axios';
 import React from 'react';
-import { Picker } from 'emoji-mart';
+
+import { updateRecentEmoji } from '../../../lib/apiRequests/emoji';
+import { saveMessage } from '../../../lib/apiRequests/messages';
+import EmojiPicker from './EmojiPicker/EmojiPicker';
 
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';
@@ -66,8 +68,8 @@ export default class ChatInput extends React.Component {
 
         this.props.socket.emit('message', message);
 
-        this.requestSaveMessage(message);
-        this.requestUpdateRecentEmoji(this.state.recentEmoji);
+        saveMessage(message, this.props.conversationId);
+        updateRecentEmoji(this.state.recentEmoji);
 
         this.setState({
             messageText: '',
@@ -106,16 +108,6 @@ export default class ChatInput extends React.Component {
         }
     }
 
-    requestUpdateRecentEmoji(recentEmoji) {
-        axios.patch('/api/emoji',
-            { recentEmoji }, { withCredentials: true });
-    }
-
-    requestSaveMessage(message) {
-        axios.post(`api/messages/${this.props.conversationId}`,
-            message, { withCredentials: true, responseType: 'json' });
-    }
-
     render() {
         return (
             <div className='chat-input'>
@@ -132,22 +124,9 @@ export default class ChatInput extends React.Component {
                 />
 
                 {this.state.showPicker
-                    ? <Picker
-                        recent={this.state.shownRecentEmoji.length
-                            ? this.state.shownRecentEmoji
-                            : ['smiley']
-                        }
-                        onClick={this.onEmojiSelect}
-                        showPreview={false}
-                        color='lightsalmon'
-                        set='emojione'
-                        style={{
-                            position: 'absolute',
-                            bottom: '75%',
-                            right: '4%',
-                            zIndex: 100
-                        }}
-                        i18n={{ categories: { recent: 'Last used' } }}
+                    ? <EmojiPicker
+                        recentEmoji={this.state.shownRecentEmoji}
+                        onEmojiSelect={this.onEmojiSelect}
                     />
                     : null
                 }

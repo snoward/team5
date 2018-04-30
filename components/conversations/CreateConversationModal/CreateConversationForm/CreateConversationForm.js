@@ -1,6 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import io from 'socket.io-client';
+
+import { createNotPrivateConversation } from '../../../../lib/apiRequests/conversations';
 
 import './styles.css';
 
@@ -38,12 +39,7 @@ export default class CreateConversationForm extends React.Component {
             placeholder: 'Wait please'
         });
 
-        const res = await axios.post(`api/conversations/${conversationName}`,
-            { users: [this.props.currentUser], isPrivate: false },
-            {
-                withCredentials: true,
-                responseType: 'json'
-            });
+        const res = await createNotPrivateConversation(conversationName, [this.props.currentUser]);
 
         this.socket.emit('newConversation', res.data);
 

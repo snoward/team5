@@ -1,6 +1,8 @@
-import axios from 'axios';
 import React from 'react';
 import io from 'socket.io-client';
+
+import { createContact } from '../../../lib/apiRequests/contacts';
+import { createPrivateConversation } from '../../../lib/apiRequests/conversations';
 
 import './styles.css';
 
@@ -36,8 +38,8 @@ export default class AddToContactsForm extends React.Component {
         });
 
         const [contactRes, conversationRes] = await Promise.all([
-            this.getCreateContactPromise(contactName),
-            this.getCreateConversationPromise(contactName)
+            createContact(contactName),
+            createPrivateConversation(this.props.currentUser, contactName)
         ]);
 
         if (!contactRes.data.error) {
@@ -49,28 +51,6 @@ export default class AddToContactsForm extends React.Component {
         if (!conversationRes.data.error) {
             this.socket.emit('newConversation', conversationRes.data);
         }
-    }
-
-    getCreateContactPromise(contactName) {
-        return axios.post(`api/contacts/${contactName}`, {},
-            {
-                withCredentials: true,
-                responseType: 'json',
-                validateStatus: () => true
-            });
-    }
-
-    getCreateConversationPromise(contactName) {
-        return axios.post('api/conversations/privateDialogue',
-            {
-                users: [this.props.currentUser, contactName],
-                isPrivate: true
-            },
-            {
-                withCredentials: true,
-                responseType: 'json',
-                validateStatus: () => true
-            });
     }
 
     handleGoodResponse(contactRes) {

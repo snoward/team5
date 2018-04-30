@@ -6,8 +6,8 @@ import ParticipantsModal from './ParticipantsModal/ParticipantsModal.js';
 import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
 import io from 'socket.io-client';
-import axios from 'axios';
 
+import { getRecentEmoji } from '../../lib/apiRequests/emoji';
 import './styles.css';
 
 export default class Chat extends React.Component {
@@ -22,10 +22,9 @@ export default class Chat extends React.Component {
             participantsVisible: false
         };
 
-        this.requestRecentEmoji()
-            .then(recentEmoji => {
-                this.setState({ recentEmoji });
-            });
+        getRecentEmoji()
+            .then(res => res.data)
+            .then(recentEmoji => this.setState({ recentEmoji }));
 
         this.socket = io();
 
@@ -65,13 +64,6 @@ export default class Chat extends React.Component {
 
     componentWillUnmount() {
         this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
-    }
-
-    async requestRecentEmoji() {
-        let res = await axios.get('/api/emoji',
-            { withCredentials: true });
-
-        return res.data;
     }
 
     handleMessage(message) {
