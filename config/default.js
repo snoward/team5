@@ -17,7 +17,7 @@ module.exports = {
         apiSecret: 'type api secret here'
     },
     mongoDb: {
-        uri: 'mongodb+srv://messengerproductioncluster-ej5fo.mongodb.net/messenger',
+        uri: 'mongodb+srv://LOGIN:PASSWORD@messengerproductioncluster-ej5fo.mongodb.net/messenger',
         login: '***',
         password: '***'
     }
