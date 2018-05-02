@@ -14,7 +14,7 @@ module.exports.updateRecentEmoji = async (req, res) => {
     try {
         await Emoji.findOneAndUpdate(
             { username: req.user.username },
-            { $push: { titles: recentEmoji } },
+            { titles: recentEmoji },
             { upsert: true });
     } catch (ex) {
         console.error(`Update recent emoji failed for user ${req.user.username}. ${ex}`);
