@@ -15,5 +15,10 @@ module.exports = {
         cloudName: 'type cloud name here',
         apiKey: 'type api key here',
         apiSecret: 'type api secret here'
+    },
+    mongoDb: {
+        uri: 'mongodb+srv://messengerproductioncluster-ej5fo.mongodb.net/messenger',
+        login: '***',
+        password: '***'
     }
 };

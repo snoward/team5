@@ -13,5 +13,10 @@ module.exports = {
         cloudName: process.env.IMAGE_CDN_CLOUD_NAME,
         apiKey: process.env.IMAGE_CDN_API_KEY,
         apiSecret: process.env.IMAGE_CDN_API_SECRET
+    },
+    mongoDb: {
+        uri: 'mongodb+srv://messengerproductioncluster-ej5fo.mongodb.net/messenger',
+        login: process.env.MONGODB_LOGIN,
+        password: process.env.MONGODB_PASSWORD
     }
 };
