@@ -3,7 +3,7 @@ const Emoji = require('../models/schemas/emoji');
 module.exports.getRecentEmoji = async (req, res) => {
     try {
         const emoji = await Emoji.findOne({ username: req.user.username });
-        res.json(emoji);
+        res.json(emoji.titles);
     } catch (e) {
         res.json([]);
     }
