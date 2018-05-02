@@ -2,8 +2,8 @@ const passport = require('passport');
 const GithubStrategy = require('passport-github').Strategy;
 const config = require('config');
 
-const db = require('../dbHelper');
 const init = require('./init');
+const User = require('../../models/schemas/user');
 
 const strategy = new GithubStrategy(
     {
@@ -12,12 +12,12 @@ const strategy = new GithubStrategy(
         callbackURL: `${config.get('baseUrl')}/auth/return`
     },
     async (accessToken, refreshToken, profile, done) => {
-
         // сохраняем пользователя в БД
         try {
-            await db.put(`users_${profile.username}`, JSON.stringify(profile));
+            await User.findOneOrCreate(profile.username);
             done(null, profile);
         } catch (ex) {
+            console.error(`Auth error for user: ${profile.username}. ${ex}`);
             done(null, false);
         }
     }

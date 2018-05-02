@@ -1,17 +1,21 @@
-const db = require('../libs/dbHelper');
 const ErrorInfo = require('../models/errorInfo');
 const MessageFactory = require('../models/Message/MessageFactory/MessageFactory');
+const Message = require('../models/schemas/message');
 
 module.exports.messages = async (req, res) => {
-    const messages = await db.getAll(`messages_${req.params.conversationId}`);
+    let messages;
+    try {
+        messages = await Message.find().where({ conversationId: req.params.conversationId });
+    } catch (ex) {
+        console.error(ex);
+    }
     res.json(messages);
 };
 
 module.exports.save = async (req, res) => {
-    const message = await MessageFactory.create(req.body);
-
+    let message = await MessageFactory.create(req.body);
     try {
-        await db.post(`messages_${req.params.conversationId}`, JSON.stringify(message));
+        message = await Message.create(message);
     } catch (ex) {
         return res.status(500).json({
             error: new ErrorInfo(500, 'Server error')

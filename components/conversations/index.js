@@ -70,7 +70,7 @@ export default class Conversations extends React.Component {
         return {
             avatar: `/api/avatar/${title}`,
             title: title,
-            id: conversation.id
+            id: conversation._id
         };
     }
 
