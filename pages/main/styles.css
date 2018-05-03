@@ -12,3 +12,8 @@ body {
     grid-template-rows: 5vh 92vh;
     
 }
+
+img
+{
+    cursor: pointer;
+}

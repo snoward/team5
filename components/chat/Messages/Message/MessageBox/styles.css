@@ -71,7 +71,6 @@ a
     border-radius: 5px;
     box-shadow: 0px 0px 3px #eee;
     transition: all .4s cubic-bezier(0.565, -0.260, 0.255, 1.410);
-    cursor: default;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;

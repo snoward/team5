@@ -44,11 +44,14 @@ export default class Messages extends React.Component {
         return (
             <ol className='messages'>
                 {this.state.messages.map((message, idx) => {
+
                     return (
                         <Message
                             key={idx}
                             currentUser={this.state.currentUser}
                             text={message.text}
+                            type={message.type}
+                            imageUrl={message.imageUrl}
                             author={message.author}
                             date={message.date}
                             metadata={message.metadata}

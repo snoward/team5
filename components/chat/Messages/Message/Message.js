@@ -9,6 +9,8 @@ export default class Message extends React.Component {
         this.state = {
             currentUser: props.currentUser,
             text: props.text,
+            type: props.type,
+            imageUrl: props.imageUrl,
             author: props.author,
             date: props.date,
             metadata: props.metadata,
@@ -26,7 +28,8 @@ export default class Message extends React.Component {
                 avatar={`/api/avatar/${this.state.author}`}
                 title={this.state.author}
                 onTitleClick={() => this.state.onMessageTitleClick(this.state.author)}
-                type={'text'}
+                type={this.state.type}
+                image={this.state.imageUrl}
                 text={this.state.text}
                 date={new Date(this.state.date)}
                 renderAddCmp={() => {

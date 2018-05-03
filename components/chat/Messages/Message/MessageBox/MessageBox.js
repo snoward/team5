@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 const ReactMarkdown = require('react-markdown');
 import Lightbox from 'react-image-lightbox';
+import ImageMessage from './imageMessage/imageMessage';
 
 import './styles.css';
 
@@ -13,6 +14,8 @@ export default class Message extends React.Component {
             text: props.text,
             author: props.title,
             date: props.date,
+            type: props.type,
+            image: props.image,
             avatar: props.avatar,
             metadata: props.metadata,
             isAvatarOpen: false,
@@ -35,7 +38,6 @@ export default class Message extends React.Component {
 
 
     render() {
-
         return <div>
             <li
                 className = {this.state.position} >
@@ -53,6 +55,13 @@ export default class Message extends React.Component {
                     )}</div>
                 <div className='msg'>
                     <a onClick={this.props.onTitleClick}>{this.state.author}</a>
+                    {this.state.type === 'image'
+                        ? (<ImageMessage
+                            image={this.state.image}
+                            author={this.state.author}
+                        />)
+                        : null
+                    }
                     <ReactMarkdown renderers={{
                         linkReference: (reference) => {
                             if (!reference.href) {
