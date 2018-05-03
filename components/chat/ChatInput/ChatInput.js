@@ -1,8 +1,11 @@
 import React from 'react';
-
 import { updateRecentEmoji } from '../../../lib/apiRequests/emoji';
 import { saveMessage } from '../../../lib/apiRequests/messages';
 import EmojiPicker from './EmojiPicker/EmojiPicker';
+import { uploadImage } from '../../../lib/apiRequests/images';
+import LoadingSpinner from '../../LoadingSpinner';
+import ErrorModal from '../../errorModal';
+import Dropzone from 'react-dropzone';
 
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';
@@ -12,7 +15,13 @@ export default class ChatInput extends React.Component {
         super(props);
         this.state = {
             messageText: '',
-            showPicker: false
+            files: [],
+            showPicker: false,
+            loading: false,
+            showModal: false,
+            dropzoneActive: false,
+            sendIcon: 'static/images/Emoji_Foggy_PNG.png',
+            emojiIcon: 'static/images/Slightly_Smiling_Face_Emoji.png'
         };
 
         this.numberOfRecentEmoji = props.numberOfRecentEmoji || 15;
@@ -23,6 +32,15 @@ export default class ChatInput extends React.Component {
         this.onShowPickerButtonClick = this.onShowPickerButtonClick.bind(this);
         this.onInputPressKey = this.onInputPressKey.bind(this);
         this.handleEscape = this.handleEscape.bind(this);
+        this.onFileInputChange = this.onFileInputChange.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+        this.onDragLeave = this.onDragLeave.bind(this);
+        this.onDragEnter = this.onDragEnter.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+    }
+
+    handleCloseModal() {
+        this.setState({ showModal: false });
     }
 
     componentDidMount() {
@@ -77,6 +95,67 @@ export default class ChatInput extends React.Component {
         });
     }
 
+    onFileInputChange(event, file = event.target.files[0]) {
+        event.preventDefault();
+        this.setState({ loading: true });
+        uploadImage(file)
+            .then(res => {
+                if (res.data.error) {
+                    this.setState({ loading: false,
+                        showModal: true,
+                        error: res.data.error.message });
+                } else {
+                    this.setState({ loading: false });
+                    const message = {
+                        type: 'image',
+                        conversationId: this.props.conversationId,
+                        imageUrl: `/api/images/${res.data.imageId}`,
+                        author: this.props.currentUser
+                    };
+                    this.props.socket.emit('message', message);
+                    saveMessage(message, message.conversationId);
+                }
+            });
+        event.target.value = '';
+    }
+    onDragEnter() {
+        this.setState({
+            dropzoneActive: true
+        });
+    }
+
+    onDragLeave() {
+        this.setState({
+            dropzoneActive: false
+        });
+    }
+
+    onDrop(files) {
+        this.setState({
+            files,
+            dropzoneActive: false,
+            loading: true
+        });
+        uploadImage(files[0])
+            .then(res => {
+                if (res.data.error) {
+                    this.setState({ loading: false,
+                        showModal: true,
+                        error: res.data.error.message });
+                } else {
+                    this.setState({ loading: false });
+                    const message = {
+                        type: 'image',
+                        conversationId: this.props.conversationId,
+                        imageUrl: `/api/images/${res.data.imageId}`,
+                        author: this.props.currentUser
+                    };
+                    this.props.socket.emit('message', message);
+                    saveMessage(message, message.conversationId);
+                }
+            });
+    }
+
     onEmojiSelect(emoji) {
         const updatedRecentEmoji = this.state.recentEmoji.filter(el => el !== emoji.id);
         updatedRecentEmoji.unshift(emoji.id);
@@ -109,32 +188,78 @@ export default class ChatInput extends React.Component {
     }
 
     render() {
+        const loading = this.state.loading;
+        const { dropzoneActive } = this.state;
+        const overlayStyle = {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            zIndex: 9999,
+            padding: '2.5em 0',
+            background: 'rgba(0,0,0,0.5)',
+            textAlign: 'center',
+            color: '#fff'
+        };
+
         return (
-            <div className='chat-input'>
-                <textarea
-                    type='text'
-                    className='chat-input__textarea'
-                    placeholder="Введите новое сообщение"
-                    value={this.state.messageText}
-                    onChange={this.handleChange}
-                    ref={input => {
-                        this.chatInput = input;
-                    }}
-                    onKeyPress={this.onInputPressKey}
-                />
+            <Dropzone
+                disableClick
+                style={{ position: 'relative' }}
+                onDrop={this.onDrop}
+                onDragEnter={this.onDragEnter}
+                onDragLeave={this.onDragLeave}
+            >
+                { dropzoneActive && <div style={overlayStyle}>Drop images...</div> }
+                <div className='chat-input'>
+                    {this.state.showModal
+                        ? <ErrorModal
+                            showModal={this.state.showModal}
+                            error={this.state.error}
+                            handleCloseModal={this.handleCloseModal}
+                        /> : null
+                    }
+                    {loading ? <LoadingSpinner /> : null}
 
-                {this.state.showPicker
-                    ? <EmojiPicker
-                        recentEmoji={this.state.shownRecentEmoji}
-                        onEmojiSelect={this.onEmojiSelect}
-                    />
-                    : null
-                }
+                    {this.state.showPicker
+                        ? <EmojiPicker
+                            recentEmoji={this.state.shownRecentEmoji}
+                            onEmojiSelect={this.onEmojiSelect}
+                        />
+                        : null
+                    }
 
-                <div className="chat-input__show-picker-button"
-                    onClick={this.onShowPickerButtonClick}
-                >&#9786;</div>
-            </div>
+                    <div className="chat-input__input-elements">
+                        <textarea
+                            type='text'
+                            className='chat-input__textarea'
+                            placeholder="Введите новое сообщение"
+                            value={this.state.messageText}
+                            onChange={this.handleChange}
+                            ref={input => {
+                                this.chatInput = input;
+                            }}
+                            onKeyPress={this.onInputPressKey}
+                        />
+                        <div className="chat-input__show-picker-button"
+                            onClick={this.onShowPickerButtonClick}
+                        >
+                            <img className="chat-input__emoji-icon" src={this.state.emojiIcon}/>
+                        </div>
+                        <label className="chat-input__file-label" htmlFor="file-input">
+                            <img className="chat-input__file-icon" src={this.state.sendIcon} />
+                        </label>
+
+                        <input
+                            type="file"
+                            onChange={this.onFileInputChange}
+                            className="file-input"
+                            id="file-input"
+                        />
+                    </div>
+                </div>
+            </Dropzone>
         );
     }
 }
