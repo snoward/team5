@@ -87,7 +87,7 @@ async function getAllConversations(username) {
 
 async function isSuchPrivateAlreadyExist(conversation) {
     const conversations = await Conversation.find({ isPrivate: true })
-        .where('users').in(conversation.users);
+        .where('users').all(conversation.users);
 
     return conversations.length;
 }

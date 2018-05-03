@@ -13,28 +13,26 @@ module.exports.contacts = async (req, res) => {
 };
 
 module.exports.add = async (req, res) => {
+    if (req.params.username === req.user.username) {
+        return res.status(400).json({
+            error: new ErrorInfo(400, 'Can`t add yourself to contacts')
+        });
+    }
+
     const user = await User.ensureExists(req.params.username);
     if (!user) {
         return res.status(404).json({
             error: new ErrorInfo(404, `User ${req.params.username} not found`) });
     }
 
-    let contactInfo = await Contact.findOne({ ownerName: req.user.username });
-    if (!contactInfo) {
-        contactInfo = await Contact.create({
-            ownerName: req.user.username,
-            contacts: []
-        });
-    }
-
-    if (contactInfo.contacts.includes(req.params.username)) {
+    let contactInfo = await Contact.findOneOrCreate(req.user.username);
+    const addedContact = contactInfo.addContact(req.params.username);
+    if (!addedContact) {
         return res.status(400).json({
             error: new ErrorInfo(400, `Contact ${req.params.username} already exist`)
         });
     }
-
-    contactInfo.contacts.push(req.params.username);
     await contactInfo.save();
 
-    res.status(201).json(contactInfo.contacts);
+    res.status(201).json(addedContact);
 };
