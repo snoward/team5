@@ -1,7 +1,6 @@
-const uuid = require('uuid/v4');
-
-const db = require('../libs/dbHelper');
 const ErrorInfo = require('../models/errorInfo');
+const Conversation = require('../models/schemas/conversation');
+const User = require('../models/schemas/user');
 
 module.exports.conversations = async (req, res) => {
     const conversations = await getAllConversations(req.user.username);
@@ -9,23 +8,23 @@ module.exports.conversations = async (req, res) => {
 };
 
 module.exports.getInfo = async (req, res) => {
-    const conversation = await db.get(`conversations_${req.params.conversationId}`);
+    const conversation = await Conversation.findById(req.params.conversationId);
     res.json(conversation);
 };
 
 module.exports.create = async (req, res) => {
-    const conversation = {
-        id: uuid(),
-        title: req.params.title,
-        users: req.body.users,
-        isPrivate: req.body.isPrivate
-    };
-
-    if (! await areUsersExist(conversation.users)) {
+    const users = await Promise.all(req.body.users.map(username => User.ensureExists(username)));
+    if (users.some(user => user === null)) {
         return res.status(400).json({
             error: new ErrorInfo(400, 'Incorrect users')
         });
     }
+
+    let conversation = {
+        title: req.params.title,
+        users: req.body.users,
+        isPrivate: req.body.isPrivate
+    };
 
     if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
         return res.status(400).json({
@@ -34,10 +33,7 @@ module.exports.create = async (req, res) => {
     }
 
     try {
-        await Promise.all([
-            db.post(`conversations_${conversation.id}`, JSON.stringify(conversation)),
-            addConversationToUsers(conversation)
-        ]);
+        conversation = await Conversation.create(conversation);
     } catch (ex) {
         return res.status(500).json({
             error: new ErrorInfo(400, 'Server error')
@@ -51,15 +47,14 @@ module.exports.addUser = async (req, res) => {
     const conversationId = req.params.conversationId;
     const { username } = req.body;
 
-    try {
-        await db.get(`users_${username}`);
-    } catch (ex) {
+    const user = await User.ensureExists(username);
+    if (!user) {
         return res.status(404).json({
             error: new ErrorInfo(404, `User ${username} not found`)
         });
     }
 
-    const conversation = await db.get(`conversations_${conversationId}`);
+    const conversation = await Conversation.findOne({ _id: conversationId });
     if (conversation.users.includes(username)) {
         return res.status(400).json({
             error: new ErrorInfo(400, `User ${username} already in conversation`)
@@ -74,10 +69,7 @@ module.exports.addUser = async (req, res) => {
 
     conversation.users.push(username);
     try {
-        await Promise.all([
-            db.put(`conversations_${conversationId}`, JSON.stringify(conversation)),
-            db.post(`conversations_${username}`, conversation.id)
-        ]);
+        await conversation.save();
     } catch (ex) {
         return res.status(500).json({
             error: new Error(500, 'Server error')
@@ -88,44 +80,14 @@ module.exports.addUser = async (req, res) => {
 };
 
 async function getAllConversations(username) {
-    const conversationsIds = await db.getAll(`conversations_${username}`);
-
-    const queries = [];
-    conversationsIds.forEach(id => queries.push(db.get(`conversations_${id}`)));
-
-    const conversations = Promise.all(queries);
+    const conversations = await Conversation.find({ users: username });
 
     return conversations;
 }
 
 async function isSuchPrivateAlreadyExist(conversation) {
-    const conversations = await getAllConversations(conversation.users[0]);
+    const conversations = await Conversation.find({ isPrivate: true })
+        .where('users').all(conversation.users);
 
-    return conversations.some(elem =>
-        (elem.isPrivate &&
-            elem.users.find(user => user === conversation.users[0]) &&
-            elem.users.find(user => user === conversation.users[1]))
-    );
-}
-
-async function areUsersExist(users) {
-    const queries = [];
-    users.forEach(user => queries.push(db.get(`users_${user}`)));
-
-    try {
-        await Promise.all(queries);
-    } catch (ex) {
-        return false;
-    }
-
-    return true;
-}
-
-async function addConversationToUsers(conversation) {
-    const queries = [];
-    conversation.users.forEach(user =>
-        queries.push(db.post(`conversations_${user}`, conversation.id))
-    );
-
-    await Promise.all(queries);
+    return conversations.length;
 }

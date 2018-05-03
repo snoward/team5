@@ -14,7 +14,7 @@ export default class Menu extends React.Component {
         this.state = {
             avatarUrl: props.menu.avatar,
             name: props.menu.name,
-            contactList: props.contacts.map(elem => JSON.parse(elem)),
+            contactList: props.contacts,
             link: props.menu.link,
             registered: props.menu.registered
         };

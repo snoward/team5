@@ -56,7 +56,7 @@ export default class IndexPage extends Component {
         this.setState({
             messagesInfo: {
                 'conversationId': conversationId,
-                'messages': res.data.map(elem => JSON.parse(elem)),
+                'messages': res.data,
                 'currentUser': currentUser
             },
             loading: false
