@@ -17,9 +17,10 @@ export default class SignIn extends Component {
     render() {
         return (<div className='container'>
             {this.state.loading ? <LoadingSpinner /> : null}
-            <div onClick={this.displaySpinner} className='sign-in'>
+            <div className='sign-in'>
                 <img className='logo' src={'https://i.imgur.com/u3c6Dsf.png'} alt='logo' />
-                <a className='sign-in__a' href='/auth'>{signInString}</a>
+                <a className='sign-in__a' href='/auth'
+                    onClick={this.displaySpinner}>{signInString}</a>
             </div>
         </div>);
     }
