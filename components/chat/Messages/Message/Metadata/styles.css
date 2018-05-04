@@ -8,12 +8,13 @@
     font-family: 'Lato', sans-serif;
     margin: 10px;
     padding: 10px;
-    border-right: 2px rgb(255, 129, 124) double;
-    background: rgba(255, 229, 204, 0.15);
+    border-right: 2px #ff817c double;
+    background: rgba(255, 229, 204, .15);
 }
+
 .metadata:hover
 {
-    background: rgb(255, 229, 204);
+    background: #ffe5cc;
 }
 
 .metadata__link
@@ -22,6 +23,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .metadata__pic
 {
     margin-top: 10px;
@@ -30,11 +32,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .meatadata__text
 {
     font-size: 14px;
     text-decoration: underline !important;
-    color: #000000;
+    color: #000;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

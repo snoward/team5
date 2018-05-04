@@ -3,21 +3,25 @@
     position:relative;
     left: 44%;
     top: 10px;
-    background-color: #ffffff;
+    background-color: #fff;
     border: none;
     padding: 10px;
     border-radius: 4px;
 }
+
 .error__close-button:hover
 {
     background-color: #ff7f50;
     color: #000000;
 }
-.error, .error *{
+
+.error, .error *
+{
     outline: none !important;
 }
 
-.error {
+.error
+{
     outline: none;
     width: 100%;
     height: 100%;
@@ -26,21 +30,24 @@
     flex-direction: column;
     justify-content: space-around;
     font-family: 'Lato', sans-serif;
-    box-shadow: 0 4px 8px 0 rgba(255,160,122,0.5);
+    box-shadow: 0 4px 8px 0 rgba(255, 160, 122, .5);
     transition: 0.3s;
-    background: white;
+    background: #fff;
     border-radius: 4px;
 }
 
-.error:hover {
-    box-shadow: 0 8px 6px 0 rgba(255,160,122,0.5);
+.error:hover
+{
+    box-shadow: 0 8px 6px 0 rgba(255, 160, 122, .5);
 }
 
-.error__message-container {
+.error__message-container
+{
     text-align: center;
     color: #ff4e35;
     padding: 20px;
 }
+
 .error__icon
 {
     align-self: center;

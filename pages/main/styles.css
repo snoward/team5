@@ -1,8 +1,10 @@
-body {
+body
+{
     margin: 0;
 }
 
-.content-wrapper {
+.content-wrapper
+{
     display: grid;
 
     grid-template-areas: 'menu menu'
