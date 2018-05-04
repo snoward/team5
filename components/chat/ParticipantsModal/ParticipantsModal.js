@@ -35,7 +35,6 @@ export default class ParticipantsModal extends React.Component {
                         flexDirection: 'column',
                         justifyContent: 'center',
                         margin: 'auto',
-                        width: 400,
                         height: 220,
                         border: null
                     }

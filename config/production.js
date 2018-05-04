@@ -18,5 +18,11 @@ module.exports = {
         uri: 'mongodb+srv://LOGIN:PASSWORD@messengerproductioncluster-ej5fo.mongodb.net/messenger',
         login: process.env.MONGODB_LOGIN,
         password: process.env.MONGODB_PASSWORD
+    },
+    caller: {
+        accountSid: process.env.CALLER_ACCOUNT_SID,
+        authToken: process.env.CALLER_AUTH_TOKEN,
+        callerNumber: process.env.CALLER_NUMBER,
+        twiml: process.env.CALLER_TWIML
     }
 };

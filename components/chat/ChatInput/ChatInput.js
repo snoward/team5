@@ -213,13 +213,12 @@ export default class ChatInput extends React.Component {
             >
                 { dropzoneActive && <div style={overlayStyle}>Drop images...</div> }
                 <div className='chat-input'>
-                    {this.state.showModal
-                        ? <ErrorModal
-                            showModal={this.state.showModal}
-                            error={this.state.error}
-                            handleCloseModal={this.handleCloseModal}
-                        /> : null
-                    }
+                    <ErrorModal
+                        showModal={this.state.showModal}
+                        error={this.state.error}
+                        handleCloseModal={this.handleCloseModal}
+                    />
+
                     {loading ? <LoadingSpinner /> : null}
 
                     {this.state.showPicker

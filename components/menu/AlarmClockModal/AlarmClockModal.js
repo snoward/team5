@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import ErrorBox from '././ErrorBox';
-export default class ErrorModal extends React.Component {
+
+import AlarmClock from './AlarmClock/AlarmClock';
+
+export default class Modal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.state = {};
     }
 
     static getDerivedStateFromProps(nextProps) {
         return {
             showModal: nextProps.showModal,
-            error: nextProps.error,
             handleCloseModal: nextProps.handleCloseModal
         };
     }
@@ -29,22 +29,19 @@ export default class ErrorModal extends React.Component {
                         zIndex: 1000
                     },
                     content: {
-                        backgroundColor: 'rgba(0,0,0,0.0)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
+                        backgroundColor: 'rgb(255,255,255)',
                         margin: 'auto',
                         width: 400,
-                        height: 255,
-                        border: null
+                        height: 500,
+                        border: null,
+                        boxShadow: '0 0 5px coral'
                     }
                 }}
             >
-                <ErrorBox
-                    error={this.state.error}
+
+                <AlarmClock
                     handleCloseModal={this.state.handleCloseModal}
                 />
-            </ReactModal>
-        );
+            </ReactModal>);
     }
 }

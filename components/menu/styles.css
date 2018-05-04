@@ -16,6 +16,7 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
     background: #ff7f50;
 
     padding: 5px 0;
+    position: relative;
 }
 
 .menu__avatar-wrapper
@@ -45,4 +46,18 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
     color: rgba(255, 255, 255, .98);
     cursor: default;
     margin-left: 15px;
+}
+
+.menu__alarm-clock-button {
+    position: absolute;
+    bottom: 1.5vh;
+    right: 15px;
+    display: block;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #3979aa;
+    color: #fff;
+    padding: 7px;
+    border-radius: 10%;
 }

@@ -8,6 +8,7 @@ const { user } = require('../controllers/users');
 const { getRecentEmoji, updateRecentEmoji } = require('../controllers/emoji');
 const { getImage, uploadImage } = require('../controllers/images');
 const avatar = require('../controllers/avatar');
+const { registerCall, getCalls, cancelCall } = require('../controllers/calls');
 const hasNotSignedIn = require('../middlewares/has-not-signed-in');
 
 module.exports = (server) => {
@@ -39,4 +40,9 @@ module.exports = (server) => {
     server.route('/api/emoji')
         .get(getRecentEmoji)
         .patch(updateRecentEmoji);
+
+    server.route('/api/calls')
+        .post(registerCall)
+        .get(getCalls)
+        .patch(cancelCall);
 };

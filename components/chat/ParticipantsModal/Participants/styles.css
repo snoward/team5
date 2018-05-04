@@ -1,8 +1,8 @@
 .participants-container
 {
+    text-align: center;
     font: 12px;
     background: #fff;
-    width: auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -11,5 +11,5 @@
 .invite-link
 {
     color: #a4a0df;
-    margin-left: 20px;
+    margin-left: 40px;
 }
