@@ -45,19 +45,16 @@ export default class Chat extends React.Component {
     }
 
     handlePermissionGranted() {
-        console.info('Permission Granted');
         this.setState({
             ignore: false
         });
     }
     handlePermissionDenied() {
-        console.info('Permission Denied');
         this.setState({
             ignore: true
         });
     }
     handleNotSupported() {
-        console.info('Web Notification not Supported');
         this.setState({
             ignore: true
         });
@@ -147,7 +144,7 @@ export default class Chat extends React.Component {
                     <button
                         className='chat-container__show-participants-button'
                         onClick={this.openParticipantsModal}>
-                        Participants
+                        Участники
                     </button>
                 </div>
 

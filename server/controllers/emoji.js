@@ -17,7 +17,7 @@ module.exports.updateRecentEmoji = async (req, res) => {
             { titles: recentEmoji },
             { upsert: true });
     } catch (ex) {
-        console.error(`Update recent emoji failed for user ${req.user.username}. ${ex}`);
+        console.error(`Не удалось обновить список смайлов ${req.user.username}. ${ex}`);
 
         return res.sendStatus(400);
     }

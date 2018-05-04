@@ -18,7 +18,7 @@ module.exports.save = async (req, res) => {
         message = await Message.create(message);
     } catch (ex) {
         return res.status(500).json({
-            error: new ErrorInfo(500, 'Server error')
+            error: new ErrorInfo(500, 'Не удалось отправить сообщение')
         });
     }
 

@@ -15,21 +15,21 @@ module.exports.contacts = async (req, res) => {
 module.exports.add = async (req, res) => {
     if (req.params.username === req.user.username) {
         return res.status(400).json({
-            error: new ErrorInfo(400, 'Can`t add yourself to contacts')
+            error: new ErrorInfo(400, 'Нельзя добавить себя в контакты')
         });
     }
 
     const user = await User.ensureExists(req.params.username);
     if (!user) {
         return res.status(404).json({
-            error: new ErrorInfo(404, `User ${req.params.username} not found`) });
+            error: new ErrorInfo(404, `Пользователь ${req.params.username} не найден`) });
     }
 
     let contactInfo = await Contact.findOneOrCreate(req.user.username);
     const addedContact = contactInfo.addContact(req.params.username);
     if (!addedContact) {
         return res.status(400).json({
-            error: new ErrorInfo(400, `Contact ${req.params.username} already exist`)
+            error: new ErrorInfo(400, `Контакт ${req.params.username} уже существует`)
         });
     }
     await contactInfo.save();
