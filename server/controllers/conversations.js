@@ -63,38 +63,46 @@ module.exports.tryCreateConversation = tryCreateConversation;
 module.exports.addUser = async (req, res) => {
     const conversationId = req.params.conversationId;
     const { username } = req.body;
+    const additionResult = await tryAddUserToConversation(username, conversationId);
+    if (additionResult.error) {
+        return res.status(additionResult.error.status).json({ error: additionResult.error });
+    }
+    res.status(201).json(additionResult.conversation);
+};
 
+async function tryAddUserToConversation(username, conversationId) {
     const user = await User.ensureExists(username);
     if (!user) {
-        return res.status(404).json({
-            error: new ErrorInfo(404, `Пользователь ${username} не существует`)
-        });
+        return {
+            error: new ErrorInfo(404, `Пользователь ${username} не найден`)
+        };
+    }
+    const conversation = await Conversation.findOne({ _id: conversationId, isPrivate: false });
+
+    if (!conversation) {
+        return { error: new ErrorInfo(404, `Диалог ${conversationId} не найден`) };
     }
 
-    const conversation = await Conversation.findOne({ _id: conversationId });
     if (conversation.users.includes(username)) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, `Пользователь ${username} уже состоит в беседе`)
-        });
-    }
-
-    if (conversation.isPrivate) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Нельзя добавить пользователя в диалог')
-        });
+        return {
+            conversation,
+            error: new ErrorInfo(400, `Пользователь ${username} уже существует в беседе`)
+        };
     }
 
     conversation.users.push(username);
     try {
         await conversation.save();
     } catch (ex) {
-        return res.status(500).json({
+        return {
             error: new Error(500, 'Не удалось обновить список пользователей в беседе')
-        });
+        };
     }
 
-    res.status(201).json(conversation);
-};
+    return { error: null, conversation };
+}
+
+module.exports.tryAddUserToConversation = tryAddUserToConversation;
 
 async function getAllConversations(username) {
     const conversations = await Conversation.find({ users: username });

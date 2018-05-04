@@ -1,5 +1,5 @@
 const { tryAddContact } = require('./contacts');
-const { tryCreateConversation } = require('./conversations');
+const { tryCreateConversation, tryAddUserToConversation } = require('./conversations');
 
 async function moveToPrivateChat(req, res, next) {
     if (!req.user) {
@@ -25,3 +25,19 @@ async function moveToPrivateChat(req, res, next) {
 }
 
 module.exports.moveToPrivateChat = moveToPrivateChat;
+
+async function moveToGroupChat(req, res, next) {
+    if (!req.user) {
+        return res.sendStatus(401);
+    }
+    const conversationId = req.params.conversationId;
+    const username = req.user.username;
+    const creationResult = await tryAddUserToConversation(username, conversationId);
+    if (!creationResult.conversation) {
+        return res.status(creationResult.error.status).json({ error: creationResult.error });
+    }
+    req.conversationId = creationResult.conversation._id;
+    next();
+}
+
+module.exports.moveToGroupChat = moveToGroupChat;
