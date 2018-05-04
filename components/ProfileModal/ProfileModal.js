@@ -38,7 +38,6 @@ export default class Modal extends React.Component {
                         justifyContent: 'center',
                         margin: 'auto',
                         width: 400,
-                        height: 220,
                         border: null
                     }
                 }}
