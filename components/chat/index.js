@@ -6,6 +6,7 @@ import ParticipantsModal from './ParticipantsModal/ParticipantsModal.js';
 import ProfileModal from '../ProfileModal/ProfileModal.js';
 import Messages from './Messages/Messages.js';
 import io from 'socket.io-client';
+import Notification from 'react-web-notification';
 
 import { getRecentEmoji } from '../../lib/apiRequests/emoji';
 import './styles.css';
@@ -19,7 +20,8 @@ export default class Chat extends React.Component {
             showParticipantsModal: false,
             messages: props.messagesInfo.messages,
             currentUser: props.messagesInfo.currentUser,
-            participantsVisible: false
+            participantsVisible: false,
+            ignore: true
         };
 
         getRecentEmoji()
@@ -35,6 +37,29 @@ export default class Chat extends React.Component {
         this.closeParticipantsModal = this.closeParticipantsModal.bind(this);
 
         this.handleMessage = this.handleMessage.bind(this);
+        this.handleNotification = this.handleNotification.bind(this);
+        this.handleNotSupported = this.handleNotSupported.bind(this);
+        this.handlePermissionGranted = this.handlePermissionGranted.bind(this);
+        this.handlePermissionDenied = this.handlePermissionDenied.bind(this);
+    }
+
+    handlePermissionGranted() {
+        console.info('Permission Granted');
+        this.setState({
+            ignore: false
+        });
+    }
+    handlePermissionDenied() {
+        console.info('Permission Denied');
+        this.setState({
+            ignore: true
+        });
+    }
+    handleNotSupported() {
+        console.info('Web Notification not Supported');
+        this.setState({
+            ignore: true
+        });
     }
 
     closeProfileModal() {
@@ -57,13 +82,40 @@ export default class Chat extends React.Component {
         this.setState({ showParticipantsModal: false });
     }
 
-    componentDidMount() {
-        this.socket.on(`message_${this.props.messagesInfo.conversationId}`, this.handleMessage);
 
+    componentDidMount() {
+        this.socket.on(`message_${this.props.messagesInfo.conversationId}`,
+            this.handleNotification);
     }
 
     componentWillUnmount() {
         this.socket.removeListener(`message_${this.props.messagesInfo.conversationId}`);
+    }
+
+    handleNotification(message) {
+        if (this.state.currentUser === message.author) {
+            return this.handleMessage(message);
+        }
+        const now = Date.now();
+
+        const title = message.author;
+        const body = message.type === 'text'
+            ? message.text
+            : 'Image recieved';
+        const tag = now;
+        const icon = '';
+
+        const options = {
+            tag: tag,
+            body: body,
+            icon: icon,
+            dir: 'ltr'
+        };
+        this.setState({
+            title: title,
+            options: options
+        });
+        this.handleMessage(message);
     }
 
     handleMessage(message) {
@@ -77,6 +129,14 @@ export default class Chat extends React.Component {
     render() {
         return (
             <section className='chat-container'>
+                <Notification
+                    ignore={this.state.ignore && this.state.title !== ''}
+                    notSupported={this.handleNotSupported}
+                    onPermissionGranted={this.handlePermissionGranted}
+                    onPermissionDenied={this.handlePermissionDenied}
+                    title={this.state.title}
+                    options={this.state.options}
+                />
                 <ProfileModal
                     showModal={this.state.showProfileModal}
                     handleCloseModal={this.closeProfileModal}
