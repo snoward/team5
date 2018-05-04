@@ -21,7 +21,8 @@ export default class Chat extends React.Component {
             messages: props.messagesInfo.messages,
             currentUser: props.messagesInfo.currentUser,
             participantsVisible: false,
-            ignore: true
+            ignore: true,
+            disableActiveWindow: true
         };
 
         getRecentEmoji()
@@ -96,23 +97,17 @@ export default class Chat extends React.Component {
         if (this.state.currentUser === message.author) {
             return this.handleMessage(message);
         }
-        const now = Date.now();
-
-        const title = message.author;
-        const body = message.type === 'text'
-            ? message.text
-            : 'Image recieved';
-        const tag = now;
-        const icon = '';
 
         const options = {
-            tag: tag,
-            body: body,
-            icon: icon,
+            tag: Date.now(),
+            body: message.type === 'text'
+                ? message.text
+                : 'Image recieved',
+            icon: '',
             dir: 'ltr'
         };
         this.setState({
-            title: title,
+            title: message.author,
             options: options
         });
         this.handleMessage(message);
@@ -132,6 +127,7 @@ export default class Chat extends React.Component {
                 <Notification
                     ignore={this.state.ignore && this.state.title !== ''}
                     notSupported={this.handleNotSupported}
+                    disableActiveWindow = {this.state.disableActiveWindow}
                     onPermissionGranted={this.handlePermissionGranted}
                     onPermissionDenied={this.handlePermissionDenied}
                     title={this.state.title}
