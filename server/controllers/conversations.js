@@ -13,35 +13,52 @@ module.exports.getInfo = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-    const users = await Promise.all(req.body.users.map(username => User.ensureExists(username)));
-    if (users.some(user => user === null)) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Пользователя не существует')
-        });
-    }
-
     let conversation = {
         title: req.params.title,
         users: req.body.users,
         isPrivate: req.body.isPrivate
     };
 
-    if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Такой диалог уже существует')
-        });
+    const creationResult = await tryCreateConversation(conversation);
+    if (creationResult.error) {
+        return res.status(creationResult.error.status).json({ error: creationResult.error });
+    }
+
+    res.status(201).json(creationResult.conversation);
+};
+
+async function tryCreateConversation(conversation) {
+    const users = await Promise.all(
+        conversation.users.map(username => User.ensureExists(username)));
+    if (users.some(user => user === null)) {
+        return {
+            conversation: null,
+            error: new ErrorInfo(400, 'Пользователь не существует')
+        };
+    }
+    if (conversation.isPrivate) {
+        const existingChat = await getPrivateChat(conversation.users);
+        if (existingChat) {
+            return {
+                conversation: existingChat,
+                error: new ErrorInfo(400, 'Такой диалог уже существует')
+            };
+        }
     }
 
     try {
         conversation = await Conversation.create(conversation);
     } catch (ex) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Не удалось создать беседу')
-        });
+        return {
+            conversation: null,
+            error: new ErrorInfo(500, 'Не удалось создать беседу')
+        };
     }
 
-    res.status(201).json(conversation);
-};
+    return { error: null, conversation };
+}
+
+module.exports.tryCreateConversation = tryCreateConversation;
 
 module.exports.addUser = async (req, res) => {
     const conversationId = req.params.conversationId;
@@ -85,9 +102,8 @@ async function getAllConversations(username) {
     return conversations;
 }
 
-async function isSuchPrivateAlreadyExist(conversation) {
-    const conversations = await Conversation.find({ isPrivate: true })
-        .where('users').all(conversation.users);
-
-    return conversations.length;
+async function getPrivateChat(users) {
+    return await Conversation.findOne({ isPrivate: true })
+        .where('users').all(users);
 }
+

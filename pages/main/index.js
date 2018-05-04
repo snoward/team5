@@ -17,10 +17,13 @@ export default class IndexPage extends Component {
         const [conversations, contactsList] = await Promise.all([
             getConversations(req), getContacts(req)]);
 
+        const messagesInfo = {
+            currentUser: req.user.username,
+            conversationId: req.conversationId
+        };
+
         return {
-            messagesInfo: {
-                'currentUser': req.user.username
-            },
+            messagesInfo,
             conversations: conversations.data,
             contacts: contactsList.data,
             menu: {
@@ -36,6 +39,15 @@ export default class IndexPage extends Component {
     constructor(props) {
         super(props);
         this.state = props;
+    }
+
+    componentDidMount() {
+        if (this.state.messagesInfo.conversationId) {
+            this.setState({ loading: true });
+            this.loadConversations(this.state.messagesInfo.conversationId);
+        }
+        // eslint-disable-next-line
+        history.pushState(null, null, '/');
     }
 
     async _onConversationClick(conversation) {
