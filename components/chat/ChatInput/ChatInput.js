@@ -230,11 +230,11 @@ export default class ChatInput extends React.Component {
                         : null
                     }
 
-                    <div className="chat-input__input-elements">
+                    <div className='chat-input__input-elements'>
                         <textarea
                             type='text'
                             className='chat-input__textarea'
-                            placeholder="Введите новое сообщение"
+                            placeholder='Введите новое сообщение'
                             value={this.state.messageText}
                             onChange={this.handleChange}
                             ref={input => {
@@ -242,20 +242,20 @@ export default class ChatInput extends React.Component {
                             }}
                             onKeyPress={this.onInputPressKey}
                         />
-                        <div className="chat-input__show-picker-button"
+                        <div className='chat-input__show-picker-button'
                             onClick={this.onShowPickerButtonClick}
                         >
-                            <img className="chat-input__emoji-icon" src={this.state.emojiIcon}/>
+                            <img className='chat-input__emoji-icon' src={this.state.emojiIcon}/>
                         </div>
-                        <label className="chat-input__file-label" htmlFor="file-input">
-                            <img className="chat-input__file-icon" src={this.state.sendIcon} />
+                        <label className='chat-input__file-label' htmlFor='file-input'>
+                            <img className='chat-input__file-icon' src={this.state.sendIcon} />
                         </label>
 
                         <input
-                            type="file"
+                            type='file'
                             onChange={this.onFileInputChange}
-                            className="file-input"
-                            id="file-input"
+                            className='file-input'
+                            id='file-input'
                         />
                     </div>
                 </div>

@@ -77,7 +77,7 @@ export default class Conversations extends React.Component {
     render() {
         return (
             <section className='conversations'>
-                <div className="conversations__controls">
+                <div className='conversations__controls'>
                     <CreateConversationModal
                         isOpen={this.state.isModalOpen}
                         handleCloseModal={this.handleCloseModal}

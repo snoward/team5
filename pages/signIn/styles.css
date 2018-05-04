@@ -26,15 +26,15 @@
     line-height: 40px;
     padding: 20px 40px;
     display: block;
-    border: 2px solid #FF7F50;
+    border: 2px solid #ff7f50;
     text-align: center;
     border-radius: 3px;
-    background-color: #ffffff;
+    background-color: #fff;
     color: #000;
 }
 
 .sign-in__a:hover
 {
     background-color: #f55649;
-    color: #ffffff;
+    color: #fff;
 }

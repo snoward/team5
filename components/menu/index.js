@@ -54,7 +54,7 @@ export default class Menu extends React.Component {
 
                 <div className='menu__avatar-wrapper'>
                     <img
-                        className="menu__avatar-img"
+                        className='menu__avatar-img'
                         src={this.state.avatarUrl}
                         onClick={this.handleOpenModal}
                         draggable='false'
