@@ -102,7 +102,7 @@ export default class Chat extends React.Component {
             tag: Date.now(),
             body: message.type === 'text'
                 ? message.text
-                : 'Image recieved',
+                : 'Image received',
             icon: '',
             dir: 'ltr'
         };
