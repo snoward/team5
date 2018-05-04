@@ -14,7 +14,7 @@ export default class CreateConversationForm extends React.Component {
             handleCloseModal: props.handleCloseModal,
             inputValue: '',
             disabled: false,
-            placeholder: 'Conversation name'
+            placeholder: 'Название беседы'
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -36,7 +36,7 @@ export default class CreateConversationForm extends React.Component {
         this.setState({
             disabled: true,
             inputValue: '',
-            placeholder: 'Wait please'
+            placeholder: 'Запрос обрабатывается'
         });
 
         const res = await createNotPrivateConversation(conversationName, [this.props.currentUser]);
@@ -51,7 +51,7 @@ export default class CreateConversationForm extends React.Component {
             <div className='create-conversation'>
                 {this.state.disabled ? <LoadingSpinner /> : null}
                 <form onSubmit={this.handleSubmit}>
-                    <header className='create-conversation__header'>Create conversation</header>
+                    <header className='create-conversation__header'>Создать беседу</header>
                     <input
                         type='text'
                         className='create-conversation__input'

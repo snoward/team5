@@ -8,7 +8,7 @@ module.exports.user = async (req, res) => {
         res.status(200).json(user);
     } catch (ex) {
         res.status(404).json({
-            error: new ErrorInfo(404, `User ${username} not found`)
+            error: new ErrorInfo(404, `Пользователь ${username} не существует`)
         });
     }
 };

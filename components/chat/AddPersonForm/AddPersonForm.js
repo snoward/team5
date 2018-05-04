@@ -10,7 +10,7 @@ export default class AddPersonForm extends React.Component {
         super(props);
         this.state = {
             inputValue: '',
-            placeholder: 'Add user to conversation',
+            placeholder: 'Добавить пользователя в беседу',
             disabled: false
         };
         this.handleChange = this.handleChange.bind(this);
@@ -28,7 +28,7 @@ export default class AddPersonForm extends React.Component {
         const userToAdd = this.state.inputValue;
         this.setState({
             disabled: true,
-            placeholder: 'Wait please',
+            placeholder: 'Запрос обрабатывается',
             inputValue: ''
         });
 
@@ -49,7 +49,7 @@ export default class AddPersonForm extends React.Component {
 
         this.setState({
             inputValue: '',
-            placeholder: 'Add user to conversation',
+            placeholder: 'Добавить пользователя в беседу',
             disabled: false
         });
     }

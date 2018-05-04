@@ -6,7 +6,7 @@ export default class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: 'Search for dialogue',
+            placeholder: 'Найти...',
             inputValue: '',
             disabled: false,
             handleFilteredConversations: props.handleFilteredConversations,

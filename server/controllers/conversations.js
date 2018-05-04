@@ -16,7 +16,7 @@ module.exports.create = async (req, res) => {
     const users = await Promise.all(req.body.users.map(username => User.ensureExists(username)));
     if (users.some(user => user === null)) {
         return res.status(400).json({
-            error: new ErrorInfo(400, 'Incorrect users')
+            error: new ErrorInfo(400, 'Пользователя не существует')
         });
     }
 
@@ -28,15 +28,15 @@ module.exports.create = async (req, res) => {
 
     if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
         return res.status(400).json({
-            error: new ErrorInfo(400, 'Such private conversation already exist')
+            error: new ErrorInfo(400, 'Такой диалог уже существует')
         });
     }
 
     try {
         conversation = await Conversation.create(conversation);
     } catch (ex) {
-        return res.status(500).json({
-            error: new ErrorInfo(400, 'Server error')
+        return res.status(400).json({
+            error: new ErrorInfo(400, 'Не удалось создать беседу')
         });
     }
 
@@ -50,20 +50,20 @@ module.exports.addUser = async (req, res) => {
     const user = await User.ensureExists(username);
     if (!user) {
         return res.status(404).json({
-            error: new ErrorInfo(404, `User ${username} not found`)
+            error: new ErrorInfo(404, `Пользователь ${username} не существует`)
         });
     }
 
     const conversation = await Conversation.findOne({ _id: conversationId });
     if (conversation.users.includes(username)) {
         return res.status(400).json({
-            error: new ErrorInfo(400, `User ${username} already in conversation`)
+            error: new ErrorInfo(400, `Пользователь ${username} уже состоит в беседе`)
         });
     }
 
     if (conversation.isPrivate) {
         return res.status(400).json({
-            error: new ErrorInfo(400, 'Cannot add user in private conversation')
+            error: new ErrorInfo(400, 'Нельзя добавить пользователя в диалог')
         });
     }
 
@@ -72,7 +72,7 @@ module.exports.addUser = async (req, res) => {
         await conversation.save();
     } catch (ex) {
         return res.status(500).json({
-            error: new Error(500, 'Server error')
+            error: new Error(500, 'Не удалось обновить список пользователей в беседе')
         });
     }
 

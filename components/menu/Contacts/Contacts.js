@@ -19,7 +19,7 @@ export default class Contacts extends React.Component {
         return (
             <div className='contacts'>
                 <Dropdown
-                    buttonProps={{ text: 'Contacts' }}
+                    buttonProps={{ text: 'Контакты' }}
                     items={this.state.contactList}
                 />
             </div>

@@ -11,7 +11,7 @@ export default class AddToContactsForm extends React.Component {
         super(props);
         this.state = {
             inputValue: '',
-            placeholder: 'Add user to contacts',
+            placeholder: 'Добавить новый контакт',
             disabled: false
         };
 
@@ -33,7 +33,7 @@ export default class AddToContactsForm extends React.Component {
         const contactName = this.state.inputValue;
         this.setState({
             disabled: true,
-            placeholder: 'Wait please',
+            placeholder: 'Запрос обрабатывается',
             inputValue: ''
         });
 
@@ -56,7 +56,7 @@ export default class AddToContactsForm extends React.Component {
     handleGoodResponse(contactRes) {
         this.setState({
             inputValue: '',
-            placeholder: 'Add user to contacts',
+            placeholder: 'Добавить новый контакт',
             disabled: false
         });
 
