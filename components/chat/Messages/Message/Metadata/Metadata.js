@@ -8,14 +8,18 @@ export default class Metadata extends React.Component {
     }
 
     render() {
+        const imageBlock = this.props.metadata.logo
+            ? <img className='metadata__pic' src={this.props.metadata.logo}
+                alt={this.props.metadata.title}/>
+            : '';
+
         return (
             <a href={this.props.metadata.url}>
                 <div className='metadata'>
                     <a className='metadata__link' href={this.props.metadata.url}>
                         {this.props.metadata.title}
                     </a>
-                    <img className='metadata__pic' src={this.props.metadata.image}
-                        alt={this.props.metadata.title}/>
+                    {imageBlock}
                     <div className='meatadata__text'>
                         {this.props.metadata.description}
                     </div>

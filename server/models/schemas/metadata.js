@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const MetadataSchema = new Schema({
     title: String,
     description: String,
-    image: String
+    logo: String
 });
 
 mongoose.model('Metadata', MetadataSchema);

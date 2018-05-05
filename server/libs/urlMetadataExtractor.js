@@ -12,7 +12,7 @@ class urlMetadataExtractor {
             const html = await fetch(targetUrl).then(res => res.text());
 
             return metascraper({ html, url: targetUrl }).then(result => {
-                return result.image || result.description ? result : null;
+                return result.logo || result.description ? result : null;
             });
         } catch (e) {
             return null;
