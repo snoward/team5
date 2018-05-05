@@ -15,7 +15,7 @@ module.exports = class MessageFactory {
         if (type === MessageTypes.text) {
             const metadata = await metadataExtractor.extractFromText(text);
 
-            return await new TextMessage({ conversationId, type, author, date, text, metadata });
+            return new TextMessage({ conversationId, type, author, date, text, metadata });
         }
 
         if (type === MessageTypes.image) {
