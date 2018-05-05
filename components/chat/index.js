@@ -144,7 +144,7 @@ export default class Chat extends React.Component {
                     <button
                         className='chat-container__show-participants-button'
                         onClick={this.openParticipantsModal}>
-                        Участники
+                        О&nbsp;беседе
                     </button>
                 </div>
 

@@ -13,71 +13,108 @@ module.exports.getInfo = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-    const users = await Promise.all(req.body.users.map(username => User.ensureExists(username)));
-    if (users.some(user => user === null)) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Пользователя не существует')
-        });
-    }
-
-    let conversation = {
+    const conversation = {
         title: req.params.title,
         users: req.body.users,
         isPrivate: req.body.isPrivate
     };
 
-    if (conversation.isPrivate && await isSuchPrivateAlreadyExist(conversation)) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Такой диалог уже существует')
-        });
+    const creationResult = await tryCreateConversation(conversation);
+    if (creationResult.error) {
+        return res.status(creationResult.error.status).json({ error: creationResult.error });
+    }
+
+    res.status(201).json(creationResult.conversation);
+};
+
+module.exports.tryCreateConversation = tryCreateConversation;
+
+async function tryCreateConversation(conversation) {
+    const users = await Promise.all(
+        conversation.users.map(username => User.ensureExists(username)));
+    if (users.some(user => user === null)) {
+        return {
+            conversation: null,
+            error: new ErrorInfo(400, 'Пользователь не существует')
+        };
+    }
+    if (conversation.isPrivate) {
+        const existingChat = await getPrivateChat(conversation.users);
+        if (existingChat) {
+            return {
+                conversation: existingChat,
+                error: new ErrorInfo(400, 'Такой диалог уже существует')
+            };
+        }
     }
 
     try {
         conversation = await Conversation.create(conversation);
     } catch (ex) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Не удалось создать беседу')
-        });
+        return {
+            conversation: null,
+            error: new ErrorInfo(500, 'Не удалось создать беседу')
+        };
     }
 
-    res.status(201).json(conversation);
-};
+    return { error: null, conversation };
+}
 
 module.exports.addUser = async (req, res) => {
     const conversationId = req.params.conversationId;
     const { username } = req.body;
+    const additionResult = await tryAddUserToConversation(username, conversationId);
+    if (additionResult.error) {
+        return res.status(additionResult.error.status).json({ error: additionResult.error });
+    }
+    res.status(201).json(additionResult.conversation);
+};
 
+module.exports.tryAddUserToConversation = tryAddUserToConversation;
+
+async function tryAddUserToConversation(username, conversationId) {
     const user = await User.ensureExists(username);
     if (!user) {
-        return res.status(404).json({
-            error: new ErrorInfo(404, `Пользователь ${username} не существует`)
-        });
+        return {
+            error: new ErrorInfo(404, `Пользователь ${username} не найден`)
+        };
     }
 
     const conversation = await Conversation.findOne({ _id: conversationId });
-    if (conversation.users.includes(username)) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, `Пользователь ${username} уже состоит в беседе`)
-        });
+
+    if (!conversation) {
+        return {
+            error: new ErrorInfo(404, `Диалог ${conversationId} не найден`),
+            conversation: null
+        };
     }
 
     if (conversation.isPrivate) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Нельзя добавить пользователя в диалог')
-        });
+        return {
+            error: new ErrorInfo(400, 'Невозможно добавить пользователя в приватный чат'),
+            conversation: null
+        };
+    }
+
+    if (conversation.users.includes(username)) {
+        return {
+            conversation,
+            error: new ErrorInfo(400, `Пользователь ${username} уже существует в беседе`)
+        };
     }
 
     conversation.users.push(username);
     try {
         await conversation.save();
     } catch (ex) {
-        return res.status(500).json({
-            error: new Error(500, 'Не удалось обновить список пользователей в беседе')
-        });
+        return {
+            error: new Error(500, 'Не удалось обновить список пользователей в беседе'),
+            conversation: null
+        };
     }
 
-    res.status(201).json(conversation);
-};
+    return { error: null, conversation };
+}
 
 async function getAllConversations(username) {
     const conversations = await Conversation.find({ users: username });
@@ -85,9 +122,8 @@ async function getAllConversations(username) {
     return conversations;
 }
 
-async function isSuchPrivateAlreadyExist(conversation) {
-    const conversations = await Conversation.find({ isPrivate: true })
-        .where('users').all(conversation.users);
-
-    return conversations.length;
+async function getPrivateChat(users) {
+    return await Conversation.findOne({ isPrivate: true })
+        .where('users').all(users);
 }
+

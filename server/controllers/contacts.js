@@ -13,26 +13,31 @@ module.exports.contacts = async (req, res) => {
 };
 
 module.exports.add = async (req, res) => {
-    if (req.params.username === req.user.username) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, 'Нельзя добавить себя в контакты')
-        });
+    const additionResult = await tryAddContact(req.user.username, req.params.username);
+    if (additionResult.error) {
+        return res.status(additionResult.error.status).json({ error: additionResult.error });
+    }
+    res.status(201).json(additionResult.addedContact);
+};
+
+async function tryAddContact(username, contactName) {
+    if (username === contactName) {
+        return { error: new ErrorInfo(400, 'Нельзя добавить себя в контакты') };
     }
 
-    const user = await User.ensureExists(req.params.username);
+    const user = await User.ensureExists(contactName);
     if (!user) {
-        return res.status(404).json({
-            error: new ErrorInfo(404, `Пользователь ${req.params.username} не найден`) });
+        return { error: new ErrorInfo(404, `Пользователь ${contactName} не найден`) };
     }
 
-    let contactInfo = await Contact.findOneOrCreate(req.user.username);
-    const addedContact = contactInfo.addContact(req.params.username);
+    const contactInfo = await Contact.findOneOrCreate(username);
+    const addedContact = contactInfo.addContact(contactName);
     if (!addedContact) {
-        return res.status(400).json({
-            error: new ErrorInfo(400, `Контакт ${req.params.username} уже существует`)
-        });
+        return { error: new ErrorInfo(400, `Контакт ${contactName} уже существует`) };
     }
     await contactInfo.save();
 
-    res.status(201).json(addedContact);
-};
+    return { error: null, addedContact };
+}
+
+module.exports.tryAddContact = tryAddContact;
