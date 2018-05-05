@@ -15,9 +15,9 @@ module.exports.contacts = async (req, res) => {
 module.exports.add = async (req, res) => {
     const additionResult = await tryAddContact(req.user.username, req.params.username);
     if (additionResult.error) {
-        return res.status(additionResult.error.status).json(additionResult);
+        return res.status(additionResult.error.status).json({ error: additionResult.error });
     }
-    res.sendStatus(201);
+    res.status(201).json(additionResult.addedContact);
 };
 
 async function tryAddContact(username, contactName) {
@@ -37,7 +37,7 @@ async function tryAddContact(username, contactName) {
     }
     await contactInfo.save();
 
-    return { error: null };
+    return { error: null, addedContact };
 }
 
 module.exports.tryAddContact = tryAddContact;
