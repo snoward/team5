@@ -13,7 +13,7 @@ module.exports.getInfo = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-    let conversation = {
+    const conversation = {
         title: req.params.title,
         users: req.body.users,
         isPrivate: req.body.isPrivate
@@ -26,6 +26,8 @@ module.exports.create = async (req, res) => {
 
     res.status(201).json(creationResult.conversation);
 };
+
+module.exports.tryCreateConversation = tryCreateConversation;
 
 async function tryCreateConversation(conversation) {
     const users = await Promise.all(
@@ -58,8 +60,6 @@ async function tryCreateConversation(conversation) {
     return { error: null, conversation };
 }
 
-module.exports.tryCreateConversation = tryCreateConversation;
-
 module.exports.addUser = async (req, res) => {
     const conversationId = req.params.conversationId;
     const { username } = req.body;
@@ -69,6 +69,8 @@ module.exports.addUser = async (req, res) => {
     }
     res.status(201).json(additionResult.conversation);
 };
+
+module.exports.tryAddUserToConversation = tryAddUserToConversation;
 
 async function tryAddUserToConversation(username, conversationId) {
     const user = await User.ensureExists(username);
@@ -80,7 +82,10 @@ async function tryAddUserToConversation(username, conversationId) {
     const conversation = await Conversation.findOne({ _id: conversationId, isPrivate: false });
 
     if (!conversation) {
-        return { error: new ErrorInfo(404, `Диалог ${conversationId} не найден`) };
+        return {
+            error: new ErrorInfo(404, `Диалог ${conversationId} не найден`),
+            conversation: null
+        };
     }
 
     if (conversation.users.includes(username)) {
@@ -95,14 +100,13 @@ async function tryAddUserToConversation(username, conversationId) {
         await conversation.save();
     } catch (ex) {
         return {
-            error: new Error(500, 'Не удалось обновить список пользователей в беседе')
+            error: new Error(500, 'Не удалось обновить список пользователей в беседе'),
+            conversation: null
         };
     }
 
     return { error: null, conversation };
 }
-
-module.exports.tryAddUserToConversation = tryAddUserToConversation;
 
 async function getAllConversations(username) {
     const conversations = await Conversation.find({ users: username });
