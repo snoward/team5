@@ -79,11 +79,19 @@ async function tryAddUserToConversation(username, conversationId) {
             error: new ErrorInfo(404, `Пользователь ${username} не найден`)
         };
     }
-    const conversation = await Conversation.findOne({ _id: conversationId, isPrivate: false });
+
+    const conversation = await Conversation.findOne({ _id: conversationId });
 
     if (!conversation) {
         return {
             error: new ErrorInfo(404, `Диалог ${conversationId} не найден`),
+            conversation: null
+        };
+    }
+
+    if (conversation.isPrivate) {
+        return {
+            error: new ErrorInfo(400, 'Невозможно добавить пользователя в приватный чат'),
             conversation: null
         };
     }
