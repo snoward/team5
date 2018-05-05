@@ -6,19 +6,25 @@ module.exports = {
     expressSessionSecret: 'The coolest messenger',
     baseUrl: 'http://localhost:3000',
     dbConfig: {
-        token: 'type hrudb token here',
+        token: '***',
         dbUrl: 'https://hrudb.herokuapp.com/storage/',
         requestTimeout: 1000,
         retryCount: 5
     },
     imageCdnConfig: {
-        cloudName: 'type cloud name here',
-        apiKey: 'type api key here',
-        apiSecret: 'type api secret here'
+        cloudName: '***',
+        apiKey: '***',
+        apiSecret: '***'
     },
     mongoDb: {
         uri: 'mongodb+srv://LOGIN:PASSWORD@messengerproductioncluster-ej5fo.mongodb.net/messenger',
         login: '***',
         password: '***'
+    },
+    caller: {
+        accountSid: '***',
+        authToken: '***',
+        callerNumber: '***',
+        twiml: '***'
     }
 };
