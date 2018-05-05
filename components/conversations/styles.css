@@ -29,7 +29,8 @@
     color: #ff7f51;
 }
 
-.conversations__list {
+.conversations__list
+{
     height: 95%;
     overflow-y: auto;
 }
@@ -37,4 +38,9 @@
 .rce-citem-body--top-title
 {
     width: 0;
+}
+
+.rce-citem-body--top-time
+{
+    display: none;
 }
