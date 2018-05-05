@@ -4,6 +4,7 @@ import 'react-chat-elements/dist/main.css';
 import Conversations from '../../components/conversations';
 import Chat from '../../components/chat';
 import Menu from '../../components/menu';
+import io from 'socket.io-client';
 import { getConversations } from '../../lib/apiRequests/conversations';
 import { getContacts } from '../../lib/apiRequests/contacts';
 import { getMessages } from '../../lib/apiRequests/messages';
@@ -18,11 +19,11 @@ export default class IndexPage extends Component {
             getConversations(req), getContacts(req)]);
 
         const messagesInfo = {
-            currentUser: req.user.username,
-            conversationId: req.conversationId
+            currentUser: req.user.username
         };
 
         return {
+            selectedConversation: req.selectedConversation,
             messagesInfo,
             conversations: conversations.data,
             contacts: contactsList.data,
@@ -42,9 +43,17 @@ export default class IndexPage extends Component {
     }
 
     componentDidMount() {
-        if (this.state.messagesInfo.conversationId) {
+        this.socket = io();
+        if (this.state.selectedConversation) {
             this.setState({ loading: true });
-            this.loadConversations(this.state.messagesInfo.conversationId);
+            this.loadConversations(this.state.selectedConversation._id);
+            if (this.state.selectedConversation.addedUser) {
+                this.socket.emit('conversationNewUser', {
+                    conversation: this.state.selectedConversation,
+                    addedUser: this.state.selectedConversation.addedUser
+                });
+            }
+
         }
         // eslint-disable-next-line
         history.pushState(null, null, '/');

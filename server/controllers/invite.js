@@ -20,7 +20,14 @@ async function moveToPrivateChat(req, res, next) {
     if (!creationResult.conversation) {
         return res.status(creationResult.error.status).json({ error: creationResult.error });
     }
-    req.conversationId = creationResult.conversation._id;
+    const { isPrivate, users, _id } = creationResult.conversation;
+    const selectedConversation = {
+        addedUser: creationResult.error ? null : req.params.username,
+        isPrivate,
+        users,
+        _id
+    };
+    req.selectedConversation = selectedConversation;
     next();
 }
 
@@ -36,7 +43,7 @@ async function moveToGroupChat(req, res, next) {
     if (!creationResult.conversation) {
         return res.status(creationResult.error.status).json({ error: creationResult.error });
     }
-    req.conversationId = creationResult.conversation._id;
+    req.selectedConversation = creationResult.conversation;
     next();
 }
 
