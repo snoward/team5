@@ -3,8 +3,8 @@ const ErrorInfo = require('../models/errorInfo');
 const Call = require('../models/schemas/call');
 
 module.exports.registerCall = async (req, res) => {
-    return res.status(503).json({
-        error: new ErrorInfo(503, 'Сервис временно недоступен')
+    return res.status(423).json({
+        error: new ErrorInfo(423, 'Сервис временно недоступен')
     });
 
     /* const dispatchTime = new Date(req.body.dispatchTime);
