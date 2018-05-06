@@ -1,9 +1,13 @@
 const ErrorInfo = require('../models/errorInfo');
-const { makeCall } = require('../libs/caller');
+// const { makeCall } = require('../libs/caller');
 const Call = require('../models/schemas/call');
 
 module.exports.registerCall = async (req, res) => {
-    const dispatchTime = new Date(req.body.dispatchTime);
+    return res.status(503).json({
+        error: new ErrorInfo(503, 'Сервис временно недоступен')
+    });
+
+    /* const dispatchTime = new Date(req.body.dispatchTime);
     const callTime = new Date(req.body.callTime);
     const timeout = callTime - dispatchTime;
     const phoneNumber = req.body.phoneNumber;
@@ -34,7 +38,7 @@ module.exports.registerCall = async (req, res) => {
 
     }, timeout);
 
-    res.status(201).json(createdCall);
+    res.status(201).json(createdCall); */
 };
 
 module.exports.getCalls = async (req, res) => {
