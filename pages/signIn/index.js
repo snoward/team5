@@ -15,7 +15,7 @@ export default class SignIn extends Component {
     }
 
     render() {
-        return (<div className='container'>
+        return (<div className='signin__container'>
             {this.state.loading ? <LoadingSpinner /> : null}
             <div className='sign-in'>
                 <img className='logo' src={'/static/images/logo.png'} alt='logo' />

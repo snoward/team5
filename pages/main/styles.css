@@ -1,6 +1,12 @@
 body
 {
     margin: 0;
+    padding: 0;
+    background-color: #EEE;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
 }
 
 .content-wrapper
@@ -10,8 +16,11 @@ body
     grid-template-areas: 'menu menu'
                         'conversations chat';
 
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 5vh 92vh;
+    grid-template-columns: minmax(240px, 18vw) minmax(400px, 36vw);
+    grid-template-rows: 65px minmax(400px, calc(100vh - 68px));
+
+    box-shadow: 0 2px 5px #757575;
+    background: #fff;
     
 }
 

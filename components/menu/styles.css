@@ -13,9 +13,8 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
 
     width: 100%;
     height: 100%;
-    background: #ff7f50;
+    background: coral;
 
-    padding: 5px 0;
     position: relative;
 }
 
@@ -36,6 +35,8 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
     height: 40px;
     background-color: rgba(255, 255, 255, .98);
     border-radius: 100%;
+    border: 1px solid rgba(158, 158, 158, 0.3);
+    box-shadow: 0 1px 2px #9e9e9e;
 }
 
 .menu__name-and-time
@@ -50,8 +51,8 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
 
 .menu__alarm-clock-button {
     position: absolute;
-    bottom: 1.5vh;
     right: 15px;
+    top: 17px;
     display: block;
     cursor: pointer;
     border: none;
@@ -60,4 +61,10 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
     color: #fff;
     padding: 7px;
     border-radius: 10%;
+    box-shadow: 0 1px 2px #9e9e9e;
+    height: 32px;
+}
+
+.menu__alarm-clock-button:hover {
+    opacity: .8;
 }

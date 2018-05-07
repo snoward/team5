@@ -34,7 +34,7 @@ export default class Modal extends React.Component {
                         width: 400,
                         height: 500,
                         border: null,
-                        boxShadow: '0 0 5px coral'
+                        boxShadow: '0 0 5px #9e9e9e'
                     }
                 }}
             >

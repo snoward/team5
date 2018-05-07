@@ -1,7 +1,6 @@
 import React from 'react';
 import { ChatList } from 'react-chat-elements';
 import io from 'socket.io-client';
-import Icon from 'react-icons/lib/io/android-add-circle';
 
 import Search from './Search/Search.js';
 import CreateConversationModal from './CreateConversationModal/CreateConversationModal.js';
@@ -89,9 +88,9 @@ export default class Conversations extends React.Component {
                         handleFilteredConversations={this.setShowedConversations}
                     />
 
-                    <button className='conversations__add-button' onClick={this.handleOpenModal}>
-                        <Icon className='conversations__add-button-icon'/>
-                    </button>
+                    <div className='conversations__add-button' onClick={this.handleOpenModal}>
+                        +
+                    </div>
                 </div>
 
                 <div className='conversations__list'>
