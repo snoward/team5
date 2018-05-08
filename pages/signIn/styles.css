@@ -1,25 +1,33 @@
+.signin__container
+{
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    text-align: center;
+}
+
 .logo
 {
-    margin-bottom: -10px;
-    margin-left: 5px;
-    transform: scale(1.2);
+    width: 210px;
+    height: 210px;
+    transform: translateY(40px) translateX(2px);
 }
 
 .sign-in
 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     position: absolute;
-    height: 70%;
-    width: 97%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%);
 }
 
 .sign-in__a,
 .sign-in__a:link,
 .sign-in__a:visited
 {
+    width: 220px;
+    height: 44px;
+    margin: 0 auto;
     text-decoration: none;
     font-family: sans-serif;
     font-size: 24px;

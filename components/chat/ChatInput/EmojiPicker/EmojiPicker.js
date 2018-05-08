@@ -25,9 +25,11 @@ export default class EmojiPicker extends React.Component {
                 color='lightsalmon'
                 set='emojione'
                 style={{
+                    width: '19vw',
+                    minWidth: '180px',
                     position: 'absolute',
-                    bottom: '75%',
-                    right: '4%',
+                    bottom: '70px',
+                    right: '20px',
                     zIndex: 100
                 }}
                 i18n={{ categories: { recent: 'Last used' } }}

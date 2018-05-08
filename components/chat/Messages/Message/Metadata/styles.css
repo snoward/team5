@@ -1,12 +1,13 @@
 .metadata
 {
     text-align: center;
+    
     display: flex;
     width: 25%;
     flex-direction: column;
     justify-content: space-around;
     font-family: 'Lato', sans-serif;
-    margin: 10px;
+    margin: 10px 10px 10px 0;
     padding: 10px;
     border-right: 2px #ff817c double;
     background: rgba(255, 229, 204, .15);

@@ -27,13 +27,13 @@ async function tryAddContact(username, contactName) {
 
     const user = await User.ensureExists(contactName);
     if (!user) {
-        return { error: new ErrorInfo(404, `Пользователь ${contactName} не найден`) };
+        return { error: new ErrorInfo(404, 'Пользователь не найден') };
     }
 
     const contactInfo = await Contact.findOneOrCreate(username);
     const addedContact = contactInfo.addContact(contactName);
     if (!addedContact) {
-        return { error: new ErrorInfo(400, `Контакт ${contactName} уже существует`) };
+        return { error: new ErrorInfo(400, 'Такой контакт уже существует') };
     }
     await contactInfo.save();
 
