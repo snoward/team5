@@ -59,7 +59,12 @@
 .chat-input__emoji-icon,
 .chat-input__file-icon
 {
-    width: 31px;
+    width: 30px;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .chat-input__emoji-icon
