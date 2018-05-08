@@ -2,7 +2,7 @@ body
 {
     margin: 0;
     padding: 0;
-    background-color: #EEE;
+    background-color: #eee;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -14,7 +14,7 @@ body
     display: grid;
 
     grid-template-areas: 'menu menu'
-                        'conversations chat';
+        'conversations chat';
 
     grid-template-columns: minmax(240px, 20vw) minmax(400px, 40vw);
     grid-template-rows: 65px minmax(400px, calc(100vh - 68px));

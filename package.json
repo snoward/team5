@@ -5,7 +5,7 @@
   "scripts": {
     "precommit": "npm test",
     "prepush": "npm test",
-    "lint": "eslint .",
+    "lint": "eslint . && stylelint components/**/*.css pages/**/*.css",
     "test": "npm run lint",
     "jstest": "mocha **/tests/*.spec.js",
     "build": "next build",
@@ -55,7 +55,9 @@
     "eslint-config-hrundel": "1.3.0",
     "eslint-plugin-react": "^7.7.0",
     "husky": "^0.14.3",
-    "webpack": "3.1.0"
+    "webpack": "3.1.0",
+    "stylelint-config-hrundel": "1.0.3",
+    "stylelint": "7.3.1"
   },
   "now": {
     "name": "the-best-messenger",

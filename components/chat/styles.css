@@ -1,5 +1,5 @@
 @import
-url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+    url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
 
 .chat-container
@@ -8,15 +8,16 @@ url(https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css)
 
     display: grid;
     grid-template-areas: 'chat-controls'
-                        'messages'
-                        'chat-input';
+        'messages'
+        'chat-input';
     grid-template-rows: 50px auto 70px;
 
     padding-top: 11px;
     margin-left: 40px;
 }
 
-.chat-container__controls {
+.chat-container__controls
+{
     display: flex;
     align-items: center;
     margin-right: 15px;

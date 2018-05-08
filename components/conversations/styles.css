@@ -35,14 +35,14 @@
     text-align: center;
 }
 
-
 .conversations__list
 {
     max-height: calc(100% - 60px);
     overflow-y: auto;
 }
 
-.rce-container-clist {
+.rce-container-clist
+{
     overflow-x: hidden;
 }
 
@@ -56,13 +56,15 @@
     display: none;
 }
 
-.rce-citem-avatar img {
+.rce-citem-avatar img
+{
     border-radius: 0 !important;
     background-color: #fff !important;
 }
 
-.rce-avatar-container {
+.rce-avatar-container
+{
     box-shadow: 0 1px 2px #9e9e9e;
-    border: 1px solid rgba(158, 158, 158, 0.3);
+    border: 1px solid rgba(158, 158, 158, .3);
     
 }

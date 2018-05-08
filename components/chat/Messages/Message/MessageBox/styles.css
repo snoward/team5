@@ -11,7 +11,8 @@ a
     margin-left: 5px;
 }
 
-.self a {
+.self a
+{
     display: block;
     text-align: right;
 }
@@ -28,8 +29,9 @@ a
     margin-right: 5px;
 }
 
-.avatar {
-    border: 1px solid rgba(158, 158, 158, 0.3);
+.avatar
+{
+    border: 1px solid rgba(158, 158, 158, .3);
     box-shadow: 0 1px 2px #9e9e9e;
 }
 
@@ -40,7 +42,7 @@ a
 
 .msg
 {
-    border: 1px solid rgba(158, 158, 158, 0.3);
+    border: 1px solid rgba(158, 158, 158, .3);
     background: white;
     min-width: 130px;
     max-width: 260px;
@@ -54,8 +56,8 @@ a
 
 .msg time
 {
-    font-size: 0.8rem;
-    margin: 0 0 0.2rem 0;
+    font-size: .8rem;
+    margin: 0 0 .2rem;
     color: #777;
 }
 
@@ -66,18 +68,16 @@ a
     width: 450px;
     border-radius: 5px;
     box-shadow: 0 0 3px #eee;
-    transition: all .4s cubic-bezier(0.565, -0.260, 0.255, 1.410);
+    transition: all .4s cubic-bezier(.56, -.26, .26, 1.41);
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
 }
 
-
-
 .msg time
 {
-    font-size: 0.7rem;
+    font-size: .7rem;
     color: #ccc;
     display: flex;
     margin-top: 3px;
@@ -91,7 +91,7 @@ a
 
 .msg time:before
 {
-    content:"\f017";
+    content: '\f017';
     color: #ddd;
     font-family: FontAwesome, serif;
     display: inline-block;
