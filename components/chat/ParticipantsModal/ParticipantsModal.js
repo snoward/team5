@@ -32,11 +32,11 @@ export default class ParticipantsModal extends React.Component {
                     content: {
                         backgroundColor: 'rgba(0,0,0,0.0)',
                         display: 'flex',
-                        flexDirection: 'column',
                         justifyContent: 'center',
                         margin: 'auto',
-                        height: 220,
-                        border: null
+                        border: null,
+                        height: '40%',
+                        width: '43%'
                     }
                 }}
             >
