@@ -14,6 +14,7 @@ export default class Participants extends React.Component {
         super(props);
         this.state = { participants: [], copied: false };
         this.updateParticipants(props.conversationId);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     async updateParticipants(conversationId) {
@@ -27,6 +28,10 @@ export default class Participants extends React.Component {
         });
     }
 
+    handleClose() {
+        this.setState({ copied: false });
+    }
+
     render() {
 
         return (
@@ -36,21 +41,24 @@ export default class Participants extends React.Component {
                     copy(this.state.inviteLink);
                     this.setState({ copied: true });
                 }}>
-                    Скопировать ссылку на чат  {this.state.copied ? <Snackbar
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left'
-                        }}
-                        open={this.state.copied}
-                        autoHideDuration={6000}
-                        ContentProps={{
-                            'aria-describedby': 'message-id'
-                        }}
-                        message={<span id="message-id">Ссылка скопирована</span>}
-                    /> : null}
+                    Скопировать ссылку на чат
                 </Button>
                 }
-                <List component="nav">
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left'
+                    }}
+                    open={this.state.copied}
+                    disableWindowBlurListener={true}
+                    autoHideDuration={3000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id'
+                    }}
+                    message={<p id='message-id'>Ссылка скопирована</p>}
+                />
+                <List component='nav'>
                     {this.state.participants.map((elem, idx) => {
                         return <ListItem>
                             <Button href={`/@${elem}`} className='invite-link'>

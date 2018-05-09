@@ -11,7 +11,8 @@
     border-radius: 42px;
 }
 
-.participants-container::-webkit-scrollbar {
+.participants-container::-webkit-scrollbar
+{
     display: none;
 }
 
