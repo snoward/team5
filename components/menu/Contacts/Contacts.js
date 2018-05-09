@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dropdown } from 'react-chat-elements';
+import { Button } from 'react-chat-elements';
 
 import './styles.css';
 
@@ -18,10 +19,14 @@ export default class Contacts extends React.Component {
     render() {
         return (
             <div className='contacts'>
-                <Dropdown
-                    buttonProps={{ text: 'Контакты' }}
-                    items={this.state.contactList || 'Добавь друзей в контакты'}
-                />
+                {this.state.contactList.length
+                    ? <Dropdown
+                        buttonProps={{ text: 'Контакты' }}
+                        items={this.state.contactList}
+                    />
+                    : <Button
+                        text={'Нет контактов' }
+                    />}
             </div>
         );
     }
