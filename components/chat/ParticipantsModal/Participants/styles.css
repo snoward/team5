@@ -11,6 +11,10 @@
     border-radius: 42px;
 }
 
+.participants-container::-webkit-scrollbar {
+    display: none;
+}
+
 .invite-link
 {
     width: 100%;
@@ -19,4 +23,9 @@
 .MuiListItem-default-33
 {
     padding-top: 0!important;
+}
+
+.avatar_icon
+{
+    width: 40px;
 }

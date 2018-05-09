@@ -36,7 +36,7 @@ export default class Participants extends React.Component {
                     copy(this.state.inviteLink);
                     this.setState({ copied: true });
                 }}>
-                    Ссылка на чат  {this.state.copied ? <Snackbar
+                    Скопировать ссылку на чат  {this.state.copied ? <Snackbar
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'left'
@@ -55,7 +55,7 @@ export default class Participants extends React.Component {
                         return <ListItem>
                             <Button href={`/@${elem}`} className='invite-link'>
                                 <Avatar>
-                                    <img src={`/api/avatar/${elem}`}/>
+                                    <img className='avatar_icon' src={`/api/avatar/${elem}`}/>
                                 </Avatar>
                                 <ListItemText key={idx} inset primary={elem}/>
                             </Button>
