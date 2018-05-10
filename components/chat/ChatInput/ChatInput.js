@@ -6,6 +6,7 @@ import { uploadImage } from '../../../lib/apiRequests/images';
 import LoadingSpinner from '../../LoadingSpinner';
 import ErrorModal from '../../errorModal';
 import Dropzone from 'react-dropzone';
+import TextField from 'material-ui/TextField';
 
 import './styles.css';
 import 'emoji-mart/css/emoji-mart.css';
@@ -44,7 +45,6 @@ export default class ChatInput extends React.Component {
     }
 
     componentDidMount() {
-        this.chatInput.focus();
         // eslint-disable-next-line
         document.addEventListener('keydown', this.handleEscape, false);
     }
@@ -230,16 +230,17 @@ export default class ChatInput extends React.Component {
                     }
 
                     <div className='chat-input__input-elements'>
-                        <textarea
-                            type='text'
-                            className='chat-input__textarea'
-                            placeholder='Введите новое сообщение'
+                        <TextField
+                            id='multiline-flexible'
+                            label='Введите новое сообщение'
+                            // className='chat-input__textarea'
+                            multiline
+                            rowsMax='1'
                             value={this.state.messageText}
+                            placeholder='Привет'
                             onChange={this.handleChange}
-                            ref={input => {
-                                this.chatInput = input;
-                            }}
                             onKeyPress={this.onInputPressKey}
+                            margin='normal'
                         />
                         <div className='chat-input__show-picker-button'
                             onClick={this.onShowPickerButtonClick}

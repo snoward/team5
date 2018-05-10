@@ -4,6 +4,8 @@ import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import copy from 'copy-to-clipboard';
 import Snackbar from 'material-ui/Snackbar';
+import ListSubheader from 'material-ui/List/ListSubheader';
+
 
 import { getConversationInfo } from '../../../../lib/apiRequests/conversations';
 
@@ -37,12 +39,14 @@ export default class Participants extends React.Component {
         return (
             <div className='participants-container'>
                 {this.state.inviteLink &&
-                <Button onClick={()=>{
-                    copy(this.state.inviteLink);
-                    this.setState({ copied: true });
-                }}>
+                <ListSubheader>
+                    <Button onClick={()=>{
+                        copy(this.state.inviteLink);
+                        this.setState({ copied: true });
+                    }}>
                     Скопировать ссылку на чат
-                </Button>
+                    </Button>
+                </ListSubheader>
                 }
                 <Snackbar
                     anchorOrigin={{

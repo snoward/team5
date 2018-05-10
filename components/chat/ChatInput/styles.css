@@ -71,3 +71,8 @@
 {
     margin-right: 15px;
 }
+
+.chat-input__input-elements > :first-child
+{
+    width: 90% !important;
+}
