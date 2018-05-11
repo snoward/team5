@@ -3,12 +3,6 @@ module.exports = {
     gitHubClientSecret: process.env.GITHUB_CLIENT_SECRET,
     expressSessionSecret: process.env.EXPRESS_SESSION_SECRET,
     baseUrl: process.env.BASE_URL,
-    dbConfig: {
-        token: process.env.HRUDB_TOKEN,
-        dbUrl: 'https://hrudb.herokuapp.com/storage/',
-        requestTimeout: 1000,
-        retryCount: 3
-    },
     imageCdnConfig: {
         cloudName: process.env.IMAGE_CDN_CLOUD_NAME,
         apiKey: process.env.IMAGE_CDN_API_KEY,

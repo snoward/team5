@@ -70,7 +70,6 @@
       "GITHUB_CLIENT_SECRET": "@client-secret",
       "EXPRESS_SESSION_SECRET": "express-session-secret",
       "BASE_URL": "@base-url",
-      "HRUDB_TOKEN": "@hrudb-token",
       "IMAGE_CDN_CLOUD_NAME": "@image-cdn-cloud-name",
       "IMAGE_CDN_API_KEY": "@image-cdn-api-key",
       "IMAGE_CDN_API_SECRET": "@image-cdn-api-secret",

@@ -5,12 +5,6 @@ module.exports = {
     gitHubClientSecret: '1421931def70a02d97ff16a31fe5219f237cb535',
     expressSessionSecret: 'The coolest messenger',
     baseUrl: 'http://localhost:3000',
-    dbConfig: {
-        token: '***',
-        dbUrl: 'https://hrudb.herokuapp.com/storage/',
-        requestTimeout: 1000,
-        retryCount: 5
-    },
     imageCdnConfig: {
         cloudName: '***',
         apiKey: '***',
