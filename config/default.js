@@ -1,24 +1,24 @@
-// Пусть это тут будет, чтобы локально тестить
-// Для now сделал отдельный app на гитхабе
+require('dotenv').config();
+
 module.exports = {
-    githubCliendId: 'ddd0e9e63ab10a7e4b51',
-    gitHubClientSecret: '1421931def70a02d97ff16a31fe5219f237cb535',
-    expressSessionSecret: 'The coolest messenger',
-    baseUrl: 'http://localhost:3000',
+    githubCliendId: process.env.GITHUB_CLIENT_ID,
+    gitHubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+    expressSessionSecret: process.env.EXPRESS_SESSION_SECRET,
+    baseUrl: process.env.BASE_URL,
     imageCdnConfig: {
-        cloudName: '***',
-        apiKey: '***',
-        apiSecret: '***'
+        cloudName: process.env.IMAGE_CDN_CLOUD_NAME,
+        apiKey: process.env.IMAGE_CDN_API_KEY,
+        apiSecret: process.env.IMAGE_CDN_API_SECRET
     },
     mongoDb: {
         uri: 'mongodb+srv://LOGIN:PASSWORD@messengerproductioncluster-ej5fo.mongodb.net/messenger',
-        login: '***',
-        password: '***'
+        login: process.env.MONGODB_LOGIN,
+        password: process.env.MONGODB_PASSWORD
     },
     caller: {
-        accountSid: '***',
-        authToken: '***',
-        callerNumber: '***',
-        twiml: '***'
+        accountSid: process.env.CALLER_ACCOUNT_SID,
+        authToken: process.env.CALLER_AUTH_TOKEN,
+        callerNumber: process.env.CALLER_NUMBER,
+        twiml: process.env.CALLER_TWIML
     }
 };
