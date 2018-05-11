@@ -21,7 +21,6 @@ async function moveToPrivateChat(req, res, next) {
         return res.status(creationResult.error.status).json({ error: creationResult.error });
     }
     req.selectedConversation = getConversationObject(creationResult, req.params.username);
-    console.info(req.selectedConversation);
     next();
 }
 
@@ -38,7 +37,6 @@ async function moveToGroupChat(req, res, next) {
         return res.status(creationResult.error.status).json({ error: creationResult.error });
     }
     req.selectedConversation = getConversationObject(creationResult, creationResult.addedUser);
-    console.info(req.selectedConversation);
     next();
 }
 
