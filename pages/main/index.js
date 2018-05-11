@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 import { getConversations } from '../../lib/apiRequests/conversations';
 import { getContacts } from '../../lib/apiRequests/contacts';
 import { getMessages } from '../../lib/apiRequests/messages';
+import { initSounds } from '../../lib/sounds/sounds';
 
 import './styles.css';
 
@@ -43,6 +44,8 @@ export default class IndexPage extends Component {
     }
 
     componentDidMount() {
+        initSounds();
+
         this.socket = io();
         if (this.state.selectedConversation) {
             this.setState({ loading: true });
@@ -67,7 +70,7 @@ export default class IndexPage extends Component {
             loading: true
         });
 
-        this.loadConversations(conversation.id);
+        this.loadConversations(conversation._id);
     }
 
     async loadConversations(conversationId) {

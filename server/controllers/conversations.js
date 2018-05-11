@@ -84,15 +84,13 @@ async function tryAddUserToConversation(username, conversationId) {
 
     if (!conversation) {
         return {
-            error: new ErrorInfo(404, `Диалог ${conversationId} не найден`),
-            conversation: null
+            error: new ErrorInfo(404, `Диалог ${conversationId} не найден`)
         };
     }
 
     if (conversation.isPrivate) {
         return {
-            error: new ErrorInfo(400, 'Невозможно добавить пользователя в приватный чат'),
-            conversation: null
+            error: new ErrorInfo(400, 'Невозможно добавить пользователя в приватный чат')
         };
     }
 
@@ -108,12 +106,11 @@ async function tryAddUserToConversation(username, conversationId) {
         await conversation.save();
     } catch (ex) {
         return {
-            error: new Error(500, 'Не удалось обновить список пользователей в беседе'),
-            conversation: null
+            error: new Error(500, 'Не удалось обновить список пользователей в беседе')
         };
     }
 
-    return { error: null, conversation };
+    return { error: null, conversation, addedUser: username };
 }
 
 async function getAllConversations(username) {
