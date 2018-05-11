@@ -17,13 +17,13 @@
 
 .conversations__add-button
 {
-  
+
     margin-left: 15px;
     border: none;
-    background: #3979aa;
+    background: linear-gradient(45deg, #eecfba, #c5dde8);
     font-size: 20px;
     font-weight: bold;
-    color: #fff;
+    color: #4b0082;
     box-shadow: 0 1px 2px #9e9e9e;
     border-radius: 10%;
     height: 30px;
@@ -66,5 +66,5 @@
 {
     box-shadow: 0 1px 2px #9e9e9e;
     border: 1px solid rgba(158, 158, 158, .3);
-    
+
 }

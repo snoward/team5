@@ -5,7 +5,12 @@
 
 .rce-button
 {
-    background-color: #e8f5e9;
+    background: linear-gradient(45deg, #eecfba, #c5dde8);
     box-shadow: 0 1px 2px #9e9e9e;
     height: 32px;
+}
+
+.rce-button > span
+{
+    color: #4b0082;
 }

@@ -1,5 +1,6 @@
 body
 {
+    @import url('https://fonts.googleapis.com/css?family=Roboto');
     margin: 0;
     padding: 0;
     background-color: #eee;
@@ -7,6 +8,7 @@ body
     height: 100vh;
     display: flex;
     justify-content: center;
+    font-family: 'Roboto', sans-serif;
 }
 
 .content-wrapper
@@ -21,7 +23,7 @@ body
 
     box-shadow: 0 2px 5px #757575;
     background: #fff;
-    
+
 }
 
 img

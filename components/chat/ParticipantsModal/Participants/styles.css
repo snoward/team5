@@ -4,12 +4,29 @@
     font: 12px;
     background: #fff;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-y: scroll;
     text-overflow: ellipsis;
+    width: 100%;
+    max-height: fit-content;
+    border-radius: 42px;
+}
+
+.participants-container::-webkit-scrollbar
+{
+    display: none;
 }
 
 .invite-link
 {
-    color: #a4a0df;
-    margin-left: 40px;
+    width: 100%;
+}
+
+.MuiListItem-default-33
+{
+    padding-top: 0!important;
+}
+
+.avatar_icon
+{
+    width: 40px;
 }

@@ -1,4 +1,11 @@
 import React from 'react';
+import List, { ListItem, ListItemText } from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+import Button from 'material-ui/Button';
+import copy from 'copy-to-clipboard';
+import Snackbar from 'material-ui/Snackbar';
+import ListSubheader from 'material-ui/List/ListSubheader';
+
 
 import { getConversationInfo } from '../../../../lib/apiRequests/conversations';
 
@@ -7,8 +14,9 @@ import './styles.css';
 export default class Participants extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { participants: [] };
+        this.state = { participants: [], copied: false };
         this.updateParticipants(props.conversationId);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     async updateParticipants(conversationId) {
@@ -22,17 +30,50 @@ export default class Participants extends React.Component {
         });
     }
 
+    handleClose() {
+        this.setState({ copied: false });
+    }
+
     render() {
+
         return (
             <div className='participants-container'>
                 {this.state.inviteLink &&
-                    <p className="invite-link">{this.state.inviteLink}</p>
+                <ListSubheader>
+                    <Button onClick={()=>{
+                        copy(this.state.inviteLink);
+                        this.setState({ copied: true });
+                    }}>
+                    Скопировать ссылку на чат
+                    </Button>
+                </ListSubheader>
                 }
-                <ol>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left'
+                    }}
+                    open={this.state.copied}
+                    disableWindowBlurListener={true}
+                    autoHideDuration={3000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id'
+                    }}
+                    message={<p id='message-id'>Ссылка скопирована</p>}
+                />
+                <List component='nav'>
                     {this.state.participants.map((elem, idx) => {
-                        return <div key={idx}>{elem}</div>;
+                        return <ListItem>
+                            <Button href={`/@${elem}`} className='invite-link'>
+                                <Avatar>
+                                    <img className='avatar_icon' src={`/api/avatar/${elem}`}/>
+                                </Avatar>
+                                <ListItemText key={idx} inset primary={elem}/>
+                            </Button>
+                        </ListItem>;
                     })}
-                </ol>
+                </List>
             </div >
         );
     }
