@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 
 import Search from './Search/Search.js';
 import CreateConversationModal from './CreateConversationModal/CreateConversationModal.js';
+import { newMessageSound, newConversationSound, selfMessageSound } from '../../lib/sounds/sounds';
 import './styles.css';
 
 export default class Conversations extends React.Component {
@@ -11,32 +12,106 @@ export default class Conversations extends React.Component {
         super(props);
 
         const renamedConversations = this.changeConversationTitles(props.conversations);
+        const sortedConversations = this.sortConversations(renamedConversations);
         this.state = {
-            conversations: renamedConversations,
-            shownConversations: renamedConversations,
+            conversations: sortedConversations,
+            shownConversations: sortedConversations,
             isModalOpen: false
         };
 
-        this.handleNewConversation = this.handleNewConversation.bind(this);
         this.setShowedConversations = this.setShowedConversations.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
         this.handleOpenModal = this.handleOpenModal.bind(this);
+
+        this.notifyAboutNewConversation = this.notifyAboutNewConversation.bind(this);
+        this.notifyAboutMessage = this.notifyAboutMessage.bind(this);
+        this.notifyAboutNewUser = this.notifyAboutNewUser.bind(this);
     }
 
     componentDidMount() {
         this.socket = io();
-        this.socket.on(`conversationNewUser_${this.props.currentUser}`, this.handleNewConversation);
+
+        this.socket.on(`conversationNewUser_${this.props.currentUser}`,
+            this.notifyAboutNewConversation);
+
+        for (const conversation of this.state.conversations) {
+            this.socket.on(`message_${conversation._id}`,
+                this.notifyAboutMessage);
+
+            this.socket.on(`conversationNewUser_${conversation._id}`,
+                this.notifyAboutNewUser);
+        }
+
+        setInterval(() => this.forceUpdate(), 10000);
     }
 
-    handleNewConversation(newConversation) {
+    notifyAboutMessage(message) {
+        if (this.props.currentUser !== message.author) {
+            newMessageSound.play();
+        } else {
+            selfMessageSound.play();
+        }
+
+        this.updateConversationTime(message.conversationId, message.date);
+    }
+
+    notifyAboutNewUser(conversation) {
+        newConversationSound.play();
+        this.updateConversationTime(conversation._id, conversation.updatedAt);
+    }
+
+    updateConversationTime(_id, date) {
+        const conversationToUpdate = this.state.conversations
+            .find(conversation => conversation._id === _id);
+
+        if (!conversationToUpdate) {
+            return;
+        }
+
+        conversationToUpdate.updatedAt = date;
+
+        const sortedConversations = this.sortConversations(this.state.conversations);
+        this.setState({
+            conversations: sortedConversations,
+            shownConversations: sortedConversations
+        });
+    }
+
+    notifyAboutNewConversation(newConversation) {
+        const alreadyExist = this.state.conversations
+            .some(conversation => conversation._id === newConversation._id);
+
+        if (alreadyExist) {
+            return;
+        }
+
+        newConversationSound.play();
+
+        this.addNewConversation(newConversation);
+    }
+
+    addNewConversation(newConversation) {
         const newConversations = this.state.conversations.slice();
 
         newConversations.push(this.changeConversationTitle(newConversation));
+        const sortedNewConversations = this.sortConversations(newConversations);
+
+        this.socket.on(`message_${newConversation._id}`,
+            this.notifyAboutMessage);
+        this.socket.on(`conversationNewUser_${newConversation._id}`,
+            this.notifyAboutNewUser);
 
         this.setState({
-            conversations: newConversations,
-            shownConversations: newConversations
+            conversations: sortedNewConversations,
+            shownConversations: sortedNewConversations
         });
+    }
+
+    sortConversations(conversations) {
+        const sorted = conversations.slice();
+        sorted.sort((a, b) => a.updatedAt > b.updatedAt ? 0 : 1);
+
+        return sorted;
     }
 
     setShowedConversations(conversations) {
@@ -66,11 +141,10 @@ export default class Conversations extends React.Component {
             ? conversation.title
             : conversation.users.filter(user => user !== this.props.currentUser)[0];
 
-        return {
-            avatar: `/api/avatar/${title}`,
-            title: title,
-            id: conversation._id
-        };
+        conversation.title = title;
+        conversation.avatar = `/api/avatar/${title}`;
+
+        return conversation;
     }
 
     render() {
@@ -95,7 +169,11 @@ export default class Conversations extends React.Component {
 
                 <div className='conversations__list'>
                     <ChatList
-                        dataSource={this.state.shownConversations}
+                        dataSource={this.state.shownConversations.map(conversation => {
+                            conversation.date = new Date(conversation.updatedAt);
+
+                            return conversation;
+                        })}
                         onClick={this.props.onConversationClick}
                     />
                 </div>

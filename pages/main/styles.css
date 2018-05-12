@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body
 {
-    @import url('https://fonts.googleapis.com/css?family=Roboto');
     margin: 0;
     padding: 0;
     background-color: #eee;
@@ -29,4 +30,12 @@ body
 img
 {
     cursor: pointer;
+}
+
+@media screen and (max-width: 900px)
+{
+    .content-wrapper
+    {
+        grid-template-columns: minmax(240px, 40vw) minmax(400px, 60vw);
+    }
 }
