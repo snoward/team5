@@ -25,7 +25,7 @@
 .rce-citem-avatar
 {
     position: relative;
-    padding: 0 13px 0 13px;
+    padding: 0 13px;
     justify-content: center;
     display: flex;
     align-items: center;
