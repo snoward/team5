@@ -49,7 +49,7 @@ export default class IndexPage extends Component {
         this.socket = io();
         if (this.state.selectedConversation) {
             this.setState({ loading: true });
-            this.loadConversations(this.state.selectedConversation._id);
+            this.loadConversations(this.state.selectedConversation);
             if (this.state.selectedConversation.addedUser) {
                 this.socket.emit('conversationNewUser', {
                     conversation: this.state.selectedConversation,
@@ -70,18 +70,19 @@ export default class IndexPage extends Component {
             loading: true
         });
 
-        this.loadConversations(conversation._id);
+        this.loadConversations(conversation);
     }
 
-    async loadConversations(conversationId) {
+    async loadConversations(conversation) {
         const currentUser = this.state.messagesInfo.currentUser;
-        let res = await getMessages(conversationId);
+        let res = await getMessages(conversation._id);
 
         this.setState({
             messagesInfo: {
-                'conversationId': conversationId,
+                'conversationId': conversation._id,
                 'messages': res.data,
-                'currentUser': currentUser
+                'currentUser': currentUser,
+                'currentConversation': conversation
             },
             loading: false
         });

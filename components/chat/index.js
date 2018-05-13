@@ -20,6 +20,7 @@ export default class Chat extends React.Component {
             showParticipantsModal: false,
             messages: props.messagesInfo.messages,
             currentUser: props.messagesInfo.currentUser,
+            currentConversation: props.messagesInfo.currentConversation,
             participantsVisible: false,
             ignore: true,
             disableActiveWindow: true
@@ -124,7 +125,7 @@ export default class Chat extends React.Component {
                 <Notification
                     ignore={this.state.ignore && this.state.title !== ''}
                     notSupported={this.handleNotSupported}
-                    disableActiveWindow = {this.state.disableActiveWindow}
+                    disableActiveWindow={this.state.disableActiveWindow}
                     onPermissionGranted={this.handlePermissionGranted}
                     onPermissionDenied={this.handlePermissionDenied}
                     title={this.state.title}
@@ -138,9 +139,10 @@ export default class Chat extends React.Component {
                 />
 
                 <div className='chat-container__controls'>
-                    <AddPersonForm
-                        conversationId={this.props.messagesInfo.conversationId}
-                    />
+                    {!this.state.currentConversation.isPrivate &&
+                        <AddPersonForm
+                            conversationId={this.props.messagesInfo.conversationId}
+                        />}
                     <button
                         className='chat-container__show-participants-button'
                         onClick={this.openParticipantsModal}>

@@ -1,10 +1,10 @@
 import React from 'react';
-import { ChatList } from 'react-chat-elements';
 import io from 'socket.io-client';
 
 import Search from './Search/Search.js';
 import CreateConversationModal from './CreateConversationModal/CreateConversationModal.js';
 import { newMessageSound, newConversationSound, selfMessageSound } from '../../lib/sounds/sounds';
+import ChatList from './ChatList/ChatList';
 import './styles.css';
 
 export default class Conversations extends React.Component {
