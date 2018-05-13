@@ -6,7 +6,7 @@ import Profile from './Profile/Profile.js';
 export default class Modal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { self: props.username };
     }
 
     static getDerivedStateFromProps(nextProps) {
@@ -47,6 +47,7 @@ export default class Modal extends React.Component {
                     handleCloseModal={this.state.handleCloseModal}
                     githubUrl={this.state.githubUrl}
                     avatarUrl={this.state.avatarUrl}
+                    self={this.state.self}
                 />
             </ReactModal>);
     }

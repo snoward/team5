@@ -101,9 +101,11 @@ export default class ChatInput extends React.Component {
         uploadImage(file)
             .then(res => {
                 if (res.data.error) {
-                    this.setState({ loading: false,
+                    this.setState({
+                        loading: false,
                         showModal: true,
-                        error: res.data.error.message });
+                        error: res.data.error.message
+                    });
                 } else {
                     this.setState({ loading: false });
                     const message = {
@@ -139,9 +141,11 @@ export default class ChatInput extends React.Component {
         uploadImage(files[0])
             .then(res => {
                 if (res.data.error) {
-                    this.setState({ loading: false,
+                    this.setState({
+                        loading: false,
                         showModal: true,
-                        error: res.data.error.message });
+                        error: res.data.error.message
+                    });
                 } else {
                     this.setState({ loading: false });
                     const message = {
@@ -211,7 +215,7 @@ export default class ChatInput extends React.Component {
                 onDragEnter={this.onDragEnter}
                 onDragLeave={this.onDragLeave}
             >
-                { dropzoneActive && <div style={overlayStyle}>Drop images...</div> }
+                {dropzoneActive && <div style={overlayStyle}>Drop images...</div>}
                 <div className='chat-input'>
                     <ErrorModal
                         showModal={this.state.showModal}
@@ -241,11 +245,12 @@ export default class ChatInput extends React.Component {
                             onChange={this.handleChange}
                             onKeyPress={this.onInputPressKey}
                             margin='normal'
+                            autoFocus
                         />
                         <div className='chat-input__show-picker-button'
                             onClick={this.onShowPickerButtonClick}
                         >
-                            <img className='chat-input__emoji-icon' src={this.state.emojiIcon}/>
+                            <img className='chat-input__emoji-icon' src={this.state.emojiIcon} />
                         </div>
                         <label className='chat-input__file-label' htmlFor='file-input'>
                             <img className='chat-input__file-icon' src={this.state.sendIcon} />
