@@ -1,5 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
+import moment from 'moment';
 
 import Search from './Search/Search.js';
 import CreateConversationModal from './CreateConversationModal/CreateConversationModal.js';
@@ -109,7 +110,7 @@ export default class Conversations extends React.Component {
 
     sortConversations(conversations) {
         const sorted = conversations.slice();
-        sorted.sort((a, b) => a.updatedAt > b.updatedAt ? 0 : 1);
+        sorted.sort((a, b) => moment(b.updatedAt).unix() - moment(a.updatedAt).unix());
 
         return sorted;
     }

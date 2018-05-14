@@ -44,8 +44,6 @@ export default class IndexPage extends Component {
     }
 
     componentDidMount() {
-        initSounds();
-
         this.socket = io();
         if (this.state.selectedConversation) {
             this.setState({ loading: true });
@@ -60,6 +58,7 @@ export default class IndexPage extends Component {
         }
         // eslint-disable-next-line
         history.pushState(null, null, '/');
+        initSounds();
     }
 
     async _onConversationClick(conversation) {
